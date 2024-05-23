@@ -3,7 +3,7 @@ Este repositorio es creado con el propósito de utilizarse como repo para desarr
 
 ## Grupo 2 estudiantes:
 - Kryssia Martinez carne B84636.
-- 
+- Susan Morales Alfaro, carnet A94203.
 - 
 ## Tabla de Contenidos
 1. [Descripción general del proyecto](#descripción)
@@ -69,15 +69,19 @@ Ejemplo de salida del menu:
 ```
 
 ## 3. Notas
-- Este proyecto lleva los comentarios necesarios para dar a entender lo que se realizo durante su dedsarrollo y al final se encuentra la documentacion creada de manera adecuada.
+- Este proyecto lleva los comentarios necesarios para dar a entender lo que se realizo durante su desarrollo y al final se encuentra la documentación creada de manera adecuada.
 
 
 ## 4. Primera parte del proyecto 
 ## Parte Teórica 
 
+
+
+
 ## 5. Segunda parte del proyecto 
 ## Etapa de diseño
 
+![Diagrama](krymar02/ie0217-proyecto/gestionBancaria.png)
 
 
 ## Documentación Generada por Doxygen
