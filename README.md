@@ -81,7 +81,7 @@ Ejemplo de salida del menu:
 ## 5. Segunda parte del proyecto 
 ## Etapa de diseño
 
-![Diagrama](krymar02/ie0217-proyecto/gestionBancaria.png)
+![Diagrama](gestionBancaria.png)
 
 
 ## Documentación Generada por Doxygen
