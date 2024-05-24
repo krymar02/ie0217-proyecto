@@ -110,7 +110,7 @@ Ejemplo de salida del menu:
     Las transacciones serán almacenadas en una base de datos SQL, que almacenará un número de identificación del cliente, tipo de transacción efectuada y fecha a la que se efectuó la transacción.
 ### Seguridad
 - **Método de identificación de los clientes:**
-    Los clientes serán almacenados dentro de una base de datos SQl, que contendrá las columnas de un número de identificación único para cada cliente entre 0 y 999999999, saldo de la cuenta en colones, saldo de la cuenta en dólares y fecha a la que se creó el usuario del cliente.
+    Los clientes serán almacenados dentro de una base de datos SQl, que contendrá las columnas de un número de identificación único para cada cliente entre 0 y 999999999, saldo de la cuenta en colones, saldo de la cuenta en dólares, tipo de prestamo, saldo del tipo de prestamo y fecha a la que se creó el usuario del cliente.
 ### Préstamos asociados y Reportes:
 - **Estructura de los Préstamos:**
     - Características específicas como tasa de interés, período y cuota mensual:
