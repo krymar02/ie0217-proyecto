@@ -107,7 +107,7 @@ Ejemplo de salida del menu:
     El cliente podrá realizar abonos a su préstamos, donde estos podrán ser una fracción del préstamos total aunado a la tasa de interés o se podrá pagar la totalidad del préstamos aunado a la tasa de interés.
 ### Registro de las transacciones
 - **Métodos disponibles:**
-    Las transacciones serán almacenadas en una base de datos SQL, que almacenará un número de identificación del cliente, tipo de transacción efectuada y fecha a la que se efectuó la transacción.
+    Las transacciones serán almacenadas en una base de datos SQL, que almacenará un número de identificación del cliente, tipo de transacción efectuada, monto de la transacción efectuada y fecha a la que se efectuó la transacción.
 ### Seguridad
 - **Método de identificación de los clientes:**
     Los clientes serán almacenados dentro de una base de datos SQl, que contendrá las columnas de un número de identificación único para cada cliente entre 0 y 999999999, saldo de la cuenta en colones, saldo de la cuenta en dólares, tipo de prestamo, saldo del tipo de prestamo y fecha a la que se creó el usuario del cliente.
