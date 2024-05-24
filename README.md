@@ -1,9 +1,9 @@
 # ie0217-proyecto
 Este repositorio es creado con el propósito de utilizarse como repo para desarrollar el proyecto final del curso de Estructuras Abstractas de Datos y Algoritmos para Ingeniería IE-0217.
 ## Grupo 2 estudiantes:
-- Kryssia Martinez carne B84636.
-- Jose Pablo Laurent carne B63761
--
+- Kryssia Martinez, carnet B84636.
+- Jose Pablo Laurent, carnet B63761
+- Susan Morales Alfaro, carnet A94203
 ## Tabla de Contenidos
 1. [Descripción general del proyecto](#descripción)
 2. [Instrucciones de Ejecución](#instrucciones)
@@ -47,7 +47,7 @@ g++ -std=c++11 -Wall -o tarea5.x main.o ValidadorEmail.o
 ./tarea5.x
 ```
 7. Siga las instrucciones en pantalla para interactuar con el programa.
-Ejemplo de salida del menu:
+Ejemplo de salida del menú:
 ```bash
 ```
 ## 3. Notas
@@ -110,7 +110,7 @@ Ejemplo de salida del menu:
     Las transacciones serán almacenadas en una base de datos SQL, que almacenará un número de identificación del cliente, tipo de transacción efectuada, monto de la transacción efectuada y fecha a la que se efectuó la transacción.
 ### Seguridad
 - **Método de identificación de los clientes:**
-    Los clientes serán almacenados dentro de una base de datos SQl, que contendrá las columnas de un número de identificación único para cada cliente entre 0 y 999999999, saldo de la cuenta en colones, saldo de la cuenta en dólares, tipo de prestamo, saldo del tipo de prestamo y fecha a la que se creó el usuario del cliente.
+    Los clientes serán almacenados dentro de una base de datos SQl, que contendrá las columnas de un número de identificación único para cada cliente entre 0 y 999999999, saldo de la cuenta en colones, saldo de la cuenta en dólares, tipo de prestamo, saldo del tipo de préstamo y fecha a la que se creó el usuario del cliente.
 ### Préstamos asociados y Reportes:
 - **Estructura de los Préstamos:**
     - Características específicas como tasa de interés, período y cuota mensual:
@@ -123,7 +123,39 @@ Ejemplo de salida del menu:
    
 ## 5. Segunda parte del proyecto
 ## Etapa de diseño
+### **Descripción del Diagrama**
 
+1. **Inicio:** El sistema se inicia y presenta dos opciones principales: "Atención a Clientes" e "Información General sobre Préstamos". 
+
+2. **Selección de Modalidad:** 
+
+- Si se selecciona "Atención a Clientes", el flujo pasa a la interacción con los clientes. 
+
+- Si se selecciona "Información General sobre Préstamos", el flujo permite al usuario consultar información de préstamos y generar tablas de pagos. 
+
+3. **Interacción con Clientes:**
+
+- **Identificación del Cliente:** El agente ingresa el número de identificación del cliente. 
+
+- **Verificación de la Identidad:** El sistema verifica la identidad del cliente. 
+
+- **Operaciones Bancarias:** El cliente puede realizar operaciones como depósitos, retiros, transferencias y abonos a préstamos. 
+
+- **Registro de Transacciones:** Cada transacción se registra en la base de datos. 
+
+- **Generación de Reportes:** El cliente puede solicitar un reporte de sus préstamos. 
+
+4. **Información General sobre Préstamos: **
+
+- **Consulta de Tipos de Préstamos:** El usuario selecciona entre préstamos personales, prendarios e hipotecarios. 
+
+- **Generación de Tabla de Pagos:** El sistema genera una tabla de pagos esperados según el monto ingresado. 
+
+- **Personalización de Valores:** El usuario puede ingresar valores personalizados para monto, cuotas y tasa de interés. 
+
+5. **Fin:** El flujo termina y el sistema puede cerrar la sesión o reiniciar para otra operación. 
+
+ 
 
 ![Diagrama](gestionBancaria.png)
 
