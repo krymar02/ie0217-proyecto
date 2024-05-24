@@ -145,7 +145,7 @@ Ejemplo de salida del menú:
 
 - **Generación de Reportes:** El cliente puede solicitar un reporte de sus préstamos. 
 
-4. **Información General sobre Préstamos: **
+4. **Información General sobre Préstamos:**
 
 - **Consulta de Tipos de Préstamos:** El usuario selecciona entre préstamos personales, prendarios e hipotecarios. 
 
