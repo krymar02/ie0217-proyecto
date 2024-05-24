@@ -65,9 +65,9 @@ Ejemplo de salida del menú:
 
 
 - **Funcionalidades:**
-    - Sobre gestión de cuentas
-    - Transacciones
-    - Préstamos
+    - Sobre gestión de cuentas: En este caso, para este sistema un cliente puede tener hasta 2 cuentas bancarias, una en colones y otra en dólares, en las cuales puede gestionar sus ahorros o los certificados de depósito a corto plazo.
+    - Transacciones: Referente a las transacciones, se puede acceder a la parte de registro, desde el menú, inicialmente una persona puede interactuar con las opciones disponibles para adquirir información o bien registrarse, ver los tipos de préstamo e incluso obtener la tabla de valores con las cuotas y tasas de interés.
+    - Préstamos: Referente a esta etapa, se trabajará con préstamos personales, prendarios e hipotecarios en los cuales una persona puede adquirir uno, abonarlo o incluso abonar el de otras personas.
 - **Normativa:**
     - Regulaciones bancarias aplicables:
     - Cumplimiento de la normativa y seguridad:
