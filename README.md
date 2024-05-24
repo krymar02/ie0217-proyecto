@@ -57,6 +57,9 @@ Ejemplo de salida del menu:
 ## Parte Teórica 
 ### Sistema de Gestion bancaria
 - **Que es un sistema de gestion bancaria:**
+    - La gestion bancaria se encarga de controlar y rastrear el flujo de dinero de una entidad, de esa manera se pueden tomar las medidas necesarias para que una compañia sea mas rentable y mas segura economicamente. 
+    - En este caso, el sistema de gestion bancaria a realizar en este proyecto se trata de un sistema que va a usarse para gestionar ingresos, gastos y activos de las personas que lo utilicen, asi como informar a las personas sobre los tipos de prestamos y todo lo necesario acerca de las cuentas bancarias. Esto mediante al menu de entrada interactivo, con las diferentes opciones para que una persona pueda obtener informacion y gestionar algun cambio en sus cuentas.
+    
 - **Funcionalidades:**
     - Sobre gestion de cuentas
     - Transacciones 
