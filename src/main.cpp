@@ -10,6 +10,9 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <sqlite3.h> 
+//#include "Funciones.hpp"
+//#include "ClienteDB.hpp"
 
 using namespace std;
 
@@ -37,6 +40,8 @@ int main() {
 
         //Variable entera que almacena el numero de opcion selecionada por el usuario
         int opcion;
+        //clienteDb db("./database/clientes.db");
+        //db.crearBaseDeDatos();
         do {
 
             //Variable string que almacena el numero de opcion selecionada por el usuario
