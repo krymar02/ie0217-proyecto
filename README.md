@@ -1,9 +1,8 @@
 # ie0217-proyecto
 Este repositorio es creado con el propósito de utilizarse como repo para desarrollar el proyecto final del curso de Estructuras Abstractas de Datos y Algoritmos para Ingeniería IE-0217.
-
 ## Grupo 2 estudiantes:
 - Kryssia Martinez carne B84636.
-- Susan Morales Alfaro, carnet A94203.
+- 
 - 
 ## Tabla de Contenidos
 1. [Descripción general del proyecto](#descripción)
@@ -11,24 +10,17 @@ Este repositorio es creado con el propósito de utilizarse como repo para desarr
 3. [Notas](#notas)
 4. [Primera parte del proyecto](#primera)
 5. [Segunda parte del proyecto](#segunda)
-
 ## 1. Descripción general del proyecto
 - ...
-
 ## 2. Instrucciones de Ejecución
 Para compilar y ejecutar este proyecto, se deben seguir los siguientes pasos:
-
 1. Clone el repositorio desde GitHub en su máquina local utilizando el siguiente comando:
 ```bash
 git clone <URL_del_repositorio_del_proyecto>
-
 ```
 - Reemplace <URL_del_repositorio_del_proyecto> por la url del repositorio de git. 
-
 2. Abra una terminal.
-
 3. Navegue al directorio donde se encuentran los archivos, en este caso la estructura esta formada por una carpeta llamada ........
-
 Ejemplo de como se la navegacion hasta la carpeta: (REEMPLAZAR)
 ```
 PS C:\Users\Dell\Desktop\ie0217> cd Tareas
@@ -37,23 +29,17 @@ PS C:\Users\Dell\Desktop\ie0217\Tareas\Tarea5> cd src
 PS C:\Users\Dell\Desktop\ie0217\Tareas\Tarea5\src> mingw32-make
 >>
 ```
-
 4. Ejecute el siguiente comando para compilar el programa y generar el ejecutable que a su vez inicia el programa con el menu de entrada del proyecto:
-
 ```bash
 mingw32-make
 ```
 De esa manera se genera un archivo ejecutable.
-
 Ejemplo de como se ve el uso del comando: (REEMPLAZAR)
-
 ```
 PS C:\Users\Dell\Desktop\ie0217\Tareas\Tarea5\src> mingw32-make
 >>
 ```
-
 4. Una vez compilado correctamente, se ve de la siguiente forma: (REEMPLAZAR)
-
 ```bash
 g++ -std=c++11 -Wall -c main.cpp -o main.o
 g++ -std=c++11 -Wall -c ValidadorEmail.cpp -o ValidadorEmail.o
@@ -61,23 +47,61 @@ g++ -std=c++11 -Wall -o tarea5.x main.o ValidadorEmail.o
 ./tarea5.x
 ```
 7. Siga las instrucciones en pantalla para interactuar con el programa.
-
 Ejemplo de salida del menu:
-
 ```bash
-
 ```
-
 ## 3. Notas
-- Este proyecto lleva los comentarios necesarios para dar a entender lo que se realizo durante su desarrollo y al final se encuentra la documentación creada de manera adecuada.
-
+- Este proyecto lleva los comentarios necesarios para dar a entender lo que se realizo durante su dedsarrollo y al final se encuentra la documentacion creada de manera adecuada.
 
 ## 4. Primera parte del proyecto 
 ## Parte Teórica 
-
-
-
-
+### Sistema de Gestion bancaria
+- **Que es un sistema de gestion bancaria:**
+- **Funcionalidades:**
+    - Sobre gestion de cuentas
+    - Transacciones 
+    - Préstamos 
+- **Normativa:** 
+    - Regulaciones bancarias aplicables:
+    - Cumplimiento de la normativa y seguridad:
+### Modalidad de operacion:
+- **Descripcion general:**
+- **Atencion al cliente:**
+    - Procesos y operaciones realizadas en la atención directa a clientes.
+- **Informacion general sobre los préstamos:**
+    - información que se proporciona:
+    - Herramientas y cálculos utilizados para mostrar opciones de préstamos.
+### Tipos de préstamos:
+- **Préstamos personales:**
+- **Préstamos prendarios:**
+- **Préstamos hipotecarios:**
+- **Calculo de tablas de pagos:**
+    - Fórmulas y métodos para calcular cuotas mensuales y tablas de interes:
+- **Valores personalizados:**
+    - Cálculo de tablas con valores personalizados de monto, cuotas, y tasa de interés:
+### Cuentas bancarias:
+- **Tipos de cuentas:**
+    - Cuenta en colones:
+    - Cuenta en dolares:
+    
+    - Certificados de depósito a plazo (CDP):
+### Operaciones:
+- **Depósitos:**
+- **Retiros:**
+- **Transferencias:**
+- **Abonos a prestamos:**
+### Registro  de las transacciones
+- **Metodos disponibles:**
+### Seguridad
+- **Metodo de identificacion de los clientes:**
+### Prestamos asociados y Reportes:
+- **Estructura de los Préstamos:**
+    - Características específicas como tasa de interés, periodo y cuota mensual:
+- **Generación de Reportes:**
+    - Cómo crear reportes detallados de préstamos en formato tabular:
+- **Desglose de Pagos:**
+    -Diferencia entre aporte al capital y los intereses:
+    
 ## 5. Segunda parte del proyecto 
 ## Etapa de diseño
 
