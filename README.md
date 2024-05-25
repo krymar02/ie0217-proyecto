@@ -11,7 +11,8 @@ Este repositorio es creado con el propósito de utilizarse como repo para desarr
 4. [Primera parte del proyecto](#primera)
 5. [Segunda parte del proyecto](#segunda)
 ## 1. Descripción general del proyecto
-- ...
+ El proyecto tiene como objetivo desarrollar un sistema de gestión bancaria utilizado por agentes en ventanillas para atender a clientes en una entidad bancarias.
+ 
 ## 2. Instrucciones de Ejecución
 Para compilar y ejecutar este proyecto, se deben seguir los siguientes pasos:
 1. Clone el repositorio desde GitHub en su máquina local utilizando el siguiente comando:
@@ -138,43 +139,47 @@ Ejemplo de salida del menú:
 ## Etapa de diseño
 ### **Descripción del Diagrama**
 
-1. **Inicio:** El sistema se inicia y presenta dos opciones principales: "Atención a Clientes" e "Información General sobre Préstamos". 
+#### 1. **Inicio:** 
+ El sistema se inicia y presenta dos opciones principales: "Atención a Clientes" e "Información General sobre Préstamos". 
 
-2. **Selección de Modalidad:** 
+#### 2. **Selección de Modalidad:** 
 
-- Si se selecciona "Atención a Clientes", el flujo pasa a la interacción con los clientes. 
+ - Si se selecciona "Atención a Clientes", el flujo pasa a la interacción con los clientes. 
 
-- Si se selecciona "Información General sobre Préstamos", el flujo permite al usuario consultar información de préstamos y generar tablas de pagos. 
+ - Si se selecciona "Información General sobre Préstamos", el flujo permite al usuario consultar información de préstamos y generar tablas de pagos. 
 
-3. **Interacción con Clientes:**
+#### 3. **Interacción con Clientes:**
 
-- **Identificación del Cliente:** El agente ingresa el número de identificación del cliente. 
+ - **Identificación del Cliente:** El agente ingresa el número de identificación del cliente. 
 
-- **Verificación de la Identidad:** El sistema verifica la identidad del cliente. 
+ - **Verificación de la Identidad:** El sistema verifica la identidad del cliente. 
 
-- **Operaciones Bancarias:** El cliente puede realizar operaciones como depósitos, retiros, transferencias y abonos a préstamos. 
+ - **Operaciones Bancarias:** El cliente puede realizar operaciones como depósitos, retiros, transferencias y abonos a préstamos. 
 
-- **Registro de Transacciones:** Cada transacción se registra en la base de datos. 
+ - **Registro de Transacciones:** Cada transacción se registra en la base de datos. 
 
-- **Generación de Reportes:** El cliente puede solicitar un reporte de sus préstamos. 
+ - **Generación de Reportes:** El cliente puede solicitar un reporte de sus préstamos. 
 
-4. **Información General sobre Préstamos:**
+#### 4. **Información General sobre Préstamos:**
 
-- **Consulta de Tipos de Préstamos:** El usuario selecciona entre préstamos personales, prendarios e hipotecarios. 
+ - **Consulta de Tipos de Préstamos:** El usuario selecciona entre préstamos personales, prendarios e hipotecarios. 
 
-- **Generación de Tabla de Pagos:** El sistema genera una tabla de pagos esperados según el monto ingresado. 
+ - **Generación de Tabla de Pagos:** El sistema genera una tabla de pagos esperados según el monto ingresado. 
 
-- **Personalización de Valores:** El usuario puede ingresar valores personalizados para monto, cuotas y tasa de interés. 
+ - **Personalización de Valores:** El usuario puede ingresar valores personalizados para monto, cuotas y tasa de interés. 
 
-5. **Fin:** El flujo termina y el sistema puede cerrar la sesión o reiniciar para otra operación. 
+#### 5. **Fin:** 
+ El flujo termina y el sistema puede cerrar la sesión o reiniciar para otra operación. 
 
- 
+#### **Diagrama**
+ A continuación se muestra el diagrama que representa el sistema de gestión bancaria, que refleja los procesos clave desde la interacción inicial hasta la realización de las operaciones bancarias y la generación de informes.
 
 ![Diagrama](gestionBancaria.png)
 
+### **Cronograma**
+ Se planifica un cronograma detallado de actividades, asignando responsabilidades específicas a cada integrante del proyecto.
 
-
-
+![Cronograma del Proyecto](Cronograma1.PNG)
 
 ## Documentación Generada por Doxygen
 
