@@ -12,7 +12,7 @@ Este repositorio es creado con el propósito de utilizarse como repo para desarr
 5. [Segunda parte del proyecto](#segunda)
 ## 1. Descripción general del proyecto
  El proyecto tiene como objetivo desarrollar un sistema de gestión bancaria utilizado por agentes en ventanillas para atender a clientes en una entidad bancarias.
- 
+
 ## 2. Instrucciones de Ejecución
 Para compilar y ejecutar este proyecto, se deben seguir los siguientes pasos:
 1. Clone el repositorio desde GitHub en su máquina local utilizando el siguiente comando:
