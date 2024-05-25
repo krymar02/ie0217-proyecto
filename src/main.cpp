@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <sqlite3.h> 
 //#include "Funciones.hpp"
-//#include "ClienteDB.hpp"
+#include "clientDb.hpp"
 
 using namespace std;
 
@@ -40,8 +40,20 @@ int main() {
 
         //Variable entera que almacena el numero de opcion selecionada por el usuario
         int opcion;
-        //clienteDb db("./database/clientes.db");
-        //db.crearBaseDeDatos();
+        // Ruta a la base de datos
+        std::string dbPath = "../databases/clientes.db";
+
+        // Crear instancia de ClienteDB
+        ClienteDB clienteDB(dbPath);
+
+        // Crear tabla si no existe
+        if (!clienteDB.createTable()) {
+            std::cerr << "Failed to create table" << std::endl;
+            return 1;
+        }
+
+        clienteDB.viewClientes();
+        
         do {
 
             //Variable string que almacena el numero de opcion selecionada por el usuario
@@ -54,6 +66,7 @@ int main() {
             cout << "3. Salir\n";
             cout << "Ingrese una opcion: ";
             cin >> strOpcion;
+            cin.ignore(); // Limpiar el buffer
 
             try{
 
@@ -67,88 +80,158 @@ int main() {
                         //Caso donde deseo utilizar la modalidad de atencion al cliente
                         case ATENCION:{
 
-                            //AQUI DEBE PREGUNTAR POR LA EXISTENCIA DEL USUARIO 
+                            // Solicitar al usuario que ingrese un nombre
+                            std::string nombre;
+                            std::cout << "Ingrese el nombre cliente: ";
+                            std::getline(std::cin, nombre);
+                            //std::cin.ignore();
+
+                            // Verificar si el nombre existe en la base de datos
+                            if (clienteDB.nombreExiste(nombre)) {
+                                std::cout << "Usuario existente ..." << std::endl;
+                            } else {
+                                std::cout << "El usuario ingresado NO esta registrado" << std::endl;
+                                //Variable string que almacena el numero de opcion selecionada por el usuario
+                                string createUserOptOne;
                                 
+                                //Menu principal
+                                cout << "\nCrear usuario\n";
+                                cout << "1. Si\n";
+                                cout << "2. No\n";
+                                cout << "Ingrese una opcion: ";
+                                cin >> createUserOptOne;
+                                //cin.ignore(); // Limpiar el buffer
+
+                                if(all_of(createUserOptOne.begin(), createUserOptOne.end(), ::isdigit) && (createUserOptOne == "1" || createUserOptOne == "2")){
+                                    
+                                    if (createUserOptOne == "1"){
+
+                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
+                                        std::cout << "Usuario creado..." << std::endl;
+                                    }
+                                
+                                }else{
+                                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                                }
+                                
+                            }
+                            
                             }
                             break;
 
                         //Caso donde deseo informacion general
                         case INFORMACION:{
 
-                            //AQUI DEBE PREGUNTAR POR LA EXISTENCIA DEL USUARIO, ANTES DE EJECUTAR EL CODIGO
-                            //RESTANTE
-
-                            //Variable int que almacena el numero de opcion selecionada por el usuario
-                            int opcionTwo;
-                            //Variable string que almacena el numero de opcion selecionada por el usuario
-                            string strOpcionTwo;
-
-                            //Menu sobre informaion general
-                            cout << "\nInformacion general\n";
-                            cout << "1. Prestamos personales\n";
-                            cout << "2. Prestamos prendarios\n";
-                            cout << "3. Prestamos hipotecarios\n";
-                            cout << "4. Generar tabla\n";
-                            cout << "5. Salir\n";
-                            cout << "Ingrese una opcion: ";
-                            cin >> strOpcionTwo;
+                            // Solicitar al usuario que ingrese un nombre
+                            std::string nombre;
+                            std::cout << "Ingrese el nombre cliente: ";
+                            std::getline(std::cin, nombre);
                             
-                            //Verifico que se agregue un numero entero y que este sea 1,2,3,4 o 5
-                            if(all_of(strOpcionTwo.begin(), strOpcionTwo.end(), ::isdigit) && (strOpcionTwo == "1" || strOpcionTwo == "2" || strOpcionTwo == "3"
-                            || strOpcionTwo == "4" || strOpcionTwo == "5")){
+
+                            // Verificar si el nombre existe en la base de datos
+                            if (clienteDB.nombreExiste(nombre)) {
+
+                                std::cout << "Usuario existente ..." << std::endl;
+                                //Variable int que almacena el numero de opcion selecionada por el usuario
+                                int opcionTwo;
+                                //Variable string que almacena el numero de opcion selecionada por el usuario
+                                string strOpcionTwo;
+
+                                //Menu sobre informaion general
+                                cout << "\nInformacion general\n";
+                                cout << "1. Prestamos personales\n";
+                                cout << "2. Prestamos prendarios\n";
+                                cout << "3. Prestamos hipotecarios\n";
+                                cout << "4. Generar tabla\n";
+                                cout << "5. Salir\n";
+                                cout << "Ingrese una opcion: ";
+                                cin >> strOpcionTwo;
+                                cin.ignore(); // Limpiar el buffer
+
+                                //Verifico que se agregue un numero entero y que este sea 1,2,3,4 o 5
+                                if(all_of(strOpcionTwo.begin(), strOpcionTwo.end(), ::isdigit) && (strOpcionTwo == "1" || strOpcionTwo == "2" || strOpcionTwo == "3"
+                                || strOpcionTwo == "4" || strOpcionTwo == "5")){
+                                    
+                                    //Convierto el string a entero para almacenar opcion del usuario
+                                    opcionTwo = stoi(strOpcionTwo);
+
+                                    switch (opcionTwo) {
+                            
+                                        //Caso prestamo personal
+                                        case PERSONAL:{
+
+                                                
+                                            }
+                                            break;
+
+                                        //Caso prestamo prendario
+                                        case PRENDARIOS:{
+
+                                        
+                                            }
+                                            break;
+
+                                        //Caso prestamo hipotecario
+                                        case HIPOTECARIOS:{
+
+                                        
+                                            }
+                                            break;
+                                        //Caso de creacion de tabla
+                                        case TABLA:{
+
+                                        
+                                            }
+                                            break;
+
+                                        //Caso donde deseo salir
+                                        case SALIRTWO:
+
+                                            cout << "Saliendo...\n";
+
+                                            break;
+
+                                        //Caso por defecto
+                                        default:
+
+                                            cout << "Opcion no valida\n";
+
+                                            break;
+                                        }
+
+
+                                }else{
+                                    //Ocurre una excepcion cuando no agrego un numero entero que sea 1,2,3,4 o 5
+                                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                                }
+
+                            } else {
+                                std::cout << "El usuario ingresado NO esta registrado" << std::endl;
+                                string createUserOptTwo;
                                 
-                                //Convierto el string a entero para almacenar opcion del usuario
-                                opcionTwo = stoi(strOpcionTwo);
+                                //Menu principal
+                                cout << "\nCrear usuario\n";
+                                cout << "1. Si\n";
+                                cout << "2. No\n";
+                                cout << "Ingrese una opcion: ";
+                                cin >> createUserOptTwo;
+                                //cin.ignore(); // Limpiar el buffer
 
-                                switch (opcionTwo) {
-                        
-                                    //Caso prestamo personal
-                                    case PERSONAL:{
-
-                                            
-                                        }
-                                        break;
-
-                                    //Caso prestamo prendario
-                                    case PRENDARIOS:{
-
+                                if(all_of(createUserOptTwo.begin(), createUserOptTwo.end(), ::isdigit) && (createUserOptTwo == "1" || createUserOptTwo == "2")){
                                     
-                                        }
-                                        break;
+                                    if (createUserOptTwo == "1"){
 
-                                    //Caso prestamo hipotecario
-                                    case HIPOTECARIOS:{
-
-                                    
-                                        }
-                                        break;
-                                    //Caso de creacion de tabla
-                                    case TABLA:{
-
-                                    
-                                        }
-                                        break;
-
-                                    //Caso donde deseo salir
-                                    case SALIRTWO:
-
-                                        cout << "Saliendo...\n";
-
-                                        break;
-
-                                    //Caso por defecto
-                                    default:
-
-                                        cout << "Opcion no valida\n";
-
-                                        break;
+                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
+                                        std::cout << "Usuario creado..." << std::endl;
                                     }
+                                
+                                }else{
+                                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                                }
 
-
-                            }else{
-                                //Ocurre una excepcion cuando no agrego un numero entero que sea 1,2,3,4 o 5
-                                throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
                             }
+
+
 
                             }
                             break;
