@@ -89,17 +89,21 @@ Ejemplo de salida del menú:
     El préstamo hipotecario consiste en prestar una determinada cantidad de dinero para la compra de una propiedad, si el prestatario no cumple con el pago el prestamista tiene derecho a tomar la propiedad. Las tasas de interés para préstamos hipotecarios en el Banco de Costa Rica (BCR) pueden estar alrededor del **8%** a **9%** anual.
 - **Calculo de tablas de pagos:**
     - Fórmulas y métodos para calcular cuotas mensuales y tablas de interés: En este caso se puede utilizar una fórmula de amortización, la fórmula de interés compuesto para calcular las cuotas mensuales de los préstamos, para imprimir la tabla de pagos esperados. 
+
     - **Tasa de interés mensual:**
+
+
          ![Fórmula interés mensual](https://latex.codecogs.com/svg.image?&space;r=\frac{r_{a}}{12})
 
          - r, es la tasa de interés mensual y r_a es la tasa de interés anual.
 
     - **Cuota mensual:** 
 
+
          ![Fórmula cuota mensual](https://latex.codecogs.com/svg.image?&space;M=P\frac{r(1&plus;r)^{n}}{(1&plus;r)^{n}-1})
 
 
-    - P es el monto del préstamo, r es la tasa de interés mensual y n es el número total de cuotas.
+         - P es el monto del préstamo, r es la tasa de interés mensual y n es el número total de cuotas.
 - **Valores personalizados:**
     - Cálculo de tablas con valores personalizados de monto, cuotas, y tasa de interés: En esta opción se hace uso de la misma fórmula, pero el usuario tiene la opción de obtener la tabla mediante valores personalizados puede ingresar el monto, la cantidad de cuotas y la tasa de interés, de esa manera se imprime la información esperada.
 
