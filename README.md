@@ -90,7 +90,7 @@ Ejemplo de salida del menú:
     - Fórmulas y métodos para calcular cuotas mensuales y tablas de interés: En este caso se puede utilizar una fórmula de amortización, la fórmula de interés compuesto para calcular las cuotas mensuales de los préstamos, para imprimir la tabla de pagos esperados. 
     - Fórmula: 
      <div align="center">
-     ![Formula](https://latex.codecogs.com/svg.image?&space;M=P\frac{r(1&plus;r)^{n}}{(1&plus;r)^{n}-1})
+       ![Formula](https://latex.codecogs.com/svg.image?&space;M=P\frac{r(1&plus;r)^{n}}{(1&plus;r)^{n}-1})
      </div>
 
     - P es el monto del préstamo, r es la tasa de interés mensual y n es el número total de cuotas.
