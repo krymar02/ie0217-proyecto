@@ -82,16 +82,21 @@ Ejemplo de salida del menú:
     - Herramientas y cálculos utilizados para mostrar opciones de préstamos.-->
 ### Tipos de préstamos:
 - **Préstamos personales:**
-    Este tipo de préstamo permite pedir dinero prestado a una institución financiera sin necesidad de tener como respaldo un bien en específico. Usualmente su tasa de interés suele ser más alta que las de otros tipos de préstamos debido a que no cuenta con el respaldo de un determinado bien.
+    Este tipo de préstamo permite pedir dinero prestado a una institución financiera sin necesidad de tener como respaldo un bien en específico. Usualmente su tasa de interés suele ser más alta que las de otros tipos de préstamos debido a que no cuenta con el respaldo de un determinado bien. Según, el Banco de Costa Rica (BCR) las tasas de interés anual es alrededor de **15% - 20%**.
 - **Préstamos prendarios:**
-    Este tipo de préstamo consiste en prestar dinero, donde el préstamo se encuentra respaldado por un bien tangible. En caso de no poder pagar el préstamo, la institución financiera se quedará con el bien tangible.
+    Este tipo de préstamo consiste en prestar dinero, donde el préstamo se encuentra respaldado por un bien tangible. En caso de no poder pagar el préstamo, la institución financiera se quedará con el bien tangible. En Costa Rica, la tasa de interés anual para préstamos prendarios (préstamos con garantía) puede variar dependiendo de la institución financiera y las condiciones del mercado. Actualmente, los préstamos con garantía tienen tasas de interés entre el **12% y el 16%** anual​.
 - **Préstamos hipotecarios:**
-    El préstamo hipotecario consiste en prestar una determinada cantidad de dinero para la compra de una propiedad, si el prestatario no cumple con el pago el prestamista tiene derecho a tomar la propiedad.
+    El préstamo hipotecario consiste en prestar una determinada cantidad de dinero para la compra de una propiedad, si el prestatario no cumple con el pago el prestamista tiene derecho a tomar la propiedad. Las tasas de interés para préstamos hipotecarios en el Banco de Costa Rica (BCR) pueden estar alrededor del **8%** a **9%** anual.
 - **Calculo de tablas de pagos:**
     - Fórmulas y métodos para calcular cuotas mensuales y tablas de interés: En este caso se puede utilizar una fórmula de amortización, la fórmula de interés compuesto para calcular las cuotas mensuales de los préstamos, para imprimir la tabla de pagos esperados. 
-    - Fórmula: 
+    - **Tasa de interés mensual:**
+         ![Fórmula interés mensual](https://latex.codecogs.com/svg.image?&space;r=\frac{r_{a}}{12})
 
-         ![Formula](https://latex.codecogs.com/svg.image?&space;M=P\frac{r(1&plus;r)^{n}}{(1&plus;r)^{n}-1})
+         - r, es la tasa de interés mensual y r_a es la tasa de interés anual.
+
+    - **Cuota mensual:** 
+
+         ![Fórmula cuota mensual](https://latex.codecogs.com/svg.image?&space;M=P\frac{r(1&plus;r)^{n}}{(1&plus;r)^{n}-1})
 
 
     - P es el monto del préstamo, r es la tasa de interés mensual y n es el número total de cuotas.
@@ -129,7 +134,7 @@ Ejemplo de salida del menú:
 
 - **Desglose de pagos:**
     - Conceptos:
-        - Taza de interés:
+        - Tasa de interés:
         - Capital:
         - Cuotas:
         (AGREGAR MAS SI ES NECESARIO)
