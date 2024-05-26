@@ -88,8 +88,21 @@ int main() {
 
                             // Verificar si el nombre existe en la base de datos
                             if (clienteDB.nombreExiste(nombre)) {
-                                std::cout << "Usuario existente ..." << std::endl;
 
+                                string atencionClienteOpt;
+                                cout << "\nCrear usuario\n";
+                                cout << "1. Cuenta colones\n";
+                                cout << "2. Cuenta dolares\n";
+                                cout << "3. Certificado de deposito a plazo\n";
+                                cout << "Ingrese una opcion: ";
+                                cin >> atencionClienteOpt;
+                                //cin.ignore(); // Limpiar el buffer
+
+                                if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
+                                
+                                }else{
+                                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                                }
 
 
                             } else {
@@ -141,6 +154,7 @@ int main() {
                                 string strOpcionTwo;
 
                                 //Menu sobre informaion general
+                                //Aqui de sebe quitra la opcion de generar tabla, ya que el reporte se genera cuando el usuario ha realizado el prestamo
                                 cout << "\nInformacion general\n";
                                 cout << "1. Prestamos personales\n";
                                 cout << "2. Prestamos prendarios\n";
