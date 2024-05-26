@@ -89,6 +89,9 @@ int main() {
                             // Verificar si el nombre existe en la base de datos
                             if (clienteDB.nombreExiste(nombre)) {
                                 std::cout << "Usuario existente ..." << std::endl;
+
+
+
                             } else {
                                 std::cout << "El usuario ingresado NO esta registrado" << std::endl;
                                 //Variable string que almacena el numero de opcion selecionada por el usuario
@@ -106,7 +109,7 @@ int main() {
                                     
                                     if (createUserOptOne == "1"){
 
-                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
+                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
                                         std::cout << "Usuario creado..." << std::endl;
                                     }
                                 
@@ -221,7 +224,7 @@ int main() {
                                     
                                     if (createUserOptTwo == "1"){
 
-                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
+                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
                                         std::cout << "Usuario creado..." << std::endl;
                                     }
                                 
