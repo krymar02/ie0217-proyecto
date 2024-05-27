@@ -136,12 +136,6 @@ Ejemplo de salida del menú:
     - Reportes detallados en formato tabular:
         - El sistema va a generar un archivo de texto con un reporte que incluye las cuotas pagadas hasta la fecha, incluyendo un desglose del monto destinado a capital y los intereses abonados hasta el momento.
 
-- **Desglose de pagos:**
-    - Conceptos:
-        - Tasa de interés:
-        - Capital:
-        - Cuotas:
-        (AGREGAR MAS SI ES NECESARIO)
 
    
 ## 5. Segunda parte del proyecto
