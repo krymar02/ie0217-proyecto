@@ -22,31 +22,26 @@ bool ClienteDB::createTable() {
     //En caso de que db no exista se crea, se debe agregas CDP
     std::string query = 
         "CREATE TABLE IF NOT EXISTS clientes ("
-        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "id INTEGER PRIMARY KEY, "
         "nombre TEXT, "
         "colones DOUBLE, "
         "dolares DOUBLE, "
         "cdp DOUBLE, "
-        "personal DOUBLE, "
-        "hipoteca DOUBLE, "
-        "prendario DOUBLE, "
         "fecha TEXT);";
     //Ejecuto comano en base de datos
     return executeQuery(query);
 }
 
 //Agrego cliente
-bool ClienteDB::addCliente(const std::string& nombre, double colones, double dolares, double cdp, double personal, double hipoteca, double prendario, const std::string& fecha) {
+bool ClienteDB::addCliente(const std::string& id, const std::string& nombre, double colones, double dolares, double cdp, const std::string& fecha) {
     //Columnas de db cliente, se debe agregas CDP
     std::string query = 
-        "INSERT INTO clientes (nombre, colones, dolares, cdp, personal, hipoteca, prendario, fecha) VALUES ('"
+        "INSERT INTO clientes (id, nombre, colones, dolares, cdp, fecha) VALUES ('"
+        + id + "', '"
         + nombre + "', "
         + std::to_string(colones) + ", "
         + std::to_string(dolares) + ", "
-        + std::to_string(cdp) + ", "
-        + std::to_string(personal) + ", "
-        + std::to_string(hipoteca) + ", "
-        + std::to_string(prendario) + ", '"
+        + std::to_string(cdp) + ", '"
         + fecha + "');";
     return executeQuery(query);
 }
@@ -89,15 +84,15 @@ int ClienteDB::callback(void* NotUsed, int argc, char** argv, char** azColName) 
 }
 
 //Verifico que los clientes existan en db
-bool ClienteDB::nombreExiste(const std::string& nombre) {
+bool ClienteDB::idExiste(const std::string& id) {
     //Filtro
-    std::string query = "SELECT COUNT(*) FROM clientes WHERE nombre = '" + nombre + "';";
+    std::string query = "SELECT COUNT(*) FROM clientes WHERE id = '" + id + "';";
     int count = 0;
-    int result = sqlite3_exec(db, query.c_str(), nombreExisteCallback, &count, nullptr);
+    int result = sqlite3_exec(db, query.c_str(), idExisteCallback, &count, nullptr);
     return count > 0;
 }
 
-int ClienteDB::nombreExisteCallback(void* data, int argc, char** argv, char** azColName) {
+int ClienteDB::idExisteCallback(void* data, int argc, char** argv, char** azColName) {
     int* count = static_cast<int*>(data);
     if (argc > 0) {
         *count = std::stoi(argv[0]);

@@ -80,22 +80,23 @@ int main() {
                         //Caso donde deseo utilizar la modalidad de atencion al cliente
                         case ATENCION:{
 
-                            // Solicitar al usuario que ingrese un nombre
-                            std::string nombre;
-                            std::cout << "Ingrese el nombre cliente: ";
-                            std::getline(std::cin, nombre);
+                            // Solicitar al usuario que ingrese un id
+                            std::string id;
+                            std::cout << "Ingrese el numero de identificacion del cliente: ";
+                            std::getline(std::cin, id);
                             //std::cin.ignore();
 
-                            // Verificar si el nombre existe en la base de datos
-                            if (clienteDB.nombreExiste(nombre)) {
+                            // Verificar si el id existe en la base de datos
+                            if (clienteDB.idExiste(id)) {
 
                                 string atencionClienteOpt;
-                                cout << "\nCrear usuario\n";
+                                cout << "\nAtencion al cliente\n";
                                 cout << "1. Cuenta colones\n";
                                 cout << "2. Cuenta dolares\n";
                                 cout << "3. Certificado de deposito a plazo\n";
                                 cout << "Ingrese una opcion: ";
                                 cin >> atencionClienteOpt;
+                                cin.ignore();
                                 //cin.ignore(); // Limpiar el buffer
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
@@ -106,7 +107,7 @@ int main() {
 
 
                             } else {
-                                std::cout << "El usuario ingresado NO esta registrado" << std::endl;
+                                std::cout << "El numero de identificacion ingresado NO esta registrado" << std::endl;
                                 //Variable string que almacena el numero de opcion selecionada por el usuario
                                 string createUserOptOne;
                                 
@@ -116,14 +117,43 @@ int main() {
                                 cout << "2. No\n";
                                 cout << "Ingrese una opcion: ";
                                 cin >> createUserOptOne;
+                                cin.ignore();
                                 //cin.ignore(); // Limpiar el buffer
 
                                 if(all_of(createUserOptOne.begin(), createUserOptOne.end(), ::isdigit) && (createUserOptOne == "1" || createUserOptOne == "2")){
                                     
-                                    if (createUserOptOne == "1"){
+                                if (createUserOptOne == "1"){
 
-                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
-                                        std::cout << "Usuario creado..." << std::endl;
+                                        std::string askId;
+                                        std::cout << "Ingrese el numero de identificacion del cliente: ";
+                                        std::getline(std::cin, askId);
+
+                                        if(all_of(askId.begin(), askId.end(), ::isdigit)){
+
+                                            int askIdConvert = stoi(askId);
+
+                                            if (askIdConvert > 0 && askIdConvert < 999999999){
+                                                
+                                                if (!clienteDB.idExiste(askId)){
+
+                                                    std::string askName;
+                                                    std::cout << "Ingrese el nombre del cliente: ";
+                                                    std::getline(std::cin, askName);
+
+                                                    clienteDB.addCliente(askId, askName,0, 0, 0, "2024-05-24 15:30:45");
+                                                    std::cout << "Usuario creado exitosamente..." << std::endl;
+                                                
+                                                }else{
+                                                    throw std::invalid_argument("Debe ingresar otro numero de identificacion, vuelva a intentar...");
+                                                }
+                                                
+                                            }else{
+                                                throw std::invalid_argument("Debe ingresar un numero entero entre 0 y 999999999, vuelva a intentar...");
+                                            }
+                                            
+                                        }else{
+                                            throw std::invalid_argument("Debe ingresar un numero entero, vuelva a intentar...");
+                                        }
                                     }
                                 
                                 }else{
@@ -138,14 +168,14 @@ int main() {
                         //Caso donde deseo informacion general
                         case INFORMACION:{
 
-                            // Solicitar al usuario que ingrese un nombre
-                            std::string nombre;
-                            std::cout << "Ingrese el nombre cliente: ";
-                            std::getline(std::cin, nombre);
+                            // Solicitar al usuario que ingrese un id
+                            std::string id;
+                            std::cout << "Ingrese el numero de identificacion cliente: ";
+                            std::getline(std::cin, id);
                             
 
-                            // Verificar si el nombre existe en la base de datos
-                            if (clienteDB.nombreExiste(nombre)) {
+                            // Verificar si el id existe en la base de datos
+                            if (clienteDB.idExiste(id)) {
 
                                 std::cout << "Usuario existente ..." << std::endl;
                                 //Variable int que almacena el numero de opcion selecionada por el usuario
@@ -223,7 +253,7 @@ int main() {
                                 }
 
                             } else {
-                                std::cout << "El usuario ingresado NO esta registrado" << std::endl;
+                                std::cout << "El numero de identificacion del usuario ingresado NO esta registrado" << std::endl;
                                 string createUserOptTwo;
                                 
                                 //Menu principal
@@ -232,14 +262,43 @@ int main() {
                                 cout << "2. No\n";
                                 cout << "Ingrese una opcion: ";
                                 cin >> createUserOptTwo;
-                                //cin.ignore(); // Limpiar el buffer
+                                cin.ignore(); // Limpiar el buffer
 
                                 if(all_of(createUserOptTwo.begin(), createUserOptTwo.end(), ::isdigit) && (createUserOptTwo == "1" || createUserOptTwo == "2")){
                                     
-                                    if (createUserOptTwo == "1"){
+                                if (createUserOptTwo == "1"){
 
-                                        clienteDB.addCliente(nombre, 0, 0, 0, 0, 0, 0, "2024-05-24 15:30:45");
-                                        std::cout << "Usuario creado..." << std::endl;
+                                        std::string askId;
+                                        std::cout << "Ingrese el numero de identificacion del cliente: ";
+                                        std::getline(std::cin, askId);
+
+                                        if(all_of(askId.begin(), askId.end(), ::isdigit)){
+
+                                            int askIdConvert = stoi(askId);
+
+                                            if (askIdConvert > 0 && askIdConvert < 999999999){
+                                                
+                                                if (!clienteDB.idExiste(askId)){
+
+                                                    std::string askName;
+                                                    std::cout << "Ingrese el nombre del cliente: ";
+                                                    std::getline(std::cin, askName);
+
+                                                    clienteDB.addCliente(askId, askName,0, 0, 0, "2024-05-24 15:30:45");
+                                                    std::cout << "Usuario creado exitosamente..." << std::endl;
+                                                
+                                                }else{
+                                                    throw std::invalid_argument("Debe ingresar otro numero de identificacion, vuelva a intentar...");
+                                                }
+
+                                            }else{
+                                                throw std::invalid_argument("Debe ingresar un numero entero entre 0 y 999999999, vuelva a intentar...");
+                                            }
+                                            
+                                        }else{
+                                            throw std::invalid_argument("Debe ingresar un numero entero, vuelva a intentar...");
+                                        }
+                                    
                                     }
                                 
                                 }else{

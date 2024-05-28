@@ -14,13 +14,13 @@ public:
     //Metodo para crear tabla de cliente
     bool createTable();
     //Metodo agregar cliente
-    bool addCliente(const std::string& nombre, double colones, double dolares, double cdp, double personal, double hipoteca, double prendario, const std::string& fecha);
+    bool addCliente(const std::string& id,const std::string& nombre, double colones, double dolares, double cdp, const std::string& fecha);
     //Metodo eliminar cliente
     bool deleteCliente(int id);
     //Metodo ver clientes
     void viewClientes();
     //Metodo verificar que cliente existe
-    bool nombreExiste(const std::string& nombre);
+    bool idExiste(const std::string& nombre);
 
 private:
     //Puntero a base de datos
@@ -31,7 +31,7 @@ private:
     //Ejecucion de operaciones y filtros en base de datos
     bool executeQuery(const std::string& query);
     static int callback(void* NotUsed, int argc, char** argv, char** azColName);
-    static int nombreExisteCallback(void* data, int argc, char** argv, char** azColName);
+    static int idExisteCallback(void* data, int argc, char** argv, char** azColName);
 
 };
 
