@@ -41,7 +41,7 @@ int main() {
         //Variable entera que almacena el numero de opcion selecionada por el usuario
         int opcion;
         // Ruta a la base de datos
-        std::string dbPath = "../databases/clientes.db";
+        std::string dbPath = "../databases/banco.db";
 
         // Crear instancia de ClienteDB
         ClienteDB clienteDB(dbPath);
