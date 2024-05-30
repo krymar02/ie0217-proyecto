@@ -13,6 +13,8 @@
 #include <sqlite3.h> 
 //#include "Funciones.hpp"
 #include "clientDb.hpp"
+#include "transactionDb.hpp"
+#include "prestamosDb.hpp"
 
 using namespace std;
 
@@ -45,14 +47,20 @@ int main() {
 
         // Crear instancia de ClienteDB
         ClienteDB clienteDB(dbPath);
+        // Crear instancia de TransactionDB
+        TransactionDB transferenciaDB(dbPath);
+        // Crear instancia de PrestamosDB
+        PrestamoDB prestamosDB(dbPath);
 
         // Crear tabla si no existe
-        if (!clienteDB.createTable()) {
+        if (!clienteDB.createTable() || !transferenciaDB.createTable() | !prestamosDB.createTable()) {
             std::cerr << "Failed to create table" << std::endl;
             return 1;
         }
 
         clienteDB.viewClientes();
+        transferenciaDB.viewTransaction();
+        prestamosDB.viewPrestamo();
         
         do {
 
