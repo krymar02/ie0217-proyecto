@@ -7,6 +7,10 @@
  * @version 1.0
  * @license MIT
  */
+//nuevo
+#include <stdexcept>
+#include <limits>
+//nuevo
 #include <string>
 #include <iostream>
 #include <algorithm>
@@ -32,12 +36,24 @@ enum OpcionesGnerales {
     TABLA,
     SALIRTWO
 };
+//Para crear menu 5
+enum Operaciones {
+    DEPOSITO = 1,
+    RETIRO,
+    TRANSFERENCIA,
+    ABONO
+};
 
 /**
  * @brief Ejecuta menus del programa y realiza el llamado a multiples funciones de Funciones.hpp y clase ValidadorEmail.hpp.
  * 
  * @return 0 al terminar la ejecuacion del programa.
  */
+
+
+//Declaro la funcion para el menu 5
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id);
+
 int main() {
 
         //Variable entera que almacena el numero de opcion selecionada por el usuario
@@ -108,7 +124,8 @@ int main() {
                                 //cin.ignore(); // Limpiar el buffer
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
-                                
+                                    // Llamar a la función del menú de operaciones (menu 5)
+                                    menuOperaciones(clienteDB, id);
                                 }else{
                                     throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
                                 }
