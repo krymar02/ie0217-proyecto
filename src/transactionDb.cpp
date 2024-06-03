@@ -1,5 +1,7 @@
 #include "transactionDb.hpp"
 #include <iostream>
+//nuevo
+#include <stdexcept>
 
 //Constructor 
 TransactionDB::TransactionDB(const std::string& dbPath) : dbPath(dbPath), db(nullptr) {
