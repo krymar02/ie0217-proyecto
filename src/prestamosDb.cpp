@@ -1,6 +1,7 @@
 #include "prestamosDb.hpp"
 #include <iostream>
-
+//nuevo
+#include <stdexcept>
 //Constructor 
 PrestamoDB::PrestamoDB(const std::string& dbPath) : dbPath(dbPath), db(nullptr) {
     //Verifica que la base de datos se abra en la ruta especificada
