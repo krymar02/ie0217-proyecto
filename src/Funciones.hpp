@@ -11,4 +11,7 @@ using namespace std;
 //Creo un nuevo usuario en caso de necesitarlo
 void userNotExist(ClienteDB& clienteDB);
 
+// Declarar la nueva función del menu 5
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id);
+
 #endif //FUNCIONES_HPP
