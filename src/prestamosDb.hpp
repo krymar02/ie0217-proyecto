@@ -8,19 +8,19 @@ class PrestamoDB {
 public:
     //Constructor
     PrestamoDB(const std::string& dbPath);
-    //DEstructor
+    //Destructor
     ~PrestamoDB();
 
-    //Metodo para crear tabla de cliente
+    //Método para crear tabla de cliente
     bool createTable();
-    //Metodo agregar cliente
+    //Método agregar préstamo
     bool addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha);
-    //Metodo eliminar cliente
+    //Método eliminar préstamo
     bool deletePrestamo(int id);
-    //Metodo ver clientes
+    //Método ver préstamos
     void viewPrestamo();
-    //Metodo verificar que cliente existe
-    bool idExiste(const std::string& nombre);
+    //Método verificar que el préstamo existe
+    bool idExiste(const std::string& id);
 
 private:
     //Puntero a base de datos
@@ -28,7 +28,7 @@ private:
     //Ruta a la que se abre la base de datos
     std::string dbPath;
 
-    //Ejecucion de operaciones y filtros en base de datos
+    //Ejecución de operaciones y filtros en base de datos
     bool executeQuery(const std::string& query);
     static int callback(void* NotUsed, int argc, char** argv, char** azColName);
     static int idExisteCallback(void* data, int argc, char** argv, char** azColName);

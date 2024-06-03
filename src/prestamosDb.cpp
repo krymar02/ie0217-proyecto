@@ -12,45 +12,45 @@ PrestamoDB::PrestamoDB(const std::string& dbPath) : dbPath(dbPath), db(nullptr) 
 
 //Destructor
 PrestamoDB::~PrestamoDB() {
-    //cierra base de datos
+    //Cierra base de datos
     if (db) {
         sqlite3_close(db);
     }
 }
 
 //Crea base de datos
+// Crea la tabla de préstamos
 bool PrestamoDB::createTable() {
-    
     std::string query = 
         "CREATE TABLE IF NOT EXISTS prestamos ("
-        "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "Prestamo_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
         "client INTEGER, "
         "Tipo_Prestamo TEXT, "
-        "monto DOUBLE, "
+        "monto REAL, "
         "fecha TEXT);";
-    //Ejecuto comando en base de datos
+    //Ejecutar comando en base de datos
     return executeQuery(query);
 }
 
-//Agrego cliente
+//Agregar préstamo
 bool PrestamoDB::addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha){
     //Columnas de db cliente, se debe agregas CDP
     std::string query = 
-    "INSERT INTO prestamos (client, Tipo_Prestamo, monto, Prestamo_ID, fecha) VALUES ('"
-    + clientId + "', '"
-    + tipoPrestamo + "', "
-    + std::to_string(monto) + ", '"
-    + fecha + "');";
+        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha) VALUES ('"
+        + clientId + "', '"
+        + tipoPrestamo + "', "
+        + std::to_string(monto) + ", '"
+        + fecha + "');";
     return executeQuery(query);
 }
 
-//Elimino cliente por id
+//Eliminar préstamo por id
 bool PrestamoDB::deletePrestamo(int id) {
-    std::string query = "DELETE FROM prestamos WHERE ID = " + std::to_string(id) + ";";
+    std::string query = "DELETE FROM prestamos WHERE Prestamo_ID = " + std::to_string(id) + ";";
     return executeQuery(query);
 }
 
-//Ejecutooperaciones en db
+//Ejecutar operaciones en db
 bool PrestamoDB::executeQuery(const std::string& query) {
     char* errMsg = nullptr;
     int result = sqlite3_exec(db, query.c_str(), 0, 0, &errMsg);
@@ -62,7 +62,7 @@ bool PrestamoDB::executeQuery(const std::string& query) {
     return true;
 }
 
-//Imprimo prestamos almacenados en db
+//Imprimir préstamos almacenados en db
 void PrestamoDB::viewPrestamo() {
     std::string query = "SELECT * FROM prestamos;";
     char* errMsg = nullptr;
@@ -81,10 +81,10 @@ int PrestamoDB::callback(void* NotUsed, int argc, char** argv, char** azColName)
     return 0;
 }
 
-//Verifico que los prestamos existan en db
+//Verificar que los préstamos existan en db
 bool PrestamoDB::idExiste(const std::string& id) {
     //Filtro
-    std::string query = "SELECT COUNT(*) FROM prestamos WHERE ID = '" + id + "';";
+    std::string query = "SELECT COUNT(*) FROM prestamos WHERE Prestamo_ID = '" + id + "';";
     int count = 0;
     int result = sqlite3_exec(db, query.c_str(), idExisteCallback, &count, nullptr);
     return count > 0;
