@@ -1,4 +1,57 @@
 #include "Funciones.hpp"
+//Estoy agregando el menu 5 le fantan implementaciones 
+//Defino constantes de menu 5
+enum Operacion {
+    DEPOSITO = 1,
+    RETIRO = 2,
+    TRANSFERENCIA = 3,
+    ABONO = 4
+};
+
+// Implementar la nueva función
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id) {
+    string operacionOpt;
+    cout << "\nSeleccione la operacion que desea realizar\n";
+    cout << "1. Depositos\n";
+    cout << "2. Retiros\n";
+    cout << "3. Transferencias entre cuentas\n";
+    cout << "4. Abonos\n";
+    cout << "Ingrese una opcion: ";
+    cin >> operacionOpt;
+    cin.ignore(); // Se debe limpiar el buffer
+
+    if (all_of(operacionOpt.begin(), operacionOpt.end(), ::isdigit) &&
+        (operacionOpt == "1" || operacionOpt == "2" || operacionOpt == "3" || operacionOpt == "4")) {
+        // Se convierte la opción a entero
+        int operacion = stoi(operacionOpt);
+
+        // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
+        switch (operacion) {
+            case DEPOSITO:
+                cout << "Realizar deposito..." << endl;
+                // Depositos
+                break;
+            case RETIRO:
+                cout << "Realizar retiro..." << endl;
+                // Retiros
+                break;
+            case TRANSFERENCIA:
+                cout << "Realizar transferencia..." << endl;
+                // Transferencias
+                break;
+            case ABONO:
+                cout << "Realizar abono..." << endl;
+                //Abonopos
+                break;
+            //Me falta agregar una opcion para salir o regresar
+            default:
+                cout << "Opcion no valida\n";
+                break;
+        }
+    } else {
+        throw std::invalid_argument("Ingreso una opcion invalida vuelva a intentar...");
+    }//aqui regresa al servicio al cliente
+};
 
 void userNotExist(ClienteDB& clienteDB){
 
