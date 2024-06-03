@@ -182,31 +182,65 @@ int main() {
                             
                                         //Caso prestamo personal
                                         case PERSONAL:{
+                                            std::string tipoPrestamo = "Personal";
+                                            double monto;
+                                            std::string fecha;
+                                            std::cout << "Ingrese el monto del préstamo personal: ";
+                                            std::cin >> monto;
+                                            std::cout << "Ingrese la fecha del préstamo (YYYY-MM-DD): ";
+                                            std::cin >> fecha;
 
-                                                
+                                            if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
+                                                std::cout << "Préstamo personal añadido exitosamente.\n";
+                                            } else {
+                                                std::cout << "Error al añadir el préstamo personal.\n";
                                             }
                                             break;
+                                        }
 
                                         //Caso prestamo prendario
                                         case PRENDARIOS:{
+                                            std::string tipoPrestamo = "Prendario";
+                                            double monto;
+                                            std::string fecha;
+                                            std::cout << "Ingrese el monto del préstamo prendario: ";
+                                            std::cin >> monto;
+                                            std::cout << "Ingrese la fecha del préstamo (YYYY-MM-DD): ";
+                                            std::cin >> fecha;
 
-                                        
+                                            if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
+                                                std::cout << "Préstamo prendario añadido exitosamente.\n";
+                                            } else {
+                                                std::cout << "Error al añadir el préstamo prendario.\n";
                                             }
                                             break;
+                                        }
 
                                         //Caso prestamo hipotecario
                                         case HIPOTECARIOS:{
+                                            std::string tipoPrestamo = "Hipotecario";
+                                            double monto;
+                                            std::string fecha;
+                                            std::cout << "Ingrese el monto del préstamo hipotecario: ";
+                                            std::cin >> monto;
+                                            std::cout << "Ingrese la fecha del préstamo (YYYY-MM-DD): ";
+                                            std::cin >> fecha;
 
-                                        
+                                            if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
+                                                std::cout << "Préstamo hipotecario añadido exitosamente.\n";
+                                            } else {
+                                                std::cout << "Error al añadir el préstamo hipotecario.\n";
                                             }
                                             break;
-                                        //Caso de creacion de tabla
+                                        }
+
+                                        //Caso de creación de tabla
                                         case TABLA:{
-
-                                        
-                                            }
+                                            // Generar reporte de préstamos
+                                            prestamosDB.viewPrestamo();
+                                            
                                             break;
-
+                                        }
                                         //Caso donde deseo salir
                                         case SALIRTWO:
 
