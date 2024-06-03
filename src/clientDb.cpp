@@ -1,5 +1,7 @@
 #include "clientDb.hpp"
 #include <iostream>
+//nuevo
+#include <stdexcept>
 
 //Constructor 
 ClienteDB::ClienteDB(const std::string& dbPath) : dbPath(dbPath), db(nullptr) {
