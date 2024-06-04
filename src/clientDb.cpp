@@ -77,6 +77,57 @@ void ClienteDB::viewClientes() {
     }
 }
 
+bool ClienteDB::actualizarCuenta(const std::string &id, double valorUsuario, const std::string &tipoDeCuenta) {
+    //Stirngs que almacenan la operacion de consulta y el nombre de la columna
+    std::string selectQuery;
+    std::string columnName;
+
+    //Crear la consulta SQL para obtener el valor actual en la columna colones, dolares o cdp
+    if (tipoDeCuenta == "1") {
+        std::cout << "Cuenta colones" << std::endl;
+        selectQuery = "SELECT colones FROM clientes WHERE id = " + id + ";";
+        columnName = "colones";
+    } else if (tipoDeCuenta == "2") {
+        std::cout << "Cuenta dolares" << std::endl;
+        selectQuery = "SELECT dolares FROM clientes WHERE id = " + id + ";";
+        columnName = "dolares";
+    } else {
+        std::cout << "Cuenta Certificado de deposito a plazo" << std::endl;
+        selectQuery = "SELECT cdp FROM clientes WHERE id = " + id + ";";
+        columnName = "cdp";
+    }
+    
+    double currentValue = 0.0;
+
+    //Callback para obtener el valor actual de la columna 'colones, dolares o cdp'
+    auto selectCallback = [](void* data, int argc, char** argv, char** azColName) -> int {
+        if (argc > 0) {
+            double* value = static_cast<double*>(data);
+            *value = argv[0] ? std::stod(argv[0]) : 0.0;
+        }
+        return 0;
+    };
+
+    char* errMsg = nullptr;
+    int result = sqlite3_exec(db, selectQuery.c_str(), selectCallback, &currentValue, &errMsg);
+    if (result != SQLITE_OK) {
+        std::cerr << "SQL error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        return false;
+    }
+
+    //Sumo el valor contenido en la columna selecionada con el valor ingresado por el usuario
+    currentValue += valorUsuario;
+
+    //Actualizo la columna selecionada con el valor ingresado por el usuario
+    std::string updateQuery = 
+        "UPDATE clientes SET " + columnName + " = " + std::to_string(currentValue) + " WHERE id = " + id + ";";
+
+    //Ejecuto la actualizacion
+    return executeQuery(updateQuery);
+}
+
+
 int ClienteDB::callback(void* NotUsed, int argc, char** argv, char** azColName) {
     for (int i = 0; i < argc; i++) {
         std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;

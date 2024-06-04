@@ -9,7 +9,7 @@ enum Operacion {
 };
 
 // Implementar la nueva función
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id) {
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta) {
     string operacionOpt;
     cout << "\nSeleccione la operacion que desea realizar\n";
     cout << "1. Depositos\n";
@@ -28,8 +28,20 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id) {
         // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
         switch (operacion) {
             case DEPOSITO:
-                cout << "Realizar deposito..." << endl;
+                
                 // Depositos
+                double valorUsuario;
+                std::cout << "Ingrese el monto a depositar: ";
+
+                //Verico que se agregue un double positivo mayor a cero
+                //ESTA OPCION FALLA SI SE AGREGA UN ESPACIO AL NUMERO, EJ: 500 500
+                //Usuario debe agregar 500500
+                while (!(std::cin >> valorUsuario) || valorUsuario <= 0) {
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore bad input
+                    std::cout << "Por favor, ingrese un monto positivo: ";
+                }
+                clienteDB.actualizarCuenta(id, valorUsuario,tipoDeCuenta);
                 break;
             case RETIRO:
                 cout << "Realizar retiro..." << endl;

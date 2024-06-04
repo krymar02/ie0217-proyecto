@@ -52,7 +52,7 @@ enum Operaciones {
 
 
 //Declaro la funcion para el menu 5
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id);
+//void menuOperaciones(ClienteDB& clienteDB, const std::string& id);
 
 int main() {
 
@@ -125,7 +125,7 @@ int main() {
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
                                     // Llamar a la función del menú de operaciones (menu 5)
-                                    menuOperaciones(clienteDB, id);
+                                    menuOperaciones(clienteDB, id, atencionClienteOpt);
                                 }else{
                                     throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
                                 }

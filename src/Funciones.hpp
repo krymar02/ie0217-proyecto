@@ -5,6 +5,7 @@
 #include "clientDb.hpp"
 #include <string>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -12,6 +13,6 @@ using namespace std;
 void userNotExist(ClienteDB& clienteDB);
 
 // Declarar la nueva función del menu 5
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id);
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta);
 
 #endif //FUNCIONES_HPP

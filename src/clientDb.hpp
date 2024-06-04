@@ -21,6 +21,8 @@ public:
     void viewClientes();
     //Metodo verificar que cliente existe
     bool idExiste(const std::string& nombre);
+    //Metodo verificar que cliente existe
+    bool actualizarCuenta(const std::string &id, double valorUsuario, const std::string &tipoDeCuenta);
 
 private:
     //Puntero a base de datos
