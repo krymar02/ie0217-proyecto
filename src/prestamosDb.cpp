@@ -27,20 +27,24 @@ bool PrestamoDB::createTable() {
         "client INTEGER, "
         "Tipo_Prestamo TEXT, "
         "monto REAL, "
-        "fecha TEXT);";
+        "fecha TEXT, "
+        "cuotas INTEGER, "
+        "tasa_interes DOUBLE);";
     //Ejecutar comando en base de datos
     return executeQuery(query);
 }
 
 //Agregar préstamo
-bool PrestamoDB::addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha){
+bool PrestamoDB::addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas, double tasaInteres){
     //Columnas de db cliente, se debe agregas CDP
     std::string query = 
         "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha) VALUES ('"
         + clientId + "', '"
         + tipoPrestamo + "', "
         + std::to_string(monto) + ", '"
-        + fecha + "');";
+        + fecha + "', "
+        + std::to_string(cuotas) + ", "
+        + std::to_string(tasaInteres) + ");";
     return executeQuery(query);
 }
 
