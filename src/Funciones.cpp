@@ -9,7 +9,7 @@ enum Operacion {
 };
 
 // Implementar la nueva función
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta) {
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB) {
     string operacionOpt;
     cout << "\nSeleccione la operacion que desea realizar\n";
     cout << "1. Depositos\n";
@@ -24,28 +24,59 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
         (operacionOpt == "1" || operacionOpt == "2" || operacionOpt == "3" || operacionOpt == "4")) {
         // Se convierte la opción a entero
         int operacion = stoi(operacionOpt);
+        std::string montoUsuario;
 
         // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
         switch (operacion) {
-            case DEPOSITO:
-                
-                // Depositos
-                double valorUsuario;
-                std::cout << "Ingrese el monto a depositar: ";
 
-                //Verico que se agregue un double positivo mayor a cero
-                //ESTA OPCION FALLA SI SE AGREGA UN ESPACIO AL NUMERO, EJ: 500 500
-                //Usuario debe agregar 500500
-                while (!(std::cin >> valorUsuario) || valorUsuario <= 0) {
-                    std::cin.clear();
-                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore bad input
-                    std::cout << "Por favor, ingrese un monto positivo: ";
+            case DEPOSITO:
+
+                //Depositos
+                while (true) {
+                    std::cout << "Ingrese un monto a depositar: " << std::endl;
+                    std::getline(std::cin, montoUsuario);
+
+                    if (isValidMonto(montoUsuario)) {
+                        break;
+                    } else {
+                        std::cout << "Monto inválido, vuelva a digitar." << std::endl;
+                    }
                 }
-                clienteDB.actualizarCuenta(id, valorUsuario,tipoDeCuenta);
+
+                if(clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta)){
+                    //Creo registro de la operacion
+                    transferenciaDB.addTransaction(id, "Deposito",stod(montoUsuario),-1,getCurrentDateTime());
+                    std::cout << "Deposito exitoso..." << std::endl;
+    
+                }else{
+                    std::cout << "Ocurrio un error durante el deposito..." << std::endl;
+                }
+                
+
                 break;
+
             case RETIRO:
-                cout << "Realizar retiro..." << endl;
+
                 // Retiros
+                while (true) {
+                    std::cout << "Ingrese un monto a retirar: " << std::endl;
+                    std::getline(std::cin, montoUsuario);
+
+                    if (isValidMonto(montoUsuario)) {
+                        break;
+                    } else {
+                        std::cout << "Monto inválido, vuelva a digitar." << std::endl;
+                    }
+                }
+
+                if(clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta,0)){
+                    //Creo registro de la operacion
+                    transferenciaDB.addTransaction(id, "Retiro",stod(montoUsuario),-1,getCurrentDateTime());
+                    std::cout << "Retiro exitoso..." << std::endl;
+
+                }else{
+                    std::cout << "Ocurrio un error durante el retiro..." << std::endl;
+                }
                 break;
             case TRANSFERENCIA:
                 cout << "Realizar transferencia..." << endl;
@@ -98,7 +129,7 @@ void userNotExist(ClienteDB& clienteDB){
                       std::cout << "Ingrese el nombre del cliente: ";
                       std::getline(std::cin, askName);
 
-                      clienteDB.addCliente(askId, askName,0, 0, 0, "2024-05-24 15:30:45");
+                      clienteDB.addCliente(askId, askName,0, 0, 0, getCurrentDateTime());
                       std::cout << "Usuario creado exitosamente..." << std::endl;
                   
                   }else{
@@ -120,3 +151,52 @@ void userNotExist(ClienteDB& clienteDB){
   }
 
 };
+
+bool isPositiveDouble(const char &c) {
+    return std::isdigit(c) || c == '.';
+};
+
+bool isValidMonto(const std::string &monto) {
+    //Caso donde no se digita nada
+    if (monto.empty()) return false; // Verifica si la cadena está vacía
+
+    bool dotFound = false;
+    //Recorro cada uno de los elementos del string
+    for (char c : monto) {
+        //Caso de encontrar espacios en el string
+        if (std::isspace(c)) return false;
+        //Caso de no digitar un double positivo 
+        if (!isPositiveDouble(c)) return false;
+        //Verifico si hay más de un punto decimal 
+        if (c == '.') {
+            if (dotFound) return false;
+            dotFound = true;
+        }
+    }
+
+    try {
+        double value = std::stod(monto);
+        //Verifico si el valor es positivo
+        if (value <= 0) return false; 
+    } catch (...) {
+        //Caso de que falle el double
+        return false; 
+    }
+
+    return true;
+};
+
+//Obtengo hora actual
+std::string getCurrentDateTime() {
+    //Obtengo la hora actual de la computadora
+    auto now = std::chrono::system_clock::now();
+    //Convierto a tiempo en formato time_t
+    std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
+    //Convierto time_t a tm struct
+    std::tm now_tm = *std::localtime(&now_time_t);
+    //Uso stringstream para formatear la fecha y hora
+    std::ostringstream oss;
+    oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
+    //Retrono hora como string
+    return oss.str();
+}

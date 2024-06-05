@@ -77,22 +77,19 @@ void ClienteDB::viewClientes() {
     }
 }
 
-bool ClienteDB::actualizarCuenta(const std::string &id, double valorUsuario, const std::string &tipoDeCuenta) {
+bool ClienteDB::actualizarCuenta(const std::string &id, double valorUsuario, const std::string &tipoDeCuenta, int tipoOperacion) {
     //Stirngs que almacenan la operacion de consulta y el nombre de la columna
     std::string selectQuery;
     std::string columnName;
 
     //Crear la consulta SQL para obtener el valor actual en la columna colones, dolares o cdp
     if (tipoDeCuenta == "1") {
-        std::cout << "Cuenta colones" << std::endl;
         selectQuery = "SELECT colones FROM clientes WHERE id = " + id + ";";
         columnName = "colones";
     } else if (tipoDeCuenta == "2") {
-        std::cout << "Cuenta dolares" << std::endl;
         selectQuery = "SELECT dolares FROM clientes WHERE id = " + id + ";";
         columnName = "dolares";
     } else {
-        std::cout << "Cuenta Certificado de deposito a plazo" << std::endl;
         selectQuery = "SELECT cdp FROM clientes WHERE id = " + id + ";";
         columnName = "cdp";
     }
@@ -116,8 +113,23 @@ bool ClienteDB::actualizarCuenta(const std::string &id, double valorUsuario, con
         return false;
     }
 
-    //Sumo el valor contenido en la columna selecionada con el valor ingresado por el usuario
-    currentValue += valorUsuario;
+    if (tipoOperacion == 0){
+        //Caso de retiro
+        //En este caso deseo retirar monto mayor al almacnado en las cuentas
+        if(currentValue < valorUsuario){
+            std::cout << "Monto ingresaddo excede limite de la cuenta." << std::endl;
+            return false;
+        }
+        currentValue -= valorUsuario; 
+    }else{
+
+        //Caso de deposito
+       //Sumo el valor contenido en la columna selecionada con el valor ingresado por el usuario
+        currentValue += valorUsuario; 
+    }
+    
+    
+    
 
     //Actualizo la columna selecionada con el valor ingresado por el usuario
     std::string updateQuery = 

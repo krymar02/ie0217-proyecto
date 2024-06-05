@@ -34,16 +34,19 @@ bool TransactionDB::createTable() {
     return executeQuery(query);
 }
 
-//Agrego cliente
+//Agrego transaccion
 bool TransactionDB::addTransaction(const std::string& clientId, const std::string& tipoOperacion, double monto, int idPrestamo,const std::string& fecha){
-    //Columnas de db cliente, se debe agregas CDP
+    
+    //En caso de que idPrestamo sea -1, se agrega un valor nulo en la db, caso sontrario, se agrega id prestamo
+    std::string idPrestamoStr = (idPrestamo == -1) ? "NULL" : std::to_string(idPrestamo);
+    //Columnas de db transferencias
     std::string query = 
-    "INSERT INTO transferencias (client, Operacion, monto, Prestamo_ID, fecha) VALUES ('"
-    + clientId + "', '"
-    + tipoOperacion + "', "
-    + std::to_string(monto) + ", '"
-    + std::to_string(idPrestamo) + ", '"
-    + fecha + "');";
+        "INSERT INTO transferencias (client, Operacion, monto, Prestamo_ID, fecha) VALUES ('" 
+        + clientId + "', '" 
+        + tipoOperacion + "', " 
+        + std::to_string(monto) + ", " 
+        + idPrestamoStr + ", '" 
+        + fecha + "');";
     return executeQuery(query);
 }
 
