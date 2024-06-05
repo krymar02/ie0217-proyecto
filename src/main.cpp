@@ -206,6 +206,7 @@ int main() {
 
                                         //Caso préstamo prendario
                                         case PRENDARIOS:{
+                                            std::string tipoPrestamo = "Prendario";
                                             std::string montoUser;
 
                                             // Obtener la fecha actual
