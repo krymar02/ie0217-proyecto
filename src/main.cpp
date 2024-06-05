@@ -1,6 +1,6 @@
 /**
  * @file main.cpp
- * @brief Se realiza el llamado a las funciones, clase ValidadorEmail.hpp y menus del programa
+ * @brief Se realiza el llamado a las funciones, clases y menus del programa
  *
  * @author 
  * @date 2024
@@ -51,7 +51,7 @@ enum Operaciones {
  */
 
 
-//Declaro la funcion para el menu 5
+//Declaro la función para el menu 5
 //void menuOperaciones(ClienteDB& clienteDB, const std::string& id);
 
 int main() {
@@ -80,15 +80,15 @@ int main() {
         
         do {
 
-            //Variable string que almacena el numero de opcion selecionada por el usuario
+            //Variable string que almacena el número de opción selecionada por el usuario
             string strOpcion;
 
             //Menu principal
-            cout << "\nModalidad de operacion\n";
-            cout << "1. Atencion al cliente\n";
-            cout << "2. Informacion general sobre prestamos bancarios\n";
+            cout << "\nModalidad de operación\n";
+            cout << "1. Atención al cliente\n";
+            cout << "2. Información general sobre préstamos bancarios\n";
             cout << "3. Salir\n";
-            cout << "Ingrese una opcion: ";
+            cout << "Ingrese una opción: ";
             cin >> strOpcion;
             cin.ignore(); // Limpiar el buffer
 
@@ -106,7 +106,7 @@ int main() {
 
                             // Solicitar al usuario que ingrese un id
                             std::string id;
-                            std::cout << "Ingrese el numero de identificacion del cliente: ";
+                            std::cout << "Ingrese el número de identificación del cliente: ";
                             std::getline(std::cin, id);
                             //std::cin.ignore();
 
@@ -114,20 +114,19 @@ int main() {
                             if (clienteDB.idExiste(id)) {
 
                                 string atencionClienteOpt;
-                                cout << "\nAtencion al cliente\n";
+                                cout << "\nAtención al cliente\n";
                                 cout << "1. Cuenta colones\n";
-                                cout << "2. Cuenta dolares\n";
-                                cout << "3. Certificado de deposito a plazo\n";
-                                cout << "Ingrese una opcion: ";
+                                cout << "2. Cuenta dólares\n";
+                                cout << "3. Certificado de depósito a plazo\n";
+                                cout << "Ingrese una opción: ";
                                 cin >> atencionClienteOpt;
-                                cin.ignore();
-                                //cin.ignore(); // Limpiar el buffer
+                                cin.ignore(); // Limpiar el buffer
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
                                     // Llamar a la función del menú de operaciones (menu 5)
                                     menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB);
                                 }else{
-                                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                                    throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                                 }
 
 
@@ -146,7 +145,7 @@ int main() {
 
                             // Solicitar al usuario que ingrese un id
                             std::string id;
-                            std::cout << "Ingrese el numero de identificacion cliente: ";
+                            std::cout << "Ingrese el número de identificación cliente: ";
                             std::getline(std::cin, id);
                             
 
@@ -159,15 +158,15 @@ int main() {
                                 //Variable string que almacena el numero de opcion selecionada por el usuario
                                 string strOpcionTwo;
 
-                                //Menu sobre informaion general
+                                //Menú sobre información general
                                 //Aqui de sebe quitra la opcion de generar tabla, ya que el reporte se genera cuando el usuario ha realizado el prestamo
-                                cout << "\nInformacion general\n";
-                                cout << "1. Prestamos personales\n";
-                                cout << "2. Prestamos prendarios\n";
-                                cout << "3. Prestamos hipotecarios\n";
+                                cout << "\nInformación general\n";
+                                cout << "1. Préstamos personales\n";
+                                cout << "2. Préstamos prendarios\n";
+                                cout << "3. Préstamos hipotecarios\n";
                                 cout << "4. Generar tabla\n";
                                 cout << "5. Salir\n";
-                                cout << "Ingrese una opcion: ";
+                                cout << "Ingrese una opción: ";
                                 cin >> strOpcionTwo;
                                 cin.ignore(); // Limpiar el buffer
 
@@ -180,56 +179,76 @@ int main() {
 
                                     switch (opcionTwo) {
                             
-                                        //Caso prestamo personal
+                                        //Caso préstamo personal
                                         case PERSONAL:{
                                             std::string tipoPrestamo = "Personal";
-                                            double monto;
-                                            std::string fecha;
+                                            std::string montoUser;
+
+                                            // Obtener la fecha actual
+                                            std::string fecha = getCurrentDateTime(); 
+
                                             std::cout << "Ingrese el monto del préstamo personal: ";
-                                            std::cin >> monto;
-                                            std::cout << "Ingrese la fecha del préstamo (YYYY-MM-DD): ";
-                                            std::cin >> fecha;
+                                            std::cin >> montoUser;
 
-                                            if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
-                                                std::cout << "Préstamo personal añadido exitosamente.\n";
+                                            // Excepciones para que el monto del préstamo sea válido (positivo)
+                                            if (isValidMonto(montoUser)) {
+                                                double monto = std::stod(montoUser); // Convertir string en double
+                                                if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
+                                                     std::cout << "Préstamo personal añadido exitosamente.\n";
+                                                } else {
+                                                    std::cout << "Error al añadir el préstamo personal.\n";
+                                                }
                                             } else {
-                                                std::cout << "Error al añadir el préstamo personal.\n";
+                                                std::cout << "Monto inválido. Debe ser un número positivo.\n";
                                             }
                                             break;
                                         }
 
-                                        //Caso prestamo prendario
+                                        //Caso préstamo prendario
                                         case PRENDARIOS:{
-                                            std::string tipoPrestamo = "Prendario";
-                                            double monto;
-                                            std::string fecha;
-                                            std::cout << "Ingrese el monto del préstamo prendario: ";
-                                            std::cin >> monto;
-                                            std::cout << "Ingrese la fecha del préstamo (YYYY-MM-DD): ";
-                                            std::cin >> fecha;
+                                            std::string montoUser;
 
-                                            if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
-                                                std::cout << "Préstamo prendario añadido exitosamente.\n";
+                                            // Obtener la fecha actual
+                                            std::string fecha = getCurrentDateTime(); 
+
+                                            std::cout << "Ingrese el monto del préstamo prendario: ";
+                                            std::cin >> montoUser;
+
+                                            // Excepciones para que el monto del préstamo sea válido (positivo)
+                                            if (isValidMonto(montoUser)) {
+                                                double monto = std::stod(montoUser); // Convertir string en double
+                                                if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
+                                                     std::cout << "Préstamo prendario añadido exitosamente.\n";
+                                                } else {
+                                                    std::cout << "Error al añadir el préstamo prendario.\n";
+                                                }
                                             } else {
-                                                std::cout << "Error al añadir el préstamo prendario.\n";
+                                                std::cout << "Monto inválido. Debe ser un número positivo.\n";
                                             }
                                             break;
                                         }
 
-                                        //Caso prestamo hipotecario
+                                        //Caso préstamo hipotecario
                                         case HIPOTECARIOS:{
                                             std::string tipoPrestamo = "Hipotecario";
-                                            double monto;
-                                            std::string fecha;
-                                            std::cout << "Ingrese el monto del préstamo hipotecario: ";
-                                            std::cin >> monto;
-                                            std::cout << "Ingrese la fecha del préstamo (YYYY-MM-DD): ";
-                                            std::cin >> fecha;
+                                            std::string montoUser;
 
-                                            if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
-                                                std::cout << "Préstamo hipotecario añadido exitosamente.\n";
+                                            // Obtener la fecha actual
+                                            std::string fecha = getCurrentDateTime(); 
+
+                                            std::cout << "Ingrese el monto del préstamo hipotecario: ";
+                                            std::cin >> montoUser;
+
+                                            // Excepciones para que el monto del préstamo sea válido (positivo)
+                                            if (isValidMonto(montoUser)) {
+                                                double monto = std::stod(montoUser); // Convertir string en double
+                                                if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
+                                                     std::cout << "Préstamo hipotecario añadido exitosamente.\n";
+                                                } else {
+                                                    std::cout << "Error al añadir el préstamo hipotecario.\n";
+                                                }
                                             } else {
-                                                std::cout << "Error al añadir el préstamo hipotecario.\n";
+                                                std::cout << "Monto inválido. Debe ser un número positivo.\n";
                                             }
                                             break;
                                         }
@@ -251,7 +270,7 @@ int main() {
                                         //Caso por defecto
                                         default:
 
-                                            cout << "Opcion no valida\n";
+                                            cout << "Opción no válida\n";
 
                                             break;
                                         }
@@ -259,7 +278,7 @@ int main() {
 
                                 }else{
                                     //Ocurre una excepcion cuando no agrego un numero entero que sea 1,2,3,4 o 5
-                                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                                    throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                                 }
 
                             } else {
@@ -281,13 +300,13 @@ int main() {
                         //Caso por defecto
                         default:
 
-                            cout << "Opcion no valida\n";
+                            cout << "Opción no válida\n";
 
                             break;
                         }
                 } else{
-                    //Ocurre una excepcion cuando no agrego un numero entero que sea 1,2 o 3
-                    throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+                    //Ocurre una excepcion cuando no agrego un número entero que sea 1,2 o 3
+                    throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                 }
 
             //Manejo de excepciones   
