@@ -184,21 +184,27 @@ int main() {
                                             std::string montoUser;
 
                                             // Obtener la fecha actual
-                                            std::string fecha = getCurrentDateTime(); 
+                                            std::string fecha = getCurrentDateTime();
 
-                                            std::cout << "Ingrese el monto del préstamo personal: ";
-                                            std::cin >> montoUser;
+                                            while (true) {
+                                                std::cout << "Ingrese el monto del préstamo personal (tasa de interés de_ a _ cuotas): ";
+                                                std::getline(std::cin, montoUser);
 
-                                            // Excepciones para que el monto del préstamo sea válido (positivo)
-                                            if (isValidMonto(montoUser)) {
-                                                double monto = std::stod(montoUser); // Convertir string en double
-                                                if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
-                                                     std::cout << "Préstamo personal añadido exitosamente.\n";
+                                                if (isValidMonto(montoUser)) {
+                                                    break;
                                                 } else {
-                                                    std::cout << "Error al añadir el préstamo personal.\n";
+                                                    std::cout << "Monto inválido, vuelva a digitar.\n";
                                                 }
+
+                                            }
+                                            double monto = std::stod(montoUser); // Convertir el string a double
+
+                                            int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
+                                            if (idPrestamo != -1) {
+                                                transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
+                                                std::cout << "Préstamo personal añadido exitosamente.\n";
                                             } else {
-                                                std::cout << "Monto inválido. Debe ser un número positivo.\n";
+                                                std::cout << "Error al añadir el préstamo personal.\n";
                                             }
                                             break;
                                         }
@@ -207,23 +213,28 @@ int main() {
                                         case PRENDARIOS:{
                                             std::string tipoPrestamo = "Prendario";
                                             std::string montoUser;
-
                                             // Obtener la fecha actual
                                             std::string fecha = getCurrentDateTime(); 
 
-                                            std::cout << "Ingrese el monto del préstamo prendario: ";
-                                            std::cin >> montoUser;
+                                            while (true) {
+                                                std::cout << "Ingrese el monto del préstamo prendario (tasa de interés de_ a _ cuotas): ";
+                                                std::getline(std::cin, montoUser);
 
-                                            // Excepciones para que el monto del préstamo sea válido (positivo)
-                                            if (isValidMonto(montoUser)) {
-                                                double monto = std::stod(montoUser); // Convertir string en double
-                                                if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
-                                                     std::cout << "Préstamo prendario añadido exitosamente.\n";
+                                                if (isValidMonto(montoUser)) {
+                                                    break;
                                                 } else {
-                                                    std::cout << "Error al añadir el préstamo prendario.\n";
+                                                    std::cout << "Monto inválido, vuelva a digitar.\n";
                                                 }
+
+                                            }
+                                            double monto = std::stod(montoUser); // Convertir el string a double
+
+                                            int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
+                                            if (idPrestamo != -1) {
+                                                transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
+                                                std::cout << "Préstamo prendario añadido exitosamente.\n";
                                             } else {
-                                                std::cout << "Monto inválido. Debe ser un número positivo.\n";
+                                                std::cout << "Error al añadir el préstamo prendario.\n";
                                             }
                                             break;
                                         }
@@ -232,25 +243,30 @@ int main() {
                                         case HIPOTECARIOS:{
                                             std::string tipoPrestamo = "Hipotecario";
                                             std::string montoUser;
-
                                             // Obtener la fecha actual
                                             std::string fecha = getCurrentDateTime(); 
 
-                                            std::cout << "Ingrese el monto del préstamo hipotecario: ";
-                                            std::cin >> montoUser;
+                                            while (true) {
+                                                std::cout << "Ingrese el monto del préstamo hipotecario (tasa de interés de_ a _ cuotas): ";
+                                                std::getline(std::cin, montoUser);
 
-                                            // Excepciones para que el monto del préstamo sea válido (positivo)
-                                            if (isValidMonto(montoUser)) {
-                                                double monto = std::stod(montoUser); // Convertir string en double
-                                                if (prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha)) {
-                                                     std::cout << "Préstamo hipotecario añadido exitosamente.\n";
+                                                if (isValidMonto(montoUser)) {
+                                                    break;
                                                 } else {
-                                                    std::cout << "Error al añadir el préstamo hipotecario.\n";
+                                                    std::cout << "Monto inválido, vuelva a digitar.\n";
                                                 }
+
+                                            }
+                                            double monto = std::stod(montoUser); // Convertir el string a double
+                                            int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
+                                            if (idPrestamo != -1) {
+                                                transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
+                                                std::cout << "Préstamo hipotecario añadido exitosamente.\n";
                                             } else {
-                                                std::cout << "Monto inválido. Debe ser un número positivo.\n";
+                                                std::cout << "Error al añadir el préstamo hipotecario.\n";
                                             }
                                             break;
+
                                         }
 
                                         //Caso de creación de tabla
