@@ -164,15 +164,14 @@ int main() {
                                 cout << "1. Préstamos personales\n";
                                 cout << "2. Préstamos prendarios\n";
                                 cout << "3. Préstamos hipotecarios\n";
-                                cout << "4. Generar tabla\n";
-                                cout << "5. Salir\n";
+                                cout << "4. Salir\n";
                                 cout << "Ingrese una opción: ";
                                 cin >> strOpcionTwo;
                                 cin.ignore(); // Limpiar el buffer
 
                                 //Verifico que se agregue un numero entero y que este sea 1,2,3,4 o 5
                                 if(all_of(strOpcionTwo.begin(), strOpcionTwo.end(), ::isdigit) && (strOpcionTwo == "1" || strOpcionTwo == "2" || strOpcionTwo == "3"
-                                || strOpcionTwo == "4" || strOpcionTwo == "5")){
+                                || strOpcionTwo == "4")){
                                     
                                     //Convierto el string a entero para almacenar opcion del usuario
                                     opcionTwo = stoi(strOpcionTwo);
