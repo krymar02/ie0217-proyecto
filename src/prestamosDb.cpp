@@ -27,25 +27,45 @@ bool PrestamoDB::createTable() {
         "client INTEGER, "
         "Tipo_Prestamo TEXT, "
         "monto REAL, "
-        "fecha TEXT);";
-        //"cuotas INTEGER, "
-        //"tasa_interes DOUBLE);";
+        "fecha TEXT, "
+        "cuotas INTEGER, "
+        "tasa_interes DOUBLE);";
     //Ejecutar comando en base de datos
     return executeQuery(query);
 }
 
-//Agregar préstamo
-bool PrestamoDB::addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha){
-    //Columnas de db cliente, se debe agregas CDP
+// Agregar préstamo
+int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipoPrestamo, double monto, const std::string& fecha) {
+    int cuotas;
+    double tasaInteres;
+    // Ejemplo de las tasas de inteŕes y cuotas (modificar)
+    if (tipoPrestamo == "Personal") {
+        cuotas = 12;
+    } else if (tipoPrestamo == "Prendario") {
+        cuotas = 24;
+    } else if (tipoPrestamo == "Hipotecario") {
+        cuotas = 36;
+    } else {
+        std::cerr << "Tipo de préstamo no válido.\n";
+        return -1;
+    }
+
+    tasaInteres = 0.05 * monto;
+
     std::string query = 
-        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha) VALUES ('"
+        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha, cuotas, tasa_interes) VALUES ('"
         + clientId + "', '"
         + tipoPrestamo + "', "
         + std::to_string(monto) + ", '"
-        + fecha + ");";
-        // + std::to_string(cuotas) + ", "
-        // + std::to_string(tasaInteres) + ");";
-    return executeQuery(query);
+        + fecha + "', "
+        + std::to_string(cuotas) + ", "
+        + std::to_string(tasaInteres) + ");";
+    
+    if (!executeQuery(query)) {
+        return -1;
+    }
+
+    return sqlite3_last_insert_rowid(db);
 }
 
 //Eliminar préstamo por id
