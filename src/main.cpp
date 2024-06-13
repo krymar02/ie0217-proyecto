@@ -67,6 +67,7 @@ int main() {
         TransactionDB transferenciaDB(dbPath);
         // Crear instancia de PrestamosDB
         PrestamoDB prestamosDB(dbPath);
+        
 
         // Crear tabla si no existe
         if (!clienteDB.createTable() || !transferenciaDB.createTable() | !prestamosDB.createTable()) {
@@ -84,11 +85,11 @@ int main() {
             string strOpcion;
 
             //Menu principal
-            cout << "\nModalidad de operación\n";
-            cout << "1. Atención al cliente\n";
-            cout << "2. Información general sobre préstamos bancarios\n";
+            cout << "\nModalidad de operacion\n";
+            cout << "1. Atencion al cliente\n";
+            cout << "2. Informacion general sobre prestamos bancarios\n";
             cout << "3. Salir\n";
-            cout << "Ingrese una opción: ";
+            cout << "Ingrese una opcion: ";
             cin >> strOpcion;
             cin.ignore(); // Limpiar el buffer
 
@@ -106,7 +107,7 @@ int main() {
 
                             // Solicitar al usuario que ingrese un id
                             std::string id;
-                            std::cout << "Ingrese el número de identificación del cliente: ";
+                            std::cout << "Ingrese el numero de identificacion del cliente: ";
                             std::getline(std::cin, id);
                             //std::cin.ignore();
 
@@ -114,11 +115,11 @@ int main() {
                             if (clienteDB.idExiste(id)) {
 
                                 string atencionClienteOpt;
-                                cout << "\nAtención al cliente\n";
-                                cout << "1. Cuenta colones\n";
-                                cout << "2. Cuenta dólares\n";
-                                cout << "3. Certificado de depósito a plazo\n";
-                                cout << "Ingrese una opción: ";
+                                cout << "\nAtencion al cliente.\n";
+                                cout << "1. Cuenta en colones\n";
+                                cout << "2. Cuenta en dolares\n";
+                                cout << "3. Certificado de deposito a plazo\n";
+                                cout << "Ingrese una opcion: ";
                                 cin >> atencionClienteOpt;
                                 cin.ignore(); // Limpiar el buffer
 
@@ -145,7 +146,7 @@ int main() {
 
                             // Solicitar al usuario que ingrese un id
                             std::string id;
-                            std::cout << "Ingrese el número de identificación cliente: ";
+                            std::cout << "Ingrese el numero de identificacion cliente: ";
                             std::getline(std::cin, id);
                             
 
@@ -160,12 +161,12 @@ int main() {
 
                                 //Menú sobre información general
                                 //Aqui de sebe quitra la opcion de generar tabla, ya que el reporte se genera cuando el usuario ha realizado el prestamo
-                                cout << "\nInformación general\n";
-                                cout << "1. Préstamos personales\n";
-                                cout << "2. Préstamos prendarios\n";
-                                cout << "3. Préstamos hipotecarios\n";
+                                cout << "\nInformacion general\n";
+                                cout << "1. Prestamos personales\n";
+                                cout << "2. Prestamos prendarios\n";
+                                cout << "3. Prestamos hipotecarios\n";
                                 cout << "4. Salir\n";
-                                cout << "Ingrese una opción: ";
+                                cout << "Ingrese una opcion: ";
                                 cin >> strOpcionTwo;
                                 cin.ignore(); // Limpiar el buffer
 
@@ -187,7 +188,7 @@ int main() {
                                             std::string fecha = getCurrentDateTime();
 
                                             while (true) {
-                                                std::cout << "Ingrese el monto del préstamo personal (tasa de interés de_ a _ cuotas): ";
+                                                std::cout << "Ingrese el monto del prestamo personal (tasa de interes de_ a _ cuotas): ";
                                                 std::getline(std::cin, montoUser);
 
                                                 if (isValidMonto(montoUser)) {
@@ -202,7 +203,7 @@ int main() {
                                             int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
                                             if (idPrestamo != -1) {
                                                 transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
-                                                std::cout << "Préstamo personal añadido exitosamente.\n";
+                                                std::cout << "Prestamo personal agregado exitosamente.\n";
                                             } else {
                                                 std::cout << "Error al añadir el préstamo personal.\n";
                                             }
@@ -217,7 +218,7 @@ int main() {
                                             std::string fecha = getCurrentDateTime(); 
 
                                             while (true) {
-                                                std::cout << "Ingrese el monto del préstamo prendario (tasa de interés de_ a _ cuotas): ";
+                                                std::cout << "Ingrese el monto del prestamo prendario (tasa de interes de_ a _ cuotas): ";
                                                 std::getline(std::cin, montoUser);
 
                                                 if (isValidMonto(montoUser)) {
@@ -247,7 +248,7 @@ int main() {
                                             std::string fecha = getCurrentDateTime(); 
 
                                             while (true) {
-                                                std::cout << "Ingrese el monto del préstamo hipotecario (tasa de interés de_ a _ cuotas): ";
+                                                std::cout << "Ingrese el monto del prestamo hipotecario (tasa de interes de_ a _ cuotas): ";
                                                 std::getline(std::cin, montoUser);
 
                                                 if (isValidMonto(montoUser)) {
@@ -309,7 +310,7 @@ int main() {
                         //Caso donde deseo salir
                         case SALIR:
 
-                            cout << "Saliendo...\n";
+                            cout << "Usted esta saliendo del sistema bancario...\n";
 
                             break;
 
