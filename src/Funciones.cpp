@@ -11,7 +11,7 @@ enum Operacion {
 // Implementar la nueva función
 void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB) {
     string operacionOpt;
-    cout << "\nSeleccione la operacion que desea realizar\n";
+    cout << "\nPor favor seleccione la operacion que desea realizar\n";
     cout << "1. Depositos\n";
     cout << "2. Retiros\n";
     cout << "3. Transferencias entre cuentas\n";
@@ -24,7 +24,8 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
         (operacionOpt == "1" || operacionOpt == "2" || operacionOpt == "3" || operacionOpt == "4")) {
         // Se convierte la opción a entero
         int operacion = stoi(operacionOpt);
-        std::string montoUsuario;
+        std::string montoUsuario, idOrigen, cuentaOrigen, cuentaDestino;
+        
 
         // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
         switch (operacion) {
@@ -78,10 +79,25 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                     std::cout << "Ocurrio un error durante el retiro..." << std::endl;
                 }
                 break;
-            case TRANSFERENCIA:
-                cout << "Realizar transferencia..." << endl;
-                // Transferencias
-                break;
+              case TRANSFERENCIA:
+                 std::cout << "Usted va a realizar una transferencia..." << std::endl;
+                
+    // Obtener información del usuario
+                std::cout << "Ingrese su identificacion: ";
+                std::cin >> idOrigen;
+                std::cout << "Ingrese el tipo de cuenta de origen (1 para colones, 2 para dolares, 3 para CDP): ";
+                std::cin >> cuentaOrigen;
+                std::cout << "Ingrese el ID de la cuenta destino: ";
+                std::cin >> cuentaDestino;
+                std::cout << "Ingrese el monto a transferir: ";
+                std::cin >> montoUsuario;
+                //declaraciones
+                clienteDB.actualizarCuenta(id, stod(montoUsuario)*-1,tipoDeCuenta);
+                clienteDB.actualizarCuenta(cuentaDestino, stod(montoUsuario),tipoDeCuenta);
+                
+
+   
+    break;
             case ABONO:
                 cout << "Realizar abono..." << endl;
                 //Abonopos
