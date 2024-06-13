@@ -1,4 +1,5 @@
 #include "Funciones.hpp"
+
 //Estoy agregando el menu 5 le fantan implementaciones 
 //Defino constantes de menu 5
 enum Operacion {
@@ -94,7 +95,9 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 //declaraciones
                 clienteDB.actualizarCuenta(id, stod(montoUsuario)*-1,tipoDeCuenta);
                 clienteDB.actualizarCuenta(cuentaDestino, stod(montoUsuario),tipoDeCuenta);
-                
+                // Mensajes de éxito de la transferencia
+                std::cout << "Transferencia exitosa." << std::endl;
+                std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << idOrigen << ") a la cuenta de destino (" << cuentaDestino << ")." << std::endl;
 
    
     break;
