@@ -2,6 +2,7 @@
 #include <iostream>
 //nuevo
 #include <stdexcept>
+#include <cmath> // Librería pra calcular el pago mensual
 //Constructor 
 PrestamoDB::PrestamoDB(const std::string& dbPath) : dbPath(dbPath), db(nullptr) {
     //Verifica que la base de datos se abra en la ruta especificada
@@ -32,6 +33,12 @@ bool PrestamoDB::createTable() {
         "tasa_interes DOUBLE);";
     //Ejecutar comando en base de datos
     return executeQuery(query);
+}
+
+// Implementación para calcular la mensualidad del préstamo
+double calcularMensualidad(double monto, double tasaInteres, int cuotas) {
+    double tasaMensual = tasaInteres / 12.0 / 100.0; // Para obtener la tasa de interés mensual
+    return (monto * tasaMensual) / (1 - std::pow(1 + tasaMensual, -cuotas));
 }
 
 // Agregar préstamo
