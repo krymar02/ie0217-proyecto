@@ -14,7 +14,7 @@ public:
     //Método para crear tabla de cliente
     bool createTable();
     //Método agregar préstamo
-    int addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha);
+    int addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas);
     //Método eliminar préstamo
     bool deletePrestamo(int id);
     //Método ver préstamos

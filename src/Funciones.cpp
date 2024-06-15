@@ -12,12 +12,12 @@ enum Operacion {
 // Implementar la nueva función
 void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB) {
     string operacionOpt;
-    cout << "\nPor favor seleccione la operacion que desea realizar\n";
-    cout << "1. Depositos\n";
+    cout << "\nPor favor seleccione la operación que desea realizar\n";
+    cout << "1. Depósitos\n";
     cout << "2. Retiros\n";
     cout << "3. Transferencias entre cuentas\n";
     cout << "4. Abonos\n";
-    cout << "Ingrese una opcion: ";
+    cout << "Ingrese una opción: ";
     cin >> operacionOpt;
     cin.ignore(); // Se debe limpiar el buffer
 
@@ -47,11 +47,11 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
 
                 if(clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta)){
                     //Creo registro de la operacion
-                    transferenciaDB.addTransaction(id, "Deposito",stod(montoUsuario),-1,getCurrentDateTime());
-                    std::cout << "Deposito exitoso..." << std::endl;
+                    transferenciaDB.addTransaction(id, "Depósito",stod(montoUsuario),-1,getCurrentDateTime());
+                    std::cout << "Depósito exitoso..." << std::endl;
     
                 }else{
-                    std::cout << "Ocurrio un error durante el deposito..." << std::endl;
+                    std::cout << "Ocurrió un error durante el depósito..." << std::endl;
                 }
                 
 
@@ -77,14 +77,14 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                     std::cout << "Retiro exitoso..." << std::endl;
 
                 }else{
-                    std::cout << "Ocurrio un error durante el retiro..." << std::endl;
+                    std::cout << "Ocurrió un error durante el retiro..." << std::endl;
                 }
                 break;
               case TRANSFERENCIA:
                  std::cout << "Usted va a realizar una transferencia..." << std::endl;
                 
     // Obtener información del usuario
-                std::cout << "Ingrese su identificacion: ";
+                std::cout << "Ingrese su identificación: ";
                 std::cin >> idOrigen;
                 std::cout << "Ingrese el tipo de cuenta de origen (1 para colones, 2 para dolares, 3 para CDP): ";
                 std::cin >> cuentaOrigen;
@@ -107,24 +107,24 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 break;
             //Me falta agregar una opcion para salir o regresar
             default:
-                cout << "Opcion no valida\n";
+                cout << "Opción no vaálida\n";
                 break;
         }
     } else {
-        throw std::invalid_argument("Ingreso una opcion invalida vuelva a intentar...");
+        throw std::invalid_argument("Ingresó una opción inválida vuelva a intentar...");
     }//aqui regresa al servicio al cliente
 };
 
 void userNotExist(ClienteDB& clienteDB){
 
-  std::cout << "El numero de identificacion del usuario ingresado NO esta registrado" << std::endl;
+  std::cout << "El número de identificación del usuario ingresado NO está registrado" << std::endl;
   string createUserOptTwo;
 
   //Menu de pregunta
   cout << "\nCrear usuario\n";
-  cout << "1. Si\n";
+  cout << "1. Sí\n";
   cout << "2. No\n";
-  cout << "Ingrese una opcion: ";
+  cout << "Ingrese una opción: ";
   cin >> createUserOptTwo;
   cin.ignore(); // Limpiar el buffer
 
@@ -133,7 +133,7 @@ void userNotExist(ClienteDB& clienteDB){
   if (createUserOptTwo == "1"){
 
           std::string askId;
-          std::cout << "Ingrese el numero de identificacion del cliente: ";
+          std::cout << "Ingrese el número de identificación del cliente: ";
           std::getline(std::cin, askId);
 
           if(all_of(askId.begin(), askId.end(), ::isdigit)){
@@ -152,21 +152,21 @@ void userNotExist(ClienteDB& clienteDB){
                       std::cout << "Usuario creado exitosamente..." << std::endl;
                   
                   }else{
-                      throw std::invalid_argument("Debe ingresar otro numero de identificacion, vuelva a intentar...");
+                      throw std::invalid_argument("Debe ingresar otro número de identificacion, vuelva a intentar...");
                   }
 
               }else{
-                  throw std::invalid_argument("Debe ingresar un numero entero entre 0 y 999999999, vuelva a intentar...");
+                  throw std::invalid_argument("Debe ingresar un número entero entre 0 y 999999999, vuelva a intentar...");
               }
               
           }else{
-              throw std::invalid_argument("Debe ingresar un numero entero, vuelva a intentar...");
+              throw std::invalid_argument("Debe ingresar un número entero, vuelva a intentar...");
           }
       
       }
 
   }else{
-      throw std::invalid_argument("Se ingreso una opcion NO valida, vuelva a intentar...");
+      throw std::invalid_argument("Se ingreso una opción NO válida, vuelva a intentar...");
   }
 
 };
