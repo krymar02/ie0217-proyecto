@@ -43,21 +43,20 @@ double calcularMensualidad(double monto, double tasaInteres, int cuotas) {
 
 // Agregar préstamo
 int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipoPrestamo, double monto, const std::string& fecha) {
-    int cuotas;
     double tasaInteres;
-    // Ejemplo de las tasas de inteŕes y cuotas (modificar)
+    // Cálculo para cada tipo de préstamo, se elige un tasa fija (se puede modificar)
     if (tipoPrestamo == "Personal") {
-        cuotas = 12;
+        tasaInteres = 20.0;
     } else if (tipoPrestamo == "Prendario") {
-        cuotas = 24;
+        tasaInteres = 16.0;
     } else if (tipoPrestamo == "Hipotecario") {
-        cuotas = 36;
+        tasaInteres = 9.0;
     } else {
         std::cerr << "Tipo de préstamo no válido.\n";
         return -1;
     }
 
-    tasaInteres = 0.05 * monto;
+    double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
 
     std::string query = 
         "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha, cuotas, tasa_interes) VALUES ('"
