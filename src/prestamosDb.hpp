@@ -35,4 +35,7 @@ private:
 
 };
 
+// Función para calcular monto por mes
+double calcularMensualidad(double monto, double tasaInteres, int cuotas);
+
 #endif // PRESTAMOSDB_HPP
