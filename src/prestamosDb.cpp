@@ -42,7 +42,7 @@ double calcularMensualidad(double monto, double tasaInteres, int cuotas) {
 }
 
 // Agregar préstamo
-int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipoPrestamo, double monto, const std::string& fecha) {
+int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas) {
     double tasaInteres;
     // Cálculo para cada tipo de préstamo, se elige un tasa fija (se puede modificar)
     if (tipoPrestamo == "Personal") {

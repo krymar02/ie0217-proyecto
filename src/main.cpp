@@ -22,7 +22,7 @@
 
 using namespace std;
 
-//Contenido de defines contenidos en 1, solo tiene valores numericos y se llaman atraves de variables
+//Contenido de defines contenidos en 1, solo tiene valores numéricos y se llaman atraves de variables
 enum Opciones {
     ATENCION = 1,
     INFORMACION,
@@ -85,29 +85,29 @@ int main() {
             string strOpcion;
 
             //Menu principal
-            cout << "\nModalidad de operacion\n";
-            cout << "1. Atencion al cliente\n";
-            cout << "2. Informacion general sobre prestamos bancarios\n";
+            cout << "\nModalidad de operación\n";
+            cout << "1. Atención al cliente\n";
+            cout << "2. Información general sobre préstamos bancarios\n";
             cout << "3. Salir\n";
-            cout << "Ingrese una opcion: ";
+            cout << "Ingrese una opción: ";
             cin >> strOpcion;
             cin.ignore(); // Limpiar el buffer
 
             try{
 
-                //Verifico que se agregue un numero entero y que este sea 1,2 o 3
+                //Verifico que se agregue un número entero y que este sea 1,2 o 3
                 if(all_of(strOpcion.begin(), strOpcion.end(), ::isdigit) && (strOpcion == "1" || strOpcion == "2" || strOpcion == "3")){
                     
-                    //Convierto el string a entero para almacenar opcion del usuario
+                    //Convierto el string a entero para almacenar opción del usuario
                     opcion = stoi(strOpcion);
                     switch (opcion) {
                         
-                        //Caso donde deseo utilizar la modalidad de atencion al cliente
+                        //Caso donde deseo utilizar la modalidad de atención al cliente
                         case ATENCION:{
 
                             // Solicitar al usuario que ingrese un id
                             std::string id;
-                            std::cout << "Ingrese el numero de identificacion del cliente: ";
+                            std::cout << "Ingrese el número de identificación del cliente: ";
                             std::getline(std::cin, id);
                             //std::cin.ignore();
 
@@ -115,16 +115,16 @@ int main() {
                             if (clienteDB.idExiste(id)) {
 
                                 string atencionClienteOpt;
-                                cout << "\nAtencion al cliente.\n";
+                                cout << "\nAtención al cliente.\n";
                                 cout << "1. Cuenta en colones\n";
-                                cout << "2. Cuenta en dolares\n";
-                                cout << "3. Certificado de deposito a plazo\n";
-                                cout << "Ingrese una opcion: ";
+                                cout << "2. Cuenta en dólares\n";
+                                cout << "3. Certificado de depósito a plazo\n";
+                                cout << "Ingrese una opción: ";
                                 cin >> atencionClienteOpt;
                                 cin.ignore(); // Limpiar el buffer
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
-                                    // Llamar a la función del menú de operaciones (menu 5)
+                                    // Llamar a la función del menú de operaciones (menú 5)
                                     menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB);
                                 }else{
                                     throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
@@ -141,12 +141,12 @@ int main() {
                             }
                             break;
 
-                        //Caso donde deseo informacion general
+                        //Caso donde deseo información general
                         case INFORMACION:{
 
                             // Solicitar al usuario que ingrese un id
                             std::string id;
-                            std::cout << "Ingrese el numero de identificacion cliente: ";
+                            std::cout << "Ingrese el número de identificación cliente: ";
                             std::getline(std::cin, id);
                             
 
@@ -154,129 +154,106 @@ int main() {
                             if (clienteDB.idExiste(id)) {
 
                                 std::cout << "Usuario existente ..." << std::endl;
-                                //Variable int que almacena el numero de opcion selecionada por el usuario
+                                //Variable int que almacena el número de opción selecionada por el usuario
                                 int opcionTwo;
-                                //Variable string que almacena el numero de opcion selecionada por el usuario
+                                //Variable string que almacena el número de opción selecionada por el usuario
                                 string strOpcionTwo;
 
                                 //Menú sobre información general
-                                //Aqui de sebe quitra la opcion de generar tabla, ya que el reporte se genera cuando el usuario ha realizado el prestamo
-                                cout << "\nInformacion general\n";
-                                cout << "1. Prestamos personales\n";
-                                cout << "2. Prestamos prendarios\n";
-                                cout << "3. Prestamos hipotecarios\n";
+                                cout << "\nInformación general\n";
+                                cout << "1. Préstamos personales\n";
+                                cout << "2. Préstamos prendarios\n";
+                                cout << "3. Préstamos hipotecarios\n";
                                 cout << "4. Salir\n";
-                                cout << "Ingrese una opcion: ";
+                                cout << "Ingrese una opción: ";
                                 cin >> strOpcionTwo;
                                 cin.ignore(); // Limpiar el buffer
 
-                                //Verifico que se agregue un numero entero y que este sea 1,2,3,4 o 5
+                                //Verifico que se agregue un número entero y que este sea 1,2,3,4 o 5
                                 if(all_of(strOpcionTwo.begin(), strOpcionTwo.end(), ::isdigit) && (strOpcionTwo == "1" || strOpcionTwo == "2" || strOpcionTwo == "3"
                                 || strOpcionTwo == "4")){
                                     
-                                    //Convierto el string a entero para almacenar opcion del usuario
+                                    //Convierto el string a entero para almacenar opción del usuario
                                     opcionTwo = stoi(strOpcionTwo);
 
                                     switch (opcionTwo) {
                             
-                                        //Caso préstamo personal
-                                        case PERSONAL:{
-                                            std::string tipoPrestamo = "Personal";
-                                            std::string montoUser;
+                                        //Caso para cada tipo de préstamo
+                                        case PERSONAL:
+                                        case PRENDARIOS:
+                                        case HIPOTECARIOS: {
+                                            std::string tipoPrestamo;
+                                            if (opcionTwo == PERSONAL) {
+                                                tipoPrestamo = "Personal";                                        
+                                            } else if (opcionTwo == PRENDARIOS) {
+                                                tipoPrestamo = "Prendario";
+                                            } else if (opcionTwo == HIPOTECARIOS) {
+                                                tipoPrestamo = "Hipotecario";
+                                            }
 
-                                            // Obtener la fecha actual
+                                            double monto;
+                                            while (true) {
+                                                try {
+                                                    std::string montoUser;
+                                                    std::cout << "Ingrese el monto del préstamo: ";
+                                                    std::getline(std::cin, montoUser);
+
+                                                    if (!isValidMonto(montoUser)) {
+                                                        throw std::invalid_argument("Monto inválido, vuelva a digitar.");
+                                                    }
+
+                                                    monto = std::stod(montoUser); // Convertir el string a double
+                                                    break; //salir del bucle si el monto es inválido
+                                                } catch (const std::exception& e) {
+                                                    std::cerr << e.what() << '\n';
+                                                }
+                                            }
+
+                                            // Cálculo de cuotas de acuerdoo a los años
+                                            int plazoAnios;
+                                            std::cout << "Ingrese el plazo del préstamo en años: ";
+                                            std::cin >> plazoAnios;
+                                            int cuotas = plazoAnios * 12;
+
+                                            // Obtener fecha actual
                                             std::string fecha = getCurrentDateTime();
 
-                                            while (true) {
-                                                std::cout << "Ingrese el monto del prestamo personal (tasa de interes de_ a _ cuotas): ";
-                                                std::getline(std::cin, montoUser);
+                                            double tasaInteres;
+                                            if (tipoPrestamo == "Personal") {
+                                                tasaInteres = 20.0;
+                                            } else if (tipoPrestamo == "Prendario") {
+                                                tasaInteres = 16.0;
+                                            } else if (tipoPrestamo == "Hipotecario") {
+                                                tasaInteres = 9.0;
+                                            }
 
-                                                if (isValidMonto(montoUser)) {
-                                                    break;
+                                            double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
+
+                                            std::cout << "La mensualidad del préstamo es: " << mensualidad << std::endl;
+
+                                            char confirmacion;
+                                            std::cout << "¿Desea agregar el préstamo? (S/N): ";
+                                            std::cin >> confirmacion;
+
+                                            if (confirmacion == 'S' || confirmacion == 's') {
+                                                // Para registar la transacción del préstamo agregado
+                                                int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha, cuotas);
+                                                if (idPrestamo != -1) {
+                                                    transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo,fecha);
+                                                    std::cout << "Préstamo añadido con éxito. \n";
                                                 } else {
-                                                    std::cout << "Monto inválido, vuelva a digitar.\n";
+                                                    std::cout << "Error al añadir préstamo.\n";
                                                 }
-
-                                            }
-                                            double monto = std::stod(montoUser); // Convertir el string a double
-
-                                            int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
-                                            if (idPrestamo != -1) {
-                                                transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
-                                                std::cout << "Prestamo personal agregado exitosamente.\n";
                                             } else {
-                                                std::cout << "Error al añadir el préstamo personal.\n";
+                                                std::cout << "Préstamo no agregado. \n";
                                             }
-                                            break;
+
+                                            // Mostrar préstamos asociados al cliente
+                                            prestamosDB.viewPrestamo();  
+                                    
                                         }
+                                        break;
 
-                                        //Caso préstamo prendario
-                                        case PRENDARIOS:{
-                                            std::string tipoPrestamo = "Prendario";
-                                            std::string montoUser;
-                                            // Obtener la fecha actual
-                                            std::string fecha = getCurrentDateTime(); 
-
-                                            while (true) {
-                                                std::cout << "Ingrese el monto del prestamo prendario (tasa de interes de_ a _ cuotas): ";
-                                                std::getline(std::cin, montoUser);
-
-                                                if (isValidMonto(montoUser)) {
-                                                    break;
-                                                } else {
-                                                    std::cout << "Monto inválido, vuelva a digitar.\n";
-                                                }
-
-                                            }
-                                            double monto = std::stod(montoUser); // Convertir el string a double
-
-                                            int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
-                                            if (idPrestamo != -1) {
-                                                transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
-                                                std::cout << "Préstamo prendario añadido exitosamente.\n";
-                                            } else {
-                                                std::cout << "Error al añadir el préstamo prendario.\n";
-                                            }
-                                            break;
-                                        }
-
-                                        //Caso préstamo hipotecario
-                                        case HIPOTECARIOS:{
-                                            std::string tipoPrestamo = "Hipotecario";
-                                            std::string montoUser;
-                                            // Obtener la fecha actual
-                                            std::string fecha = getCurrentDateTime(); 
-
-                                            while (true) {
-                                                std::cout << "Ingrese el monto del prestamo hipotecario (tasa de interes de_ a _ cuotas): ";
-                                                std::getline(std::cin, montoUser);
-
-                                                if (isValidMonto(montoUser)) {
-                                                    break;
-                                                } else {
-                                                    std::cout << "Monto inválido, vuelva a digitar.\n";
-                                                }
-
-                                            }
-                                            double monto = std::stod(montoUser); // Convertir el string a double
-                                            int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha);
-                                            if (idPrestamo != -1) {
-                                                transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo, fecha);
-                                                std::cout << "Préstamo hipotecario añadido exitosamente.\n";
-                                            } else {
-                                                std::cout << "Error al añadir el préstamo hipotecario.\n";
-                                            }
-                                            break;
-
-                                        }
-
-                                        //Caso de creación de tabla
-                                        case TABLA:{
-                                            // Generar reporte de préstamos
-                                            prestamosDB.viewPrestamo();
-                                            
-                                            break;
-                                        }
                                         //Caso donde deseo salir
                                         case SALIRTWO:
 
