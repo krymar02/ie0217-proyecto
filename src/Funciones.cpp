@@ -25,9 +25,8 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
         (operacionOpt == "1" || operacionOpt == "2" || operacionOpt == "3" || operacionOpt == "4")) {
         // Se convierte la opción a entero
         int operacion = stoi(operacionOpt);
-        std::string montoUsuario, idOrigen, cuentaOrigen, cuentaDestino;
+        std::string montoUsuario, tipoCuentaDestino, idCuentaDestino;
         
-
         // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
         switch (operacion) {
 
@@ -83,22 +82,48 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
               case TRANSFERENCIA:
                  std::cout << "Usted va a realizar una transferencia..." << std::endl;
                 
-    // Obtener información del usuario
+                // Obtener información del usuario
                 //std::cout << "Ingrese su identificación: ";
                 //std::cin >> idOrigen;
-                std::cout << "Ingrese el tipo de cuenta de origen (1 para colones, 2 para dolares, 3 para CDP): ";
-                std::cin >> cuentaOrigen;
-                std::cout << "Ingrese el ID de la cuenta destino: ";
-                std::cin >> cuentaDestino;
-                std::cout << "Ingrese el monto a transferir: ";
-                std::cin >> montoUsuario;
-                //declaraciones
-                clienteDB.actualizarCuenta(id, stod(montoUsuario)*-1,tipoDeCuenta);
-                clienteDB.actualizarCuenta(cuentaDestino, stod(montoUsuario),tipoDeCuenta);
-                // Mensajes de éxito de la transferencia
-                std::cout << "Transferencia exitosa." << std::endl;
-                std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << cuentaDestino << ")." << std::endl;
+                std::cout << "Ingrese el tipo de cuenta de destino (1 para colones, 2 para dolares, 3 para CDP): ";
+                std::cin >> tipoCuentaDestino;
+                //std::cout << "Ingrese el monto a transferir: ";
+                //std::cin >> montoUsuario;
 
+                //Verifico si se agrega cuenta en colones, dolares o cdp
+                if(all_of(tipoCuentaDestino.begin(), tipoCuentaDestino.end(), ::isdigit) && (tipoCuentaDestino == "1" || tipoCuentaDestino == "2" || tipoCuentaDestino == "3")){       
+                    std::cout << "Ingrese el ID de la cuenta destino: ";
+                    std::cin >> idCuentaDestino;
+                    //Verifico que el usuario destino exista
+                    if (clienteDB.idExiste(idCuentaDestino)){
+                        //Pregunto por monto double hasta que sea valido
+                        while (true) {
+                            std::cout << "Ingrese un monto a transferir: " << std::endl;
+                            std::getline(std::cin, montoUsuario);
+
+                            if (isValidMonto(montoUsuario)) {
+                                break;
+                            } else {
+                                std::cout << "Monto inválido, vuelva a digitar." << std::endl;
+                            }
+                        }
+                        //declaraciones
+                        //En este caso retiro dinero de la cuenta de origen
+                        clienteDB.actualizarCuenta(id, stod(montoUsuario),0);
+                        //En este caso agrego dinero de la cuenta de destino
+                        clienteDB.actualizarCuenta(idCuentaDestino, stod(montoUsuario),tipoDeCuenta);
+                        // Mensajes de éxito de la transferencia
+                        std::cout << "Transferencia exitosa." << std::endl;
+                        std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << idCuentaDestino << ")." << std::endl;
+                    
+                    }else {
+                    throw std::invalid_argument("Usuario inexistente,vuelva a intentar...");
+                    }
+                    
+                    
+                }else {
+                    throw std::invalid_argument("Se ingresó una opción NO válida, debe ingresar 1,2 o 3,vuelva a intentar...");
+                }
    
     break;
             case ABONO:

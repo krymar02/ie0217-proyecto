@@ -74,10 +74,6 @@ int main() {
             std::cerr << "Failed to create table" << std::endl;
             return 1;
         }
-
-        clienteDB.viewClientes();
-        transferenciaDB.viewTransaction();
-        prestamosDB.viewPrestamo();
         
         do {
 
