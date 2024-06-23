@@ -84,8 +84,8 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                  std::cout << "Usted va a realizar una transferencia..." << std::endl;
                 
     // Obtener información del usuario
-                std::cout << "Ingrese su identificación: ";
-                std::cin >> idOrigen;
+                //std::cout << "Ingrese su identificación: ";
+                //std::cin >> idOrigen;
                 std::cout << "Ingrese el tipo de cuenta de origen (1 para colones, 2 para dolares, 3 para CDP): ";
                 std::cin >> cuentaOrigen;
                 std::cout << "Ingrese el ID de la cuenta destino: ";
@@ -97,7 +97,7 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 clienteDB.actualizarCuenta(cuentaDestino, stod(montoUsuario),tipoDeCuenta);
                 // Mensajes de éxito de la transferencia
                 std::cout << "Transferencia exitosa." << std::endl;
-                std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << idOrigen << ") a la cuenta de destino (" << cuentaDestino << ")." << std::endl;
+                std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << cuentaDestino << ")." << std::endl;
 
    
     break;

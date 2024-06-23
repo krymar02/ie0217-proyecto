@@ -25,12 +25,13 @@ bool PrestamoDB::createTable() {
     std::string query = 
         "CREATE TABLE IF NOT EXISTS prestamos ("
         "Prestamo_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "client INTEGER, "
+        "client INTEGER NOT NULL, "
         "Tipo_Prestamo TEXT, "
         "monto REAL, "
         "fecha TEXT, "
         "cuotas INTEGER, "
-        "tasa_interes DOUBLE);";
+        "tasa_interes DOUBLE, "
+        "FOREIGN KEY (client) REFERENCES clientes (id) ON DELETE CASCADE );";
     //Ejecutar comando en base de datos
     return executeQuery(query);
 }

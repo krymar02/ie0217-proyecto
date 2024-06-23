@@ -25,11 +25,12 @@ bool TransactionDB::createTable() {
     std::string query = 
         "CREATE TABLE IF NOT EXISTS transferencias ("
         "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "client INTEGER, "
+        "client INTEGER NOT NULL, "
         "Operacion TEXT, "
         "monto DOUBLE, "
         "Prestamo_ID INTEGER, "
-        "fecha TEXT);";
+        "fecha TEXT, "
+        "FOREIGN KEY (client) REFERENCES clientes (id) ON DELETE CASCADE);";;
     //Ejecuto comando en base de datos
     return executeQuery(query);
 }

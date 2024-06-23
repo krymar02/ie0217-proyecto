@@ -106,7 +106,7 @@ bool ClienteDB::createTable()
     // En caso de que db no exista se crea, se debe agregas CDP
     std::string query =
         "CREATE TABLE IF NOT EXISTS clientes ("
-        "id INTEGER PRIMARY KEY, "
+        "id INTEGER PRIMARY KEY NOT NULL, "
         "nombre TEXT, "
         "colones DOUBLE, "
         "dolares DOUBLE, "
