@@ -26,7 +26,8 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
         // Se convierte la opción a entero
         int operacion = stoi(operacionOpt);
         std::string montoUsuario, tipoCuentaDestino, idCuentaDestino;
-        
+        double montoUsuarioConversion;
+
         // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
         switch (operacion) {
 
@@ -79,23 +80,24 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                     std::cout << "Ocurrió un error durante el retiro..." << std::endl;
                 }
                 break;
+
               case TRANSFERENCIA:
                  std::cout << "Usted va a realizar una transferencia..." << std::endl;
                 
                 // Obtener información del usuario
-                //std::cout << "Ingrese su identificación: ";
-                //std::cin >> idOrigen;
                 std::cout << "Ingrese el tipo de cuenta de destino (1 para colones, 2 para dolares, 3 para CDP): ";
                 std::cin >> tipoCuentaDestino;
-                //std::cout << "Ingrese el monto a transferir: ";
-                //std::cin >> montoUsuario;
+                std::cin.ignore();
 
                 //Verifico si se agrega cuenta en colones, dolares o cdp
                 if(all_of(tipoCuentaDestino.begin(), tipoCuentaDestino.end(), ::isdigit) && (tipoCuentaDestino == "1" || tipoCuentaDestino == "2" || tipoCuentaDestino == "3")){       
+            
                     std::cout << "Ingrese el ID de la cuenta destino: ";
                     std::cin >> idCuentaDestino;
-                    //Verifico que el usuario destino exista
-                    if (clienteDB.idExiste(idCuentaDestino)){
+                    std::cin.ignore();
+                    
+                    //Verifico que el usuario destino exista y que sea distino id usuario solicitante
+                    if (clienteDB.idExiste(idCuentaDestino) && idCuentaDestino != id){
                         //Pregunto por monto double hasta que sea valido
                         while (true) {
                             std::cout << "Ingrese un monto a transferir: " << std::endl;
@@ -107,17 +109,37 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                                 std::cout << "Monto inválido, vuelva a digitar." << std::endl;
                             }
                         }
-                        //declaraciones
-                        //En este caso retiro dinero de la cuenta de origen
-                        clienteDB.actualizarCuenta(id, stod(montoUsuario),0);
-                        //En este caso agrego dinero de la cuenta de destino
-                        clienteDB.actualizarCuenta(idCuentaDestino, stod(montoUsuario),tipoDeCuenta);
-                        // Mensajes de éxito de la transferencia
-                        std::cout << "Transferencia exitosa." << std::endl;
-                        std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << idCuentaDestino << ")." << std::endl;
+                        
+                        //Debo hacer conversion a dolares y colones y viceversa en caso de ser necesario
+                        //Aqui paso de colones  a dolares, si seleciono colones o cdp y quiero transferir a dolares
+                        if ((tipoDeCuenta == "1" || tipoDeCuenta == "3" ) && tipoCuentaDestino == "2"){
+                            montoUsuarioConversion = stod(montoUsuario)/530;
+                        }//Aqui paso de dolares a colones, si seleciono dolares y quiero transferir a colones o cdp
+                        else if (tipoDeCuenta == "2" && (tipoCuentaDestino == "1" || tipoCuentaDestino == "3" )){
+                            montoUsuarioConversion = stod(montoUsuario)*530;
+                        }else{
+                            //Esta variable sera diferente en caso de hacer una conversion
+                            montoUsuarioConversion = stod(montoUsuario);
+                        }
+                        
+                        
+                        //En este caso retiro dinero de la cuenta de origen si la cuenta tiene fondos
+                        if (clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta,0)){
+
+                            //En este caso agrego dinero de la cuenta de destino
+                            clienteDB.actualizarCuenta(idCuentaDestino, montoUsuarioConversion,tipoCuentaDestino);
+                            // Mensajes de éxito de la transferencia
+                            std::cout << "Transferencia exitosa." << std::endl;
+                            std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << idCuentaDestino << ")." << std::endl;
+                        
+                        } else{
+                            std::cout << "Ocurrió un error durante la transferencia..." << std::endl;
+                        }
+                        
+                        
                     
                     }else {
-                    throw std::invalid_argument("Usuario inexistente,vuelva a intentar...");
+                        throw std::invalid_argument("Usuario inexistente o  invalido,vuelva a intentar...");
                     }
                     
                     

@@ -22,6 +22,7 @@ ClienteDB::~ClienteDB()
         sqlite3_close(db);
     }
 }
+/*
 // PRUEBAS KRYSSIA (Faltan excepciones)
 
 //Se verifica si hay saldo
@@ -99,7 +100,7 @@ bool ClienteDB::transferencia(const std::string& idOrigen, const std::string& cu
 }
 
 // FINAL PRUEBAS KRYSSIA
-
+*/
 // Crea base de datos
 bool ClienteDB::createTable()
 {
