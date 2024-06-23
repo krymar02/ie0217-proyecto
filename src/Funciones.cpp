@@ -32,7 +32,7 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
         switch (operacion) {
 
             case DEPOSITO:
-
+                std::cout << "Usted va a realizar un deposito..." << std::endl;
                 //Depositos
                 while (true) {
                     std::cout << "Ingrese un monto a depositar: " << std::endl;
@@ -58,7 +58,7 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 break;
 
             case RETIRO:
-
+                std::cout << "Usted va a realizar un retiro..." << std::endl;
                 // Retiros
                 while (true) {
                     std::cout << "Ingrese un monto a retirar: " << std::endl;
@@ -82,7 +82,7 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 break;
 
               case TRANSFERENCIA:
-                 std::cout << "Usted va a realizar una transferencia..." << std::endl;
+                std::cout << "Usted va a realizar una transferencia..." << std::endl;
                 
                 // Obtener información del usuario
                 std::cout << "Ingrese el tipo de cuenta de destino (1 para colones, 2 para dolares, 3 para CDP): ";
@@ -122,7 +122,6 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                             montoUsuarioConversion = stod(montoUsuario);
                         }
                         
-                        
                         //En este caso retiro dinero de la cuenta de origen si la cuenta tiene fondos
                         if (clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta,0)){
 
@@ -152,12 +151,12 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
    
     break;
             case ABONO:
-                cout << "Realizar abono..." << endl;
-                //Abonopos
+                std::cout << "Usted va a realizar un abono..." << std::endl;
+                //Abonos
                 break;
             //Me falta agregar una opcion para salir o regresar
             default:
-                cout << "Opción no vaálida\n";
+                cout << "Opción no valida\n";
                 break;
         }
     } else {

@@ -33,7 +33,6 @@ enum OpcionesGnerales {
     PERSONAL = 1,
     PRENDARIOS,
     HIPOTECARIOS,
-    TABLA,
     SALIRTWO
 };
 //Para crear menu 5
