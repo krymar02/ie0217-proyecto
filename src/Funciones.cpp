@@ -129,6 +129,9 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                             //En este caso agrego dinero de la cuenta de destino
                             clienteDB.actualizarCuenta(idCuentaDestino, montoUsuarioConversion,tipoCuentaDestino);
                             // Mensajes de éxito de la transferencia
+                            //Operaciones se agregan al registro de transacciones
+                            transferenciaDB.addTransaction(id, "Retiro",stod(montoUsuario),-1,getCurrentDateTime());
+                            transferenciaDB.addTransaction(idCuentaDestino, "Depósito",montoUsuarioConversion,-1,getCurrentDateTime());
                             std::cout << "Transferencia exitosa." << std::endl;
                             std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << idCuentaDestino << ")." << std::endl;
                         
