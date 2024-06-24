@@ -31,6 +31,7 @@ bool PrestamoDB::createTable() {
         "fecha TEXT, "
         "cuotas INTEGER, "
         "tasa_interes DOUBLE, "
+        "cuota_mensual DOUBLE, "
         "FOREIGN KEY (client) REFERENCES clientes (id) ON DELETE CASCADE );";
     //Ejecutar comando en base de datos
     return executeQuery(query);
@@ -58,15 +59,17 @@ int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipo
     }
 
     double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
+    
 
     std::string query = 
-        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha, cuotas, tasa_interes) VALUES ('"
+        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha, cuotas, tasa_interes, cuota_mensual) VALUES ('"
         + clientId + "', '"
         + tipoPrestamo + "', "
         + std::to_string(monto) + ", '"
         + fecha + "', "
         + std::to_string(cuotas) + ", "
-        + std::to_string(tasaInteres) + ");";
+        + std::to_string(tasaInteres) + ", "
+        + std::to_string(mensualidad) + ");";
     
     if (!executeQuery(query)) {
         return -1;
@@ -81,6 +84,60 @@ bool PrestamoDB::deletePrestamo(int id) {
     return executeQuery(query);
 }
 
+//Este metodo retorna un vector de strings con los id asociados al id del cliente
+std::vector<std::string> PrestamoDB::prestamosIdsCliente(const std::string& clientId){
+    std::string query = "SELECT Prestamo_ID FROM prestamos WHERE client = '" + clientId + "';";
+    std::vector<std::string> prestamos;
+    int result = sqlite3_exec(db, query.c_str(), obtenerPrestamosCallback, &prestamos, nullptr);
+    if (result != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+    }
+    return prestamos;
+}
+
+int PrestamoDB::obtenerPrestamosCallback(void* data, int argc, char** argv, char** azColName) {
+    std::vector<std::string>* prestamos = static_cast<std::vector<std::string>*>(data);
+    for (int i = 0; i < argc; i++) {
+        prestamos->push_back(argv[i]);
+    }
+    return 0;
+}
+
+
+//este metodo reduce en 1 la cantidad de cuotas y determina si el prestamo ya ha sido pagado
+void PrestamoDB::abonarPrestamo(const std::string& prestamoId) {
+    // Obtener el número de cuotas
+    std::string query = "SELECT cuotas FROM prestamos WHERE Prestamo_ID = '" + prestamoId + "';";
+    int cuotas = 0;
+    int result = sqlite3_exec(db, query.c_str(), obtenerCuotasCallback, &cuotas, nullptr);
+    if (result != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+        return;
+    }
+
+    // Decrementar el número de cuotas
+    cuotas--;
+
+    if (cuotas == 0) {
+        // Eliminar el préstamo si las cuotas son 0
+        std::cout << "Préstamo pagado en su totalidad.\n";
+        deletePrestamo(std::stoi(prestamoId));
+    } else {
+        // Actualizar el número de cuotas
+        query = "UPDATE prestamos SET cuotas = " + std::to_string(cuotas) + " WHERE Prestamo_ID = '" + prestamoId + "';";
+        if (!executeQuery(query)) {
+            std::cerr << "Error al actualizar el número de cuotas.\n";
+        }
+    }
+}
+
+int PrestamoDB::obtenerCuotasCallback(void* data, int argc, char** argv, char** azColName) {
+    int* cuotas = static_cast<int*>(data);
+    if (argc > 0 && argv[0]) {
+        *cuotas = std::stoi(argv[0]);
+    }
+    return 0;
+}
 //Ejecutar operaciones en db
 bool PrestamoDB::executeQuery(const std::string& query) {
     char* errMsg = nullptr;
@@ -104,6 +161,25 @@ void PrestamoDB::viewPrestamo() {
     }
 }
 
+//Permite obtener la cuota mensual de un préstamo por su ID
+double PrestamoDB::obtenerMonto(const std::string& prestamoId) {
+    std::string query = "SELECT cuota_mensual FROM prestamos WHERE Prestamo_ID = '" + prestamoId + "';";
+    double monto = 0.0;
+    int result = sqlite3_exec(db, query.c_str(), obtenerMontoCallback, &monto, nullptr);
+    if (result != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+    }
+    return monto;
+}
+
+int PrestamoDB::obtenerMontoCallback(void* data, int argc, char** argv, char** azColName) {
+    double* monto = static_cast<double*>(data);
+    if (argc > 0 && argv[0]) {
+        *monto = std::stod(argv[0]);
+    }
+    return 0;
+}
+
 int PrestamoDB::callback(void* NotUsed, int argc, char** argv, char** azColName) {
     for (int i = 0; i < argc; i++) {
         std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << std::endl;
@@ -115,7 +191,7 @@ int PrestamoDB::callback(void* NotUsed, int argc, char** argv, char** azColName)
 //Verificar que los préstamos existan en db
 bool PrestamoDB::idExiste(const std::string& id) {
     //Filtro
-    std::string query = "SELECT COUNT(*) FROM prestamos WHERE Prestamo_ID = '" + id + "';";
+    std::string query = "SELECT COUNT(*) FROM prestamos WHERE client = '" + id + "';";
     int count = 0;
     int result = sqlite3_exec(db, query.c_str(), idExisteCallback, &count, nullptr);
     return count > 0;

@@ -120,7 +120,7 @@ int main() {
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
                                     // Llamar a la función del menú de operaciones (menú 5)
-                                    menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB);
+                                    menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB, prestamosDB);
                                 }else{
                                     throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                                 }

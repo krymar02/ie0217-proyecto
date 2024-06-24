@@ -10,7 +10,7 @@ enum Operacion {
 };
 
 // Implementar la nueva función
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB) {
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB, PrestamoDB& prestamosDB) {
     string operacionOpt;
     cout << "\nPor favor seleccione la operación que desea realizar\n";
     cout << "1. Depósitos\n";
@@ -25,7 +25,7 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
         (operacionOpt == "1" || operacionOpt == "2" || operacionOpt == "3" || operacionOpt == "4")) {
         // Se convierte la opción a entero
         int operacion = stoi(operacionOpt);
-        std::string montoUsuario, tipoCuentaDestino, idCuentaDestino;
+        std::string montoUsuario, tipoCuentaDestino, idCuentaDestino, selecionPrestamo;
         double montoUsuarioConversion;
 
         // Se realiza la logica para los tipos de operaciones (FALTA AGREGAR)
@@ -153,6 +153,73 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
             case ABONO:
                 std::cout << "Usted va a realizar un abono..." << std::endl;
                 //Abonos
+                
+                std::cout << "Ingrese el ID de la cuenta destino: ";
+                std::cin >> idCuentaDestino;
+                std::cin.ignore();
+                
+                //Verifico que el usuario destino exista y determino si tiene prestamos asociados
+                if (prestamosDB.idExiste(idCuentaDestino)){
+                    
+                    //Vector con los numeros de id del cliente que pidio prestamo
+                    std::vector<std::string> idVector = prestamosDB.prestamosIdsCliente(idCuentaDestino);
+                    //Se le pide al usuario ingresar un valor
+                    std::cout << "Selecione un IDs asociados a prestamos del cliente " << idCuentaDestino << ": ";
+                    for (size_t i = 0; i < idVector.size(); ++i) {
+                        std::cout << idVector[i];
+                        if (i < idVector.size() - 1) {
+                            std::cout << ", ";
+                        }
+                    }
+                    std::cout << std::endl;
+                    std::cin >> selecionPrestamo;
+                    std::cin.ignore();
+
+                    //Verifico que el usuario agregue un id valido
+                    if (std::find(idVector.begin(), idVector.end(), selecionPrestamo) != idVector.end()){
+                        //Obtengo el monto mensual del prestamo
+                        double montoPrestamo = prestamosDB.obtenerMonto(selecionPrestamo);
+                        
+                        char confirmacion;
+                        std::cout << "¿Desea pagar la cuota "<< montoPrestamo << " como abono al préstamo? (S/N): ";
+                        std::cin >> confirmacion;
+
+                        if (confirmacion == 'S' || confirmacion == 's') {
+                            //Los prestamos estan en colones y se debe pasar abono de colones a dolares para deducir cuenta de origen
+                            if (tipoDeCuenta == "2"){
+                                montoUsuarioConversion = montoPrestamo/530;
+                            }else{
+                                //Esta variable sera diferente en caso de hacer una conversion
+                                montoUsuarioConversion = montoPrestamo;
+                            }
+                            
+                            //En este caso retiro dinero de la cuenta de origen si la cuenta tiene fondos
+                            if (clienteDB.actualizarCuenta(id, montoUsuarioConversion,tipoDeCuenta,0)){
+                                std::cout << "Abono exitoso... \n";
+                                //Decremento en 1 la cantidad de cuotas hasta que el prestamo este pagado.
+                                prestamosDB.abonarPrestamo(selecionPrestamo);
+                                
+                            } else{
+                                std::cout << "Ocurrió un error durante el abono, abono NO efectuado..." << std::endl;
+                            }
+                        } else {
+                            std::cout << "Abono NO efectudo... \n";
+                        }
+                        
+                    } else{
+                        throw std::invalid_argument("Debe ingresar un id valido, intente de nuevo...");
+                    }
+                    
+                    
+                }else {
+                    throw std::invalid_argument("Usuario ingresado no tiene prestamos asociados, intente de nuevo...");
+                }
+                    
+                    
+                
+                
+
+                
                 break;
             //Me falta agregar una opcion para salir o regresar
             default:

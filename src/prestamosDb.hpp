@@ -3,6 +3,7 @@
 
 #include <sqlite3.h>
 #include <string>
+#include <vector>
 
 class PrestamoDB {
 public:
@@ -19,8 +20,14 @@ public:
     bool deletePrestamo(int id);
     //Método ver préstamos
     void viewPrestamo();
-    //Método verificar que el préstamo existe
+    //Método verificar que el préstamo existe para un cliente
     bool idExiste(const std::string& id);
+    //Determino los ids asociados a un clinte
+    std::vector<std::string> prestamosIdsCliente(const std::string& clientId);
+    //Método retorna el monto mensual del prestamo
+    double obtenerMonto(const std::string& prestamoId);
+    //Metdo que reduce en 1 la cantidad de cuotas y determina si el prestamo ya se pago
+    void abonarPrestamo(const std::string& prestamoId);
 
 private:
     //Puntero a base de datos
@@ -32,7 +39,9 @@ private:
     bool executeQuery(const std::string& query);
     static int callback(void* NotUsed, int argc, char** argv, char** azColName);
     static int idExisteCallback(void* data, int argc, char** argv, char** azColName);
-
+    static int obtenerPrestamosCallback(void* data, int argc, char** argv, char** azColName);
+    static int obtenerMontoCallback(void* data, int argc, char** argv, char** azColName);
+    static int obtenerCuotasCallback(void* data, int argc, char** argv, char** azColName);
 };
 
 // Función para calcular monto por mes
