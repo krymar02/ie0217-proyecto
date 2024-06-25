@@ -28,6 +28,10 @@ bool isPositiveDouble(const char &c);
 //Verifico que la entrada del usuario sea valida, no tenga espacios en blanco, sea un double
 //no teeeenga mas de un punto y el valor sea positivo.
 bool isValidMonto(const std::string &monto);
+
+// Verifica que el plazo en años sea un número positivo
+bool isValidPlazo(const std::string &plazo);
+
 //Con esta funcion obtengo la hora actual en formato YYYY-MM-DD hh:mm:ss
 std::string getCurrentDateTime();
 

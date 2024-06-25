@@ -321,6 +321,30 @@ bool isValidMonto(const std::string &monto) {
     return true;
 };
 
+// Para validar la entrada plazo
+bool isValidPlazo(const std::string &plazo) {
+    //Caso donde no se digita nada
+    if (plazo.empty()) return false; // Verifica si la cadena está vacía
+
+    //Recorro cada uno de los elementos del string
+    for (char c : plazo) {
+        //Caso de encontrar espacios en el string
+        if (!std::isdigit(c)) return false;
+        
+    }
+
+    try {
+        double value = std::stoi(plazo);
+        //Verifico si el valor es positivo
+        if (value <= 0) return false; 
+    } catch (...) {
+        //Caso de que falle el double
+        return false; 
+    }
+
+    return true;
+};
+
 //Obtengo hora actual
 std::string getCurrentDateTime() {
     //Obtengo la hora actual de la computadora
