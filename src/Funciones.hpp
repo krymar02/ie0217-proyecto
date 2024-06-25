@@ -35,4 +35,7 @@ bool isValidPlazo(const std::string &plazo);
 //Con esta funcion obtengo la hora actual en formato YYYY-MM-DD hh:mm:ss
 std::string getCurrentDateTime();
 
+//Remuevo espacios en blanco
+void removeWhiteSpaces(std::string &str);
+
 #endif //FUNCIONES_HPP

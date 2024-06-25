@@ -18,8 +18,10 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
     cout << "3. Transferencias entre cuentas\n";
     cout << "4. Abonos\n";
     cout << "Ingrese una opción: ";
-    cin >> operacionOpt;
-    cin.ignore(); // Se debe limpiar el buffer
+    //cin >> operacionOpt;
+    //cin.ignore(); // Se debe limpiar el buffer
+    std::getline(std::cin, operacionOpt);
+    removeWhiteSpaces(operacionOpt);
 
     if (all_of(operacionOpt.begin(), operacionOpt.end(), ::isdigit) &&
         (operacionOpt == "1" || operacionOpt == "2" || operacionOpt == "3" || operacionOpt == "4")) {
@@ -86,15 +88,19 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 
                 // Obtener información del usuario
                 std::cout << "Ingrese el tipo de cuenta de destino (1 para colones, 2 para dolares, 3 para CDP): ";
-                std::cin >> tipoCuentaDestino;
-                std::cin.ignore();
+                //std::cin >> tipoCuentaDestino;
+                //std::cin.ignore();
+                std::getline(std::cin, tipoCuentaDestino);
+                removeWhiteSpaces(tipoCuentaDestino);
 
                 //Verifico si se agrega cuenta en colones, dolares o cdp
                 if(all_of(tipoCuentaDestino.begin(), tipoCuentaDestino.end(), ::isdigit) && (tipoCuentaDestino == "1" || tipoCuentaDestino == "2" || tipoCuentaDestino == "3")){       
             
                     std::cout << "Ingrese el ID de la cuenta destino: ";
-                    std::cin >> idCuentaDestino;
-                    std::cin.ignore();
+                    //std::cin >> idCuentaDestino;
+                    //std::cin.ignore();
+                    std::getline(std::cin, idCuentaDestino);
+                    removeWhiteSpaces(idCuentaDestino);
                     
                     //Verifico que el usuario destino exista y que sea distino id usuario solicitante
                     if (clienteDB.idExiste(idCuentaDestino) && idCuentaDestino != id){
@@ -155,8 +161,10 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                 //Abonos
                 
                 std::cout << "Ingrese el ID de la cuenta destino: ";
-                std::cin >> idCuentaDestino;
-                std::cin.ignore();
+                //std::cin >> idCuentaDestino;
+                //std::cin.ignore();
+                std::getline(std::cin, idCuentaDestino);
+                removeWhiteSpaces(idCuentaDestino);
                 
                 //Verifico que el usuario destino exista y determino si tiene prestamos asociados
                 if (prestamosDB.idExiste(idCuentaDestino)){
@@ -172,19 +180,23 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                         }
                     }
                     std::cout << std::endl;
-                    std::cin >> selecionPrestamo;
-                    std::cin.ignore();
+                    //std::cin >> selecionPrestamo;
+                    //std::cin.ignore();
+                    std::getline(std::cin, selecionPrestamo);
+                    removeWhiteSpaces(selecionPrestamo);
 
                     //Verifico que el usuario agregue un id valido
                     if (std::find(idVector.begin(), idVector.end(), selecionPrestamo) != idVector.end()){
                         //Obtengo el monto mensual del prestamo
                         double montoPrestamo = prestamosDB.obtenerMonto(selecionPrestamo);
                         
-                        char confirmacion;
-                        std::cout << "¿Desea pagar la cuota "<< montoPrestamo << " como abono al préstamo? (S/N): ";
-                        std::cin >> confirmacion;
+                        string confirmacion;
+                        std::cout << "¿Desea pagar la cuota "<< montoPrestamo << " como abono al préstamo? (S/N (Presione cualquier tecla) ) : ";
+                        //std::cin >> confirmacion;
+                        std::getline(std::cin, confirmacion);
+                        removeWhiteSpaces(confirmacion);
 
-                        if (confirmacion == 'S' || confirmacion == 's') {
+                        if (confirmacion == "S" || confirmacion == "s") {
                             //Los prestamos estan en colones y se debe pasar abono de colones a dolares para deducir cuenta de origen
                             if (tipoDeCuenta == "2"){
                                 montoUsuarioConversion = montoPrestamo/530;
@@ -215,11 +227,6 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                     throw std::invalid_argument("Usuario ingresado no tiene prestamos asociados, intente de nuevo...");
                 }
                     
-                    
-                
-                
-
-                
                 break;
             //Me falta agregar una opcion para salir o regresar
             default:
@@ -241,8 +248,10 @@ void userNotExist(ClienteDB& clienteDB){
   cout << "1. Sí\n";
   cout << "2. No\n";
   cout << "Ingrese una opción: ";
-  cin >> createUserOptTwo;
-  cin.ignore(); // Limpiar el buffer
+  //cin >> createUserOptTwo;
+  //cin.ignore(); // Limpiar el buffer
+  std::getline(std::cin, createUserOptTwo);
+  removeWhiteSpaces(createUserOptTwo);
 
   if(all_of(createUserOptTwo.begin(), createUserOptTwo.end(), ::isdigit) && (createUserOptTwo == "1" || createUserOptTwo == "2")){
       
@@ -251,8 +260,9 @@ void userNotExist(ClienteDB& clienteDB){
           std::string askId;
           std::cout << "Ingrese el número de identificación del cliente: ";
           std::getline(std::cin, askId);
+          removeWhiteSpaces(askId);
 
-          if(all_of(askId.begin(), askId.end(), ::isdigit)){
+          if(all_of(askId.begin(), askId.end(), ::isdigit) && askId.length()>0){
 
               int askIdConvert = stoi(askId);
 
@@ -358,4 +368,9 @@ std::string getCurrentDateTime() {
     oss << std::put_time(&now_tm, "%Y-%m-%d %H:%M:%S");
     //Retrono hora como string
     return oss.str();
+}
+
+//Remuevo espacios en blanco
+void removeWhiteSpaces(std::string &str) {
+    str.erase(remove(str.begin(), str.end(), ' '), str.end());
 }

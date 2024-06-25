@@ -85,8 +85,10 @@ int main() {
             cout << "2. Información general sobre préstamos bancarios\n";
             cout << "3. Salir\n";
             cout << "Ingrese una opción: ";
-            cin >> strOpcion;
-            cin.ignore(); // Limpiar el buffer
+            //cin >> strOpcion;
+            //cin.ignore(); // Limpiar el buffer
+            std::getline(std::cin, strOpcion);
+            removeWhiteSpaces(strOpcion);
 
             try{
 
@@ -104,6 +106,8 @@ int main() {
                             std::string id;
                             std::cout << "Ingrese el número de identificación del cliente: ";
                             std::getline(std::cin, id);
+                            //remuevo espacios en blanco
+                            removeWhiteSpaces(id);
                             //std::cin.ignore();
 
                             // Verificar si el id existe en la base de datos
@@ -115,8 +119,10 @@ int main() {
                                 cout << "2. Cuenta en dólares\n";
                                 cout << "3. Certificado de depósito a plazo\n";
                                 cout << "Ingrese una opción: ";
-                                cin >> atencionClienteOpt;
-                                cin.ignore(); // Limpiar el buffer
+                                //cin >> atencionClienteOpt;
+                                //cin.ignore(); // Limpiar el buffer
+                                std::getline(std::cin, atencionClienteOpt);
+                                removeWhiteSpaces(atencionClienteOpt);
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
                                     // Llamar a la función del menú de operaciones (menú 5)
@@ -143,7 +149,7 @@ int main() {
                             std::string id;
                             std::cout << "Ingrese el número de identificación cliente: ";
                             std::getline(std::cin, id);
-                            
+                            removeWhiteSpaces(id);
 
                             // Verificar si el id existe en la base de datos
                             if (clienteDB.idExiste(id)) {
@@ -161,8 +167,10 @@ int main() {
                                 cout << "3. Préstamos hipotecarios\n";
                                 cout << "4. Salir\n";
                                 cout << "Ingrese una opción: ";
-                                cin >> strOpcionTwo;
-                                cin.ignore(); // Limpiar el buffer
+                                //cin >> strOpcionTwo;
+                                //cin.ignore(); // Limpiar el buffer
+                                std::getline(std::cin, strOpcionTwo);
+                                removeWhiteSpaces(strOpcionTwo);
 
                                 //Verifico que se agregue un número entero y que este sea 1,2,3,4 o 5
                                 if(all_of(strOpcionTwo.begin(), strOpcionTwo.end(), ::isdigit) && (strOpcionTwo == "1" || strOpcionTwo == "2" || strOpcionTwo == "3"
@@ -205,6 +213,8 @@ int main() {
                                             }
 
                                             // Cálculo de cuotas de acuerdoo a los años
+                                            //EN ESTE CASO NO PUEDO CORREGIR EL TEMA DE LOS ESPACIOS XQ VARIABLES ES INT
+                                            //SUGERENCIA PASAR A STRING Y LUEGO STOI Y VALIDAR ROBUSTEZ
                                             int plazoAnios;
                                             std::cout << "Ingrese el plazo del préstamo en años: ";
                                             std::cin >> plazoAnios;
@@ -225,7 +235,9 @@ int main() {
                                             double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
 
                                             std::cout << "La mensualidad del préstamo es: " << mensualidad << std::endl;
-
+                                            
+                                            //EN ESTE CASO NO PUEDO CORREGIR ESPACIOS VARIABLE ES CHAR
+                                            //SUGERENCIA PASAR A STRING
                                             char confirmacion;
                                             std::cout << "¿Desea agregar el préstamo? (S/N): ";
                                             std::cin >> confirmacion;
