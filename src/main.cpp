@@ -19,7 +19,6 @@
 #include "clientDb.hpp"
 #include "transactionDb.hpp"
 #include "prestamosDb.hpp"
-#include "CertificadoDepositoPlazo.hpp"
 
 using namespace std;
 
@@ -67,12 +66,11 @@ int main() {
         TransactionDB transferenciaDB(dbPath);
         // Crear instancia de PrestamosDB
         PrestamoDB prestamosDB(dbPath);
-        // Crear instancia de cdp
-        CertificadoDepositoPlazo certificadoDb(dbPath);
-        
+        // Crear instancia de CDP
+        CertificadoDepositoPlazo certificado(dbPath);
 
         // Crear tabla si no existe
-        if (!clienteDB.createTable() || !transferenciaDB.createTable() || !prestamosDB.createTable() || !certificadoDb.createTable()) {
+        if (!clienteDB.createTable() || !transferenciaDB.createTable() || !prestamosDB.createTable() || !certificado.createTable()) {
             std::cerr << "Failed to create table" << std::endl;
             return 1;
         }
@@ -129,7 +127,7 @@ int main() {
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
                                     // Llamar a la función del menú de operaciones (menú 5)
-                                    menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB, prestamosDB, certificadoDb);
+                                    menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB, prestamosDB, certificado);
                                 }else{
                                     throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                                 }
@@ -254,11 +252,21 @@ int main() {
 
                                             std::cout << "La mensualidad del préstamo es: " << mensualidad << std::endl;
                                             
-                                            //EN ESTE CASO NO PUEDO CORREGIR ESPACIOS VARIABLE ES CHAR
-                                            //SUGERENCIA PASAR A STRING
+                                            // Confirmación de opción
                                             char confirmacion;
-                                            std::cout << "¿Desea agregar el préstamo? (S/N): ";
-                                            std::cin >> confirmacion;
+                                            while (true) {
+                                                std::cout << "¿Desea agregar el préstamo? (S/N): ";
+                                                std::cin >> confirmacion;
+                                                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
+
+                                                if (confirmacion == 'S' || confirmacion == 's' || confirmacion == 'N' || confirmacion == 'n') {
+                                                    break;
+                                                } else if ((confirmacion == 'N' || confirmacion == 'n') && !(confirmacion == 'S' || confirmacion == 's')) {
+                                                    break;
+                                                } else {
+                                                    std::cerr << "Entrada no válida. Por favor, ingrese 'S' para sí o 'N' para no.\n";
+                                                }
+                                            }
 
                                             if (confirmacion == 'S' || confirmacion == 's') {
                                                 // Para registar la transacción del préstamo agregado
@@ -275,64 +283,51 @@ int main() {
 
                                             // Mostrar préstamos asociados al cliente
                                             prestamosDB.viewPrestamo();  
-                                    
-                                        }
-                                        break;
+                                        }  break;
 
                                         //Caso donde deseo salir
                                         case SALIRTWO:
-
                                             cout << "Saliendo...\n";
-
                                             break;
 
                                         //Caso por defecto
                                         default:
-
                                             cout << "Opción no válida\n";
-
                                             break;
-                                        }
-
-
-                                }else{
+                                    }
+                                } else {
                                     //Ocurre una excepcion cuando no agrego un numero entero que sea 1,2,3,4 o 5
                                     throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                                 }
-
                             } else {
 
                                 // En caso de crear usuario que no existe
                                 userNotExist(clienteDB);
                             }
 
-                            }
-                            break;
+                        }
+                        break;
 
                         //Caso donde deseo salir
                         case SALIR:
-
                             cout << "Usted esta saliendo del sistema bancario...\n";
-
                             break;
 
                         //Caso por defecto
                         default:
-
                             cout << "Opción no válida\n";
-
                             break;
-                        }
-                } else{
+                    }
+                } else {
                     //Ocurre una excepcion cuando no agrego un número entero que sea 1,2 o 3
                     throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                 }
 
             //Manejo de excepciones   
-            }catch(const std::exception& e){
+            } catch (const std::exception& e) {
                 std::cerr << e.what() << '\n';
             }
-        } while(opcion != SALIR);
+        } while (opcion != SALIR);
 
         return 0;
     }
