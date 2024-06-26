@@ -10,7 +10,7 @@ enum Operacion {
 };
 
 // Implementar la nueva función
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB, PrestamoDB& prestamosDB) {
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB, PrestamoDB& prestamosDB, CertificadoDepositoPlazo& certificadoDb) {
     //Caso donde seleciono cdp
     if (tipoDeCuenta == "3"){
 
@@ -28,7 +28,7 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
             (operacionOpt == "1" || operacionOpt == "2")) {
             // Se convierte la opción a entero
             int operacion = stoi(operacionOpt);
-            std::string montoUsuario, tipoMoneda;
+            std::string montoUsuario, tipoMoneda, selecionPrestamo;
 
             // Se realiza la logica para los tipos de operaciones
             switch (operacion) {
@@ -62,11 +62,12 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                         removeWhiteSpaces(confirmacion);
 
                         if (confirmacion == "S" || confirmacion == "s") {
-                            
+                            //Agego cdp
+                            certificadoDb.addCDP(stoi(id), stod(montoUsuario), tipoMoneda,1.5,1,getCurrentDateTime());
+                            std::cout << "CDP exitosamente efectuado... \n";
                         } else {
-                            std::cout << "Abono NO efectudo... \n";
+                            std::cout << "CDP NO efectudo... \n";
                         }
-
 
                     }else{
                         std::cout << "Ocurrio un error, deposito de CDP no efectuado" << std::endl;
@@ -76,25 +77,51 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
 
                 case RETIRO:
                     std::cout << "Usted va a realizar un retiro del CDP..." << std::endl;
-                    // Retiros
-                    while (true) {
-                        std::cout << "Ingrese un monto a retirar: " << std::endl;
-                        std::getline(std::cin, montoUsuario);
-
-                        if (isValidMonto(montoUsuario)) {
-                            break;
-                        } else {
-                            std::cout << "Monto inválido, vuelva a digitar." << std::endl;
+                    // Retiros cdp
+                    //Verifico que el usuario tenga cdps asociados
+                    if (certificadoDb.idExiste(id)){
+                        
+                        //Vector con los numeros de id del cliente que pidio prestamo
+                        std::vector<std::string> idVector = certificadoDb.cdpIdsCliente(id);
+                        //Se le pide al usuario ingresar un valor
+                        std::cout << "Selecione un IDs asociados al CDP del cliente " << id << ": ";
+                        for (size_t i = 0; i < idVector.size(); ++i) {
+                            std::cout << idVector[i];
+                            if (i < idVector.size() - 1) {
+                                std::cout << ", ";
+                            }
                         }
-                    }
+                        std::cout << std::endl;
+                        //std::cin >> selecionPrestamo;
+                        //std::cin.ignore();
+                        std::getline(std::cin, selecionPrestamo);
+                        removeWhiteSpaces(selecionPrestamo);
 
-                    if(clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta,0)){
-                        //Creo registro de la operacion
-                        transferenciaDB.addTransaction(id, "Retiro",stod(montoUsuario),-1,getCurrentDateTime());
-                        std::cout << "Retiro exitoso..." << std::endl;
+                        //Verifico que el usuario agregue un id valido
+                        if (std::find(idVector.begin(), idVector.end(), selecionPrestamo) != idVector.end()){
+                            //Obtengo el monto, tasa y tipo moneda
+                            auto info = certificadoDb.retornarInfo(selecionPrestamo); 
+                            string confirmacion;
+                            std::cout << "¿Desea retirar el cdp " << selecionPrestamo << " de :"<<std::get<0>(info)<<" " << std::get<1>(info) << " ? (S/N (Presione cualquier tecla) ) : ";
+                            //std::cin >> confirmacion;
+                            std::getline(std::cin, confirmacion);
+                            removeWhiteSpaces(confirmacion);
 
-                    }else{
-                        std::cout << "Ocurrió un error durante el retiro..." << std::endl;
+                            if (confirmacion == "S" || confirmacion == "s") {
+                                //Elimino cdp asociado
+                                certificadoDb.deleteCDP(std::stoi(selecionPrestamo));
+                                std::cout << "Retiro CDP exitoso... \n";
+                            } else {
+                                std::cout << "Retiro CDP NO efectudo... \n";
+                            }
+                            
+                        } else{
+                            throw std::invalid_argument("Debe ingresar un id valido, intente de nuevo...");
+                        }
+                        
+                        
+                    }else {
+                        throw std::invalid_argument("Usuario ingresado no tiene cdps asociados, intente de nuevo...");
                     }
                     break;
 

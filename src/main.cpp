@@ -19,6 +19,7 @@
 #include "clientDb.hpp"
 #include "transactionDb.hpp"
 #include "prestamosDb.hpp"
+#include "CertificadoDepositoPlazo.hpp"
 
 using namespace std;
 
@@ -66,10 +67,12 @@ int main() {
         TransactionDB transferenciaDB(dbPath);
         // Crear instancia de PrestamosDB
         PrestamoDB prestamosDB(dbPath);
+        // Crear instancia de cdp
+        CertificadoDepositoPlazo certificadoDb(dbPath);
         
 
         // Crear tabla si no existe
-        if (!clienteDB.createTable() || !transferenciaDB.createTable() | !prestamosDB.createTable()) {
+        if (!clienteDB.createTable() || !transferenciaDB.createTable() || !prestamosDB.createTable() || !certificadoDb.createTable()) {
             std::cerr << "Failed to create table" << std::endl;
             return 1;
         }
@@ -126,7 +129,7 @@ int main() {
 
                                 if(all_of(atencionClienteOpt.begin(), atencionClienteOpt.end(), ::isdigit) && (atencionClienteOpt == "1" || atencionClienteOpt == "2" || atencionClienteOpt == "3" )){
                                     // Llamar a la función del menú de operaciones (menú 5)
-                                    menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB, prestamosDB);
+                                    menuOperaciones(clienteDB, id, atencionClienteOpt, transferenciaDB, prestamosDB, certificadoDb);
                                 }else{
                                     throw std::invalid_argument("Se ingresó una opción NO válida, vuelva a intentar...");
                                 }

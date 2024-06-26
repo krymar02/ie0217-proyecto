@@ -5,6 +5,7 @@
 #include "clientDb.hpp"
 #include "transactionDb.hpp"
 #include "prestamosDb.hpp"
+#include "CertificadoDepositoPlazo.hpp"
 #include <string>
 #include <algorithm>
 #include <limits>
@@ -20,7 +21,7 @@ using namespace std;
 void userNotExist(ClienteDB& clienteDB);
 
 // Declarar la nueva función del menu 5
-void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB, PrestamoDB& prestamosDB);
+void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::string& tipoDeCuenta, TransactionDB& transferenciaDB, PrestamoDB& prestamosDB, CertificadoDepositoPlazo& certificadoDb);
 
 //Verifico si el usuario agrega un monto positivo
 bool isPositiveDouble(const char &c);
