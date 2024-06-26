@@ -212,12 +212,27 @@ int main() {
                                                 }
                                             }
 
-                                            // Cálculo de cuotas de acuerdoo a los años
-                                            //EN ESTE CASO NO PUEDO CORREGIR EL TEMA DE LOS ESPACIOS XQ VARIABLES ES INT
-                                            //SUGERENCIA PASAR A STRING Y LUEGO STOI Y VALIDAR ROBUSTEZ
+
+                                           // Obtención del plazo en años para calcular las cuotas
+                                           // Se agregan excepciones para que sólo acepte números positivos enteros
                                             int plazoAnios;
-                                            std::cout << "Ingrese el plazo del préstamo en años: ";
-                                            std::cin >> plazoAnios;
+                                            while (true) {
+                                                try {
+                                                    std::string plazoAniosStr;
+                                                    std::cout << "\nIngrese el plazo del préstamo en años: ";
+                                                    std::getline(std::cin, plazoAniosStr);
+
+                                                    if (!isValidPlazo(plazoAniosStr)) {
+                                                        throw std::invalid_argument("\nPlazo inválido, Debe se un número entero positivo, vuelva a digitar.");
+                                                    }
+
+                                                    plazoAnios = std::stoi(plazoAniosStr);
+                                                    break;
+                                                } catch (const std::exception& e) {
+                                                    std::cerr << e.what() << '\n';
+                                                }
+                                            }
+
                                             int cuotas = plazoAnios * 12;
 
                                             // Obtener fecha actual

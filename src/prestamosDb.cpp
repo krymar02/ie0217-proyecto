@@ -115,7 +115,7 @@ void PrestamoDB::abonarPrestamo(const std::string& prestamoId) {
         return;
     }
 
-    // Decrementar el número de cuotas
+    // Decrecer el número de cuotas
     cuotas--;
 
     if (cuotas == 0) {
