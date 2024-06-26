@@ -14,7 +14,7 @@ public:
     //Metodo para crear tabla de cliente
     bool createTable();
     //Metodo agregar cliente
-    bool addCliente(const std::string& id,const std::string& nombre, double colones, double dolares, double cdp, const std::string& fecha);
+    bool addCliente(const std::string& id,const std::string& nombre, double colones, double dolares, const std::string& fecha);
     //Metodo eliminar cliente
     bool deleteCliente(int id);
     //Metodo ver clientes
@@ -23,13 +23,7 @@ public:
     bool idExiste(const std::string& nombre);
     //Metodo verificar que cliente existe
     bool actualizarCuenta(const std::string &id, double valorUsuario, const std::string &tipoDeCuenta, int tipoOperacion = -1);
-    //Para pruebasKryss
-    //Metodo para verificar si el saldo es suficiente
-    bool verificarSaldoSuficiente(const std::string& id, double monto, const std::string& tipoDeCuenta);
-    //Metodo para realizar la transferencia
-    bool transferencia(const std::string& idOrigen, const std::string& cuentaOrigen, const std::string& cuentaDestino, double monto);
-    //parea el nombre
-    std::string obtenerNombreCliente(const std::string& id);  
+ 
 private:
     //Puntero a base de datos
     sqlite3* db;

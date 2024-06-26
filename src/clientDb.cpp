@@ -22,85 +22,7 @@ ClienteDB::~ClienteDB()
         sqlite3_close(db);
     }
 }
-/*
-// PRUEBAS KRYSSIA (Faltan excepciones)
 
-//Se verifica si hay saldo
-bool ClienteDB::verificarSaldoSuficiente(const std::string& id, double monto, const std::string& tipoDeCuenta) {
-    std::string selectQuery;
-    std::string columnName;
-    //Parte de seleccion de la cuenta de origen
-    //1 para cuenta en colones
-    if (tipoDeCuenta == "1") {
-        selectQuery = "SELECT colones FROM clientes WHERE id = " + id + ";";
-        columnName = "colones";
-    //2 para cuenta en dolares
-    } else if (tipoDeCuenta == "2") {
-        selectQuery = "SELECT dolares FROM clientes WHERE id = " + id + ";";
-        columnName = "dolares";
-    //3 para cuenta de certificados de deposito a plazos    
-    } else {
-        selectQuery = "SELECT cdp FROM clientes WHERE id = " + id + ";";
-        columnName = "cdp";
-    }
-    //declaracion de dato de tipo double
-    double saldo = 0.0;
-
-    auto selectCallback = [](void* data, int argc, char** argv, char** azColName) -> int {
-        if (argc > 0) {
-            double* value = static_cast<double*>(data);
-            *value = argv[0] ? std::stod(argv[0]) : 0.0;
-        }
-        return 0;
-    };
-
-    char* errMsg = nullptr;
-    int result = sqlite3_exec(db, selectQuery.c_str(), selectCallback, &saldo, &errMsg);
-    if (result != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
-        sqlite3_free(errMsg);
-        return false;
-    }
-    //REtorna el monto
-    return saldo >= monto;
-}
-//funcionalidad para las transferencias
-//Se llama la cuenta de origen y la de destino
-bool ClienteDB::transferencia(const std::string& idOrigen, const std::string& cuentaOrigen, 
-                              const std::string& cuentaDestino, double monto) {
-    // En esta parte se verifica si la cuenta de origen tiene suficiente saldo
-    if (!verificarSaldoSuficiente(idOrigen, monto, cuentaOrigen)) {
-        std::cerr << "Saldo insuficiente en la cuenta de origen." << std::endl;
-        return false;
-    }
-
-    // Luego se debe actualizar el saldo en la cuenta de origen
-    //se aplica un menos al monto de origen igual al monto que se va a transferir
-    if (!actualizarCuenta(idOrigen, -monto, cuentaOrigen, 0)) {
-        std::cerr << "Error al deducir el monto de la cuenta de origen." << std::endl;
-        return false;
-    }
-
-    // Actualizar saldo en la cuenta de destino
-    if (!actualizarCuenta(cuentaDestino, monto, cuentaDestino, 1)) {
-        // Mensajes de éxito de la transferencia :)
-        
-        // Rollback: Agregar el monto deducido nuevamente a la cuenta de origen
-        if (!actualizarCuenta(idOrigen, monto, cuentaOrigen, 1)) {
-            std::cerr << "Error al revertir la deduccion en la cuenta de origen." << std::endl;
-            // Espacio para agregar excepciones
-        }
-        return false;
-        
-    
-    }
-    
-
-    return true;
-}
-
-// FINAL PRUEBAS KRYSSIA
-*/
 // Crea base de datos
 bool ClienteDB::createTable()
 {
@@ -111,18 +33,17 @@ bool ClienteDB::createTable()
         "nombre TEXT, "
         "colones DOUBLE, "
         "dolares DOUBLE, "
-        "cdp DOUBLE, "
         "fecha TEXT);";
     // Ejecuto comano en base de datos
     return executeQuery(query);
 }
 
 // Agrego cliente
-bool ClienteDB::addCliente(const std::string &id, const std::string &nombre, double colones, double dolares, double cdp, const std::string &fecha)
+bool ClienteDB::addCliente(const std::string &id, const std::string &nombre, double colones, double dolares, const std::string &fecha)
 {
     // Columnas de db cliente, se debe agregas CDP
     std::string query =
-        "INSERT INTO clientes (id, nombre, colones, dolares, cdp, fecha) VALUES ('" + id + "', '" + nombre + "', " + std::to_string(colones) + ", " + std::to_string(dolares) + ", " + std::to_string(cdp) + ", '" + fecha + "');";
+        "INSERT INTO clientes (id, nombre, colones, dolares, fecha) VALUES ('" + id + "', '" + nombre + "', " + std::to_string(colones) + ", " + std::to_string(dolares) +  ", '" + fecha + "');";
     return executeQuery(query);
 }
 
@@ -177,10 +98,8 @@ bool ClienteDB::actualizarCuenta(const std::string &id, double valorUsuario, con
         selectQuery = "SELECT dolares FROM clientes WHERE id = " + id + ";";
         columnName = "dolares";
     }
-    else
-    {
-        selectQuery = "SELECT cdp FROM clientes WHERE id = " + id + ";";
-        columnName = "cdp";
+    else{
+        return false;
     }
 
     double currentValue = 0.0;
