@@ -18,8 +18,8 @@ public:
     int addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas);
     //Método eliminar préstamo
     bool deletePrestamo(int id);
-    //Método ver préstamos
-    void viewPrestamo();
+    //Método ver la tabla de préstamos asociados a un cliente
+    void viewPrestamo(const std::string& clientID);
     //Método verificar que el préstamo existe para un cliente
     bool idExiste(const std::string& id);
     //Determino los ids asociados a un clinte
