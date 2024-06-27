@@ -168,7 +168,8 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
 
     // Imprimir encabezado de la tabla préstamos
     //'setw' para ajustar ancho de columna del encabezado
-    std::cout << "\nTabla de Préstamos\n";
+    std::cout << "\nTabla de Préstamos:\n";
+    std::cout << "====================================================================================================\n";    
     std::cout << std::left << std::setw(6) << "ID"
               << std::left << std::setw(15) << "Cliente"
               << std::left << std::setw(15) << "Tipo"
@@ -179,6 +180,32 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
               << std::left << "Cuota Mensual\n";
 
     std::cout << std::string(105, '-') << std::endl;
+
+    // Recorrer la información de la bd, para mostrar la tabla
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        int id = sqlite3_column_int(stmt, 0);
+        std::string client = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        std::string tipoPrestamo = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
+        double monto = sqlite3_column_double(stmt, 3);
+        std::string fecha = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+        int cuotas = sqlite3_column_int(stmt, 5);
+        double tasaInteres = sqlite3_column_double(stmt, 6);
+        double cuotaMensual = sqlite3_column_double(stmt, 7);
+
+        // Imprimir fila de préstamo
+        std::cout << std::left << std::setw(6) << id
+                  << std::left << std::setw(15) << client
+                  << std::left << std::setw(15) << tipoPrestamo
+                  << std::left << std::setw(10) << monto
+                  << std::left << std::setw(23) << fecha
+                  << std::left << std::setw(10) << cuotas
+                  << std::left << std::setw(10) << tasaInteres
+                  << std::left << cuotaMensual << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    sqlite3_finalize(stmt);
 
 }
 
