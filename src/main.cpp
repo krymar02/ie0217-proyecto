@@ -33,6 +33,7 @@ enum OpcionesGnerales {
     PERSONAL = 1,
     PRENDARIOS,
     HIPOTECARIOS,
+    TABLA,
     SALIRTWO
 };
 //Para crear menu 5
@@ -166,7 +167,8 @@ int main() {
                                 cout << "1. Préstamos personales\n";
                                 cout << "2. Préstamos prendarios\n";
                                 cout << "3. Préstamos hipotecarios\n";
-                                cout << "4. Salir\n";
+                                cout << "4. Ver tabla de préstamos\n";
+                                cout << "5. Salir\n";
                                 cout << "Ingrese una opción: ";
                                 //cin >> strOpcionTwo;
                                 //cin.ignore(); // Limpiar el buffer
@@ -175,7 +177,7 @@ int main() {
 
                                 //Verifico que se agregue un número entero y que este sea 1,2,3,4 o 5
                                 if(all_of(strOpcionTwo.begin(), strOpcionTwo.end(), ::isdigit) && (strOpcionTwo == "1" || strOpcionTwo == "2" || strOpcionTwo == "3"
-                                || strOpcionTwo == "4")){
+                                || strOpcionTwo == "4" || strOpcionTwo == "5")){
                                     
                                     //Convierto el string a entero para almacenar opción del usuario
                                     opcionTwo = stoi(strOpcionTwo);
@@ -280,10 +282,13 @@ int main() {
                                             } else {
                                                 std::cout << "Préstamo no agregado. \n";
                                             }
+                                            break;                                        
+                                        }
 
-                                            // Mostrar préstamos asociados al cliente
-                                            prestamosDB.viewPrestamo();  
-                                        }  break;
+                                        case TABLA:
+                                        // Mostrar tabla préstamos asociados el cliente
+                                            prestamosDB.viewPrestamo(id);
+                                            break;
 
                                         //Caso donde deseo salir
                                         case SALIRTWO:
