@@ -253,22 +253,22 @@ int main() {
                                             std::cout << "La mensualidad del préstamo es: " << mensualidad << std::endl;
                                             
                                             // Confirmación de opción
-                                            char confirmacion;
+                                            string confirmacion;
                                             while (true) {
                                                 std::cout << "¿Desea agregar el préstamo? (S/N): ";
-                                                std::cin >> confirmacion;
+                                                // std::cin >> confirmacion;
+                                                std::getline(std::cin, confirmacion);
+                                                removeWhiteSpaces(confirmacion);
                                                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
 
-                                                if (confirmacion == 'S' || confirmacion == 's' || confirmacion == 'N' || confirmacion == 'n') {
-                                                    break;
-                                                } else if ((confirmacion == 'N' || confirmacion == 'n') && !(confirmacion == 'S' || confirmacion == 's')) {
+                                                if (confirmacion == "S" || confirmacion == "s" || confirmacion == "N" || confirmacion == "n") {
                                                     break;
                                                 } else {
                                                     std::cerr << "Entrada no válida. Por favor, ingrese 'S' para sí o 'N' para no.\n";
                                                 }
                                             }
 
-                                            if (confirmacion == 'S' || confirmacion == 's') {
+                                            if (confirmacion == "S" || confirmacion == "s") {
                                                 // Para registar la transacción del préstamo agregado
                                                 int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha, cuotas);
                                                 if (idPrestamo != -1) {
