@@ -1,6 +1,7 @@
 #include "prestamosDb.hpp"
 #include <iostream>
 //nuevo
+#include <iomanip> // Librería para std::setw y std::left
 #include <stdexcept>
 #include <cmath> // Librería pra calcular el pago mensual
 //Constructor 
@@ -164,6 +165,20 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
         std::cerr << "Error al enlazar el ID del cliente" << std::endl;
         return;
     }
+
+    // Imprimir encabezado de la tabla préstamos
+    //'setw' para ajustar ancho de columna del encabezado
+    std::cout << "\nTabla de Préstamos\n";
+    std::cout << std::left << std::setw(6) << "ID"
+              << std::left << std::setw(15) << "Cliente"
+              << std::left << std::setw(15) << "Tipo"
+              << std::left << std::setw(10) << "Monto"
+              << std::left << std::setw(23) << "Fecha"
+              << std::left << std::setw(10) << "Cuotas"
+              << std::left << std::setw(10) << "Tasa (%)"
+              << std::left << "Cuota Mensual\n";
+
+    std::cout << std::string(105, '-') << std::endl;
 
 }
 
