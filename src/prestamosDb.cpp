@@ -150,15 +150,21 @@ bool PrestamoDB::executeQuery(const std::string& query) {
     return true;
 }
 
-//Imprimir préstamos almacenados en db
-void PrestamoDB::viewPrestamo() {
-    std::string query = "SELECT * FROM prestamos;";
-    char* errMsg = nullptr;
-    int result = sqlite3_exec(db, query.c_str(), callback, 0, &errMsg);
-    if (result != SQLITE_OK) {
-        std::cerr << "SQL error: " << errMsg << std::endl;
-        sqlite3_free(errMsg);
+//Imprimir préstamos asociados almacenados en db
+void PrestamoDB::viewPrestamo(const std::string& clientID) {
+    std::string sql = "SELECT * FROM prestamos WHERE client = ?";
+    sqlite3_stmt* stmt;
+
+   if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) != SQLITE_OK) {
+        std::cerr << "Error al preparar la declaración SQL" << std::endl;
+        return;
     }
+
+    if (sqlite3_bind_text(stmt, 1, clientID.c_str(), -1, SQLITE_STATIC) != SQLITE_OK) {
+        std::cerr << "Error al enlazar el ID del cliente" << std::endl;
+        return;
+    }
+
 }
 
 //Permite obtener la cuota mensual de un préstamo por su ID
