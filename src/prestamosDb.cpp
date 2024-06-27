@@ -1,6 +1,7 @@
 #include "prestamosDb.hpp"
 #include <iostream>
 //nuevo
+#include <fstream>
 #include <iomanip> // Librería para std::setw y std::left
 #include <stdexcept>
 #include <cmath> // Librería pra calcular el pago mensual
@@ -166,20 +167,26 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
         return;
     }
 
+    std::ofstream reportFile("reporte_prestamos_" + clientID + ".txt");
+    if (!reportFile.is_open()) {
+        std::cerr << "Error al abrir el archivo de reporte" << std::endl;
+        return;
+    }
+
     // Imprimir encabezado de la tabla préstamos
     //'setw' para ajustar ancho de columna del encabezado
-    std::cout << "\nTabla de Préstamos:\n";
-    std::cout << std::string(109, '=') << std::endl;   
-    std::cout << std::left << std::setw(6) << "ID"
-              << std::left << std::setw(15) << "Cliente"
-              << std::left << std::setw(15) << "Tipo"
-              << std::left << std::setw(16) << "Monto"
-              << std::left << std::setw(23) << "Fecha"
-              << std::left << std::setw(10) << "Cuotas"
-              << std::left << std::setw(10) << "Tasa (%)"
-              << std::left << "Cuota Mensual\n";
+    reportFile << "\nTabla de Préstamos:\n";
+    reportFile << std::string(109, '=') << std::endl;   
+    reportFile << std::left << std::setw(6) << "ID"
+               << std::left << std::setw(15) << "Cliente"
+               << std::left << std::setw(15) << "Tipo"
+               << std::left << std::setw(16) << "Monto"
+               << std::left << std::setw(23) << "Fecha"
+               << std::left << std::setw(10) << "Cuotas"
+               << std::left << std::setw(10) << "Tasa (%)"
+               << std::left << "Cuota Mensual\n";
 
-    std::cout << std::string(109, '-') << std::endl;
+    reportFile << std::string(109, '-') << std::endl;
 
     // Recorrer la información de la bd, para mostrar la tabla
     while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -193,19 +200,22 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
         double cuotaMensual = sqlite3_column_double(stmt, 7);
 
         // Imprimir fila de préstamo
-        std::cout << std::left << std::setw(6) << id
-                  << std::left << std::setw(15) << client
-                  << std::left << std::setw(15) << tipoPrestamo
-                  << std::left << std::setw(16) << monto
-                  << std::left << std::setw(23) << fecha
-                  << std::left << std::setw(10) << cuotas
-                  << std::left << std::setw(10) << tasaInteres
-                  << std::left << cuotaMensual << std::endl;
+        reportFile << std::left << std::setw(6) << id
+                   << std::left << std::setw(15) << client
+                   << std::left << std::setw(15) << tipoPrestamo
+                   << std::left << std::setw(16) << monto
+                   << std::left << std::setw(23) << fecha
+                   << std::left << std::setw(10) << cuotas
+                   << std::left << std::setw(10) << tasaInteres
+                   << std::left << cuotaMensual << std::endl;
     }
 
-    std::cout << std::string(109, '-') << std::endl;
+    reportFile << std::string(109, '-') << std::endl;
 
     sqlite3_finalize(stmt);
+    reportFile.close();
+    
+    std::cout << "Reporte generado: reporte_prestamos_" << clientID << ".txt" << std::endl;
 
 }
 
