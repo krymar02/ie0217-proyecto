@@ -261,7 +261,7 @@ int main() {
                                                 // std::cin >> confirmacion;
                                                 std::getline(std::cin, confirmacion);
                                                 removeWhiteSpaces(confirmacion);
-                                                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
+                                                //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
 
                                                 if (confirmacion == "S" || confirmacion == "s" || confirmacion == "N" || confirmacion == "n") {
                                                     break;
