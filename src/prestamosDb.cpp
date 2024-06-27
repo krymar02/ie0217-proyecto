@@ -169,17 +169,17 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
     // Imprimir encabezado de la tabla préstamos
     //'setw' para ajustar ancho de columna del encabezado
     std::cout << "\nTabla de Préstamos:\n";
-    std::cout << "====================================================================================================\n";    
+    std::cout << std::string(109, '=') << std::endl;   
     std::cout << std::left << std::setw(6) << "ID"
               << std::left << std::setw(15) << "Cliente"
               << std::left << std::setw(15) << "Tipo"
-              << std::left << std::setw(10) << "Monto"
+              << std::left << std::setw(16) << "Monto"
               << std::left << std::setw(23) << "Fecha"
               << std::left << std::setw(10) << "Cuotas"
               << std::left << std::setw(10) << "Tasa (%)"
               << std::left << "Cuota Mensual\n";
 
-    std::cout << std::string(105, '-') << std::endl;
+    std::cout << std::string(109, '-') << std::endl;
 
     // Recorrer la información de la bd, para mostrar la tabla
     while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -196,14 +196,14 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
         std::cout << std::left << std::setw(6) << id
                   << std::left << std::setw(15) << client
                   << std::left << std::setw(15) << tipoPrestamo
-                  << std::left << std::setw(10) << monto
+                  << std::left << std::setw(16) << monto
                   << std::left << std::setw(23) << fecha
                   << std::left << std::setw(10) << cuotas
                   << std::left << std::setw(10) << tasaInteres
                   << std::left << cuotaMensual << std::endl;
     }
 
-    std::cout << std::endl;
+    std::cout << std::string(109, '-') << std::endl;
 
     sqlite3_finalize(stmt);
 
