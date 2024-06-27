@@ -196,92 +196,106 @@ int main() {
                                             } else if (opcionTwo == HIPOTECARIOS) {
                                                 tipoPrestamo = "Hipotecario";
                                             }
+                                            std::string tipoMoneda;
+                                            std::cout << "Selecione el tipo de moneda para el prestam (colones o dolares)" << std::endl;
+                                            std::getline(std::cin, tipoMoneda);
+                                            removeWhiteSpaces(tipoMoneda);
 
-                                            double monto;
-                                            while (true) {
-                                                try {
-                                                    std::string montoUser;
-                                                    std::cout << "Ingrese el monto del préstamo: ";
-                                                    std::getline(std::cin, montoUser);
+                                            if (tipoMoneda == "colones" || tipoMoneda == "dolares"){
+                                                double monto;
+                                                while (true) {
+                                                    try {
+                                                        std::string montoUser;
+                                                        std::cout << "Ingrese el monto del préstamo: ";
+                                                        std::getline(std::cin, montoUser);
 
-                                                    if (!isValidMonto(montoUser)) {
-                                                        throw std::invalid_argument("Monto inválido, vuelva a digitar.");
+                                                        if (!isValidMonto(montoUser)) {
+                                                            throw std::invalid_argument("Monto inválido, vuelva a digitar.");
+                                                        }
+
+                                                        monto = std::stod(montoUser); // Convertir el string a double
+                                                        break; //salir del bucle si el monto es inválido
+                                                    } catch (const std::exception& e) {
+                                                        std::cerr << e.what() << '\n';
                                                     }
-
-                                                    monto = std::stod(montoUser); // Convertir el string a double
-                                                    break; //salir del bucle si el monto es inválido
-                                                } catch (const std::exception& e) {
-                                                    std::cerr << e.what() << '\n';
                                                 }
-                                            }
 
 
-                                           // Obtención del plazo en años para calcular las cuotas
-                                           // Se agregan excepciones para que sólo acepte números positivos enteros
-                                            int plazoAnios;
-                                            while (true) {
-                                                try {
-                                                    std::string plazoAniosStr;
-                                                    std::cout << "\nIngrese el plazo del préstamo en años: ";
-                                                    std::getline(std::cin, plazoAniosStr);
+                                            // Obtención del plazo en años para calcular las cuotas
+                                            // Se agregan excepciones para que sólo acepte números positivos enteros
+                                                int plazoAnios;
+                                                while (true) {
+                                                    try {
+                                                        std::string plazoAniosStr;
+                                                        std::cout << "\nIngrese el plazo del préstamo en años: ";
+                                                        std::getline(std::cin, plazoAniosStr);
 
-                                                    if (!isValidPlazo(plazoAniosStr)) {
-                                                        throw std::invalid_argument("\nPlazo inválido, Debe se un número entero positivo, vuelva a digitar.");
+                                                        if (!isValidPlazo(plazoAniosStr)) {
+                                                            throw std::invalid_argument("\nPlazo inválido, Debe se un número entero positivo, vuelva a digitar.");
+                                                        }
+
+                                                        plazoAnios = std::stoi(plazoAniosStr);
+                                                        break;
+                                                    } catch (const std::exception& e) {
+                                                        std::cerr << e.what() << '\n';
                                                     }
-
-                                                    plazoAnios = std::stoi(plazoAniosStr);
-                                                    break;
-                                                } catch (const std::exception& e) {
-                                                    std::cerr << e.what() << '\n';
                                                 }
+
+                                                int cuotas = plazoAnios * 12;
+
+                                                // Obtener fecha actual
+                                                std::string fecha = getCurrentDateTime();
+
+                                                double tasaInteres;
+                                                if (tipoPrestamo == "Personal") {
+                                                    tasaInteres = 20.0;
+                                                } else if (tipoPrestamo == "Prendario") {
+                                                    tasaInteres = 16.0;
+                                                } else if (tipoPrestamo == "Hipotecario") {
+                                                    tasaInteres = 9.0;
+                                                }
+
+                                                double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
+
+                                                std::cout << "La mensualidad del préstamo es: " << mensualidad << std::endl;
+                                                
+                                                // Confirmación de opción
+                                                string confirmacion;
+                                                while (true) {
+                                                    std::cout << "¿Desea agregar el préstamo? (S/N): ";
+                                                    // std::cin >> confirmacion;
+                                                    std::getline(std::cin, confirmacion);
+                                                    removeWhiteSpaces(confirmacion);
+                                                    //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
+
+                                                    if (confirmacion == "S" || confirmacion == "s" || confirmacion == "N" || confirmacion == "n") {
+                                                        break;
+                                                    } else {
+                                                        std::cerr << "Entrada no válida. Por favor, ingrese 'S' para sí o 'N' para no.\n";
+                                                    }
+                                                }
+
+                                                if (confirmacion == "S" || confirmacion == "s") {
+                                                    // Se agrega columna de tipo de moneda en colones o dolares
+                                                    //Obtengo id del prestamo
+                                                    int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha, cuotas, tipoMoneda);
+                                                    if (idPrestamo != -1) {
+                                                        if (tipoMoneda == "colones"){
+                                                            transferenciaDB.addTransaction(id, "Préstamo colones", monto, idPrestamo,fecha);
+                                                        } else{
+                                                            transferenciaDB.addTransaction(id, "Préstamo dolares", monto, idPrestamo,fecha);
+                                                        }
+                                                        std::cout << "Préstamo añadido con éxito. \n";
+                                                    } else {
+                                                        std::cout << "Error al añadir préstamo.\n";
+                                                    }
+                                                } else {
+                                                    std::cout << "Préstamo no agregado. \n";
+                                                }
+                                            }else{
+                                                std::cout << "Préstamo no agregado, debe selecionar colones o dolares. \n";
                                             }
-
-                                            int cuotas = plazoAnios * 12;
-
-                                            // Obtener fecha actual
-                                            std::string fecha = getCurrentDateTime();
-
-                                            double tasaInteres;
-                                            if (tipoPrestamo == "Personal") {
-                                                tasaInteres = 20.0;
-                                            } else if (tipoPrestamo == "Prendario") {
-                                                tasaInteres = 16.0;
-                                            } else if (tipoPrestamo == "Hipotecario") {
-                                                tasaInteres = 9.0;
-                                            }
-
-                                            double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
-
-                                            std::cout << "La mensualidad del préstamo es: " << mensualidad << std::endl;
                                             
-                                            // Confirmación de opción
-                                            string confirmacion;
-                                            while (true) {
-                                                std::cout << "¿Desea agregar el préstamo? (S/N): ";
-                                                // std::cin >> confirmacion;
-                                                std::getline(std::cin, confirmacion);
-                                                removeWhiteSpaces(confirmacion);
-                                                //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
-
-                                                if (confirmacion == "S" || confirmacion == "s" || confirmacion == "N" || confirmacion == "n") {
-                                                    break;
-                                                } else {
-                                                    std::cerr << "Entrada no válida. Por favor, ingrese 'S' para sí o 'N' para no.\n";
-                                                }
-                                            }
-
-                                            if (confirmacion == "S" || confirmacion == "s") {
-                                                // Para registar la transacción del préstamo agregado
-                                                int idPrestamo = prestamosDB.addPrestamo(id, tipoPrestamo, monto, fecha, cuotas);
-                                                if (idPrestamo != -1) {
-                                                    transferenciaDB.addTransaction(id, "Préstamo", monto, idPrestamo,fecha);
-                                                    std::cout << "Préstamo añadido con éxito. \n";
-                                                } else {
-                                                    std::cout << "Error al añadir préstamo.\n";
-                                                }
-                                            } else {
-                                                std::cout << "Préstamo no agregado. \n";
-                                            }
                                             break;                                        
                                         }
 

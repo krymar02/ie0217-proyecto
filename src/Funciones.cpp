@@ -64,6 +64,11 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                         if (confirmacion == "S" || confirmacion == "s") {
                             //Agego cdp
                             certificadoDb.addCDP(stoi(id), stod(montoUsuario), tipoMoneda,1.5,1,getCurrentDateTime());
+                            if (tipoMoneda == "colones"){
+                                transferenciaDB.addTransaction(id, "CDP colones", stod(montoUsuario), -1,getCurrentDateTime());
+                            } else{
+                                transferenciaDB.addTransaction(id, "CDP dolares", stod(montoUsuario), -1,getCurrentDateTime());
+                            }
                             std::cout << "CDP exitosamente efectuado... \n";
                         } else {
                             std::cout << "CDP NO efectudo... \n";
@@ -110,6 +115,11 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                             if (confirmacion == "S" || confirmacion == "s") {
                                 //Elimino cdp asociado
                                 certificadoDb.deleteCDP(std::stoi(selecionPrestamo));
+                                if ( std::get<1>(info) == "colones"){
+                                    transferenciaDB.addTransaction(id, "Retiro CDP colones", std::get<0>(info), -1,getCurrentDateTime());
+                                } else{
+                                    transferenciaDB.addTransaction(id, "Retiro CDP dolares", std::get<0>(info), -1,getCurrentDateTime());
+                                }
                                 std::cout << "Retiro CDP exitoso... \n";
                             } else {
                                 std::cout << "Retiro CDP NO efectudo... \n";
@@ -173,7 +183,11 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
 
                     if(clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta)){
                         //Creo registro de la operacion
-                        transferenciaDB.addTransaction(id, "Depósito",stod(montoUsuario),-1,getCurrentDateTime());
+                        if (tipoDeCuenta == "1"){
+                            transferenciaDB.addTransaction(id, "Depósito colones",stod(montoUsuario),-1,getCurrentDateTime());
+                        }else{
+                            transferenciaDB.addTransaction(id, "Depósito dolares",stod(montoUsuario),-1,getCurrentDateTime());
+                        }
                         std::cout << "Depósito exitoso..." << std::endl;
         
                     }else{
@@ -199,7 +213,12 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
 
                     if(clienteDB.actualizarCuenta(id, stod(montoUsuario),tipoDeCuenta,0)){
                         //Creo registro de la operacion
-                        transferenciaDB.addTransaction(id, "Retiro",stod(montoUsuario),-1,getCurrentDateTime());
+                        //transferenciaDB.addTransaction(id, "Retiro",stod(montoUsuario),-1,getCurrentDateTime());
+                        if (tipoDeCuenta == "1"){
+                            transferenciaDB.addTransaction(id, "Retiro colones",stod(montoUsuario),-1,getCurrentDateTime());
+                        }else{
+                            transferenciaDB.addTransaction(id, "Retiro dolares",stod(montoUsuario),-1,getCurrentDateTime());
+                        }
                         std::cout << "Retiro exitoso..." << std::endl;
 
                     }else{
@@ -259,8 +278,8 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                                 clienteDB.actualizarCuenta(idCuentaDestino, montoUsuarioConversion,tipoCuentaDestino);
                                 // Mensajes de éxito de la transferencia
                                 //Operaciones se agregan al registro de transacciones
-                                transferenciaDB.addTransaction(id, "Retiro",stod(montoUsuario),-1,getCurrentDateTime());
-                                transferenciaDB.addTransaction(idCuentaDestino, "Depósito",montoUsuarioConversion,-1,getCurrentDateTime());
+                                transferenciaDB.addTransaction(id, "Retiro de transferencia",stod(montoUsuario),-1,getCurrentDateTime());
+                                transferenciaDB.addTransaction(idCuentaDestino, "Depósito de transferencia",montoUsuarioConversion,-1,getCurrentDateTime());
                                 std::cout << "Transferencia exitosa." << std::endl;
                                 std::cout << "Ha transferido " << montoUsuario << " de la cuenta de origen (" << id << ") a la cuenta de destino (" << idCuentaDestino << ")." << std::endl;
                             
@@ -268,12 +287,9 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                                 std::cout << "Ocurrió un error durante la transferencia..." << std::endl;
                             }
                             
-                            
-                        
                         }else {
                             throw std::invalid_argument("Usuario inexistente o  invalido,vuelva a intentar...");
                         }
-                        
                         
                     }else {
                         throw std::invalid_argument("Se ingresó una opción NO válida, debe ingresar 1 o 2,vuelva a intentar...");
@@ -312,29 +328,42 @@ void menuOperaciones(ClienteDB& clienteDB, const std::string& id, const std::str
                         //Verifico que el usuario agregue un id valido
                         if (std::find(idVector.begin(), idVector.end(), selecionPrestamo) != idVector.end()){
                             //Obtengo el monto mensual del prestamo
-                            double montoPrestamo = prestamosDB.obtenerMonto(selecionPrestamo);
+                            std::pair<double, std::string> resultado = prestamosDB.obtenerMonto(selecionPrestamo);
                             
+                            double cuotaMensual = resultado.first;
+                            std::string moneda = resultado.second;  
+
                             string confirmacion;
-                            std::cout << "¿Desea pagar la cuota "<< montoPrestamo << " como abono al préstamo? (S/N (Presione cualquier tecla) ) : ";
+                            std::cout << "¿Desea pagar la cuota "<< cuotaMensual << " en " << moneda <<" como abono al préstamo? (S/N (Presione cualquier tecla) ) : ";
                             //std::cin >> confirmacion;
                             std::getline(std::cin, confirmacion);
                             removeWhiteSpaces(confirmacion);
 
                             if (confirmacion == "S" || confirmacion == "s") {
-                                //Los prestamos estan en colones y se debe pasar abono de colones a dolares para deducir cuenta de origen
-                                if (tipoDeCuenta == "2"){
-                                    montoUsuarioConversion = montoPrestamo/530;
+                                //cuota mensual en colones, usuario retira dolares
+                                if (tipoDeCuenta == "2" && moneda == "colones"){
+                                    montoUsuarioConversion = cuotaMensual/530;
+
+                                }else if (tipoDeCuenta == "1" && moneda == "dolares") {
+                                    //cuota mensual colares y usuario retira ccolones
+                                    montoUsuarioConversion = cuotaMensual*530;
                                 }else{
-                                    //Esta variable sera diferente en caso de hacer una conversion
-                                    montoUsuarioConversion = montoPrestamo;
+                                    //No hay conversion
+                                    montoUsuarioConversion = cuotaMensual;
                                 }
                                 
                                 //En este caso retiro dinero de la cuenta de origen si la cuenta tiene fondos
                                 if (clienteDB.actualizarCuenta(id, montoUsuarioConversion,tipoDeCuenta,0)){
-                                    std::cout << "Abono exitoso... \n";
+                                    if (moneda == "colones"){
+                                        transferenciaDB.addTransaction(id, "Abono en colones",montoUsuarioConversion,stoi(selecionPrestamo),getCurrentDateTime());
+                                    }else{
+                                        transferenciaDB.addTransaction(id, "Abono en dolares",montoUsuarioConversion,stoi(selecionPrestamo),getCurrentDateTime());
+                                    }
+                                    
+                                    
                                     //Decremento en 1 la cantidad de cuotas hasta que el prestamo este pagado.
                                     prestamosDB.abonarPrestamo(selecionPrestamo);
-                                    
+                                    std::cout << "Abono exitoso... \n";
                                 } else{
                                     std::cout << "Ocurrió un error durante el abono, abono NO efectuado..." << std::endl;
                                 }

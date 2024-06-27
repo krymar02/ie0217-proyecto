@@ -15,7 +15,7 @@ public:
     //Método para crear tabla de cliente
     bool createTable();
     //Método agregar préstamo
-    int addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas);
+    int addPrestamo(const std::string& clientId,const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas, const std::string& tipoMoneda);
     //Método eliminar préstamo
     bool deletePrestamo(int id);
     //Método ver la tabla de préstamos asociados a un cliente
@@ -25,7 +25,7 @@ public:
     //Determino los ids asociados a un clinte
     std::vector<std::string> prestamosIdsCliente(const std::string& clientId);
     //Método retorna el monto mensual del prestamo
-    double obtenerMonto(const std::string& prestamoId);
+    std::pair<double, std::string> obtenerMonto(const std::string& prestamoId);
     //Metdo que reduce en 1 la cantidad de cuotas y determina si el prestamo ya se pago
     void abonarPrestamo(const std::string& prestamoId);
 

@@ -34,6 +34,7 @@ bool PrestamoDB::createTable() {
         "cuotas INTEGER, "
         "tasa_interes DOUBLE, "
         "cuota_mensual DOUBLE, "
+        "moneda TEXT, "
         "FOREIGN KEY (client) REFERENCES clientes (id) ON DELETE CASCADE );";
     //Ejecutar comando en base de datos
     return executeQuery(query);
@@ -46,7 +47,7 @@ double calcularMensualidad(double monto, double tasaInteres, int cuotas) {
 }
 
 // Agregar préstamo
-int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas) {
+int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipoPrestamo, double monto, const std::string& fecha, int cuotas, const std::string& tipoMoneda) {
     double tasaInteres;
     // Cálculo para cada tipo de préstamo, se elige un tasa fija (se puede modificar)
     if (tipoPrestamo == "Personal") {
@@ -62,16 +63,17 @@ int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipo
 
     double mensualidad = calcularMensualidad(monto, tasaInteres, cuotas);
     
-
+    //Se agrega columna de tipo moneda
     std::string query = 
-        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha, cuotas, tasa_interes, cuota_mensual) VALUES ('"
+        "INSERT INTO prestamos (client, Tipo_Prestamo, monto, fecha, cuotas, tasa_interes, cuota_mensual, moneda) VALUES ('"
         + clientId + "', '"
         + tipoPrestamo + "', "
         + std::to_string(monto) + ", '"
         + fecha + "', "
         + std::to_string(cuotas) + ", "
         + std::to_string(tasaInteres) + ", "
-        + std::to_string(mensualidad) + ");";
+        + std::to_string(mensualidad) + ", "
+        + "'" + tipoMoneda + "');";
     
     if (!executeQuery(query)) {
         return -1;
@@ -219,24 +221,36 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
 
 }
 
-//Permite obtener la cuota mensual de un préstamo por su ID
-double PrestamoDB::obtenerMonto(const std::string& prestamoId) {
-    std::string query = "SELECT cuota_mensual FROM prestamos WHERE Prestamo_ID = '" + prestamoId + "';";
-    double monto = 0.0;
-    int result = sqlite3_exec(db, query.c_str(), obtenerMontoCallback, &monto, nullptr);
+// Permite obtener la cuota mensual de un préstamo por su ID
+std::pair<double, std::string> PrestamoDB::obtenerMonto(const std::string& prestamoId) {
+    std::string query = "SELECT cuota_mensual, moneda FROM prestamos WHERE Prestamo_ID = '" + prestamoId + "';";
+    std::pair<double, std::string> resultado(0.0, "");
+
+    int result = sqlite3_exec(db, query.c_str(), obtenerMontoCallback, &resultado, nullptr);
     if (result != SQLITE_OK) {
         std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
     }
-    return monto;
+
+    return resultado;
 }
 
+// Callback para obtener cuota_mensual y moneda
 int PrestamoDB::obtenerMontoCallback(void* data, int argc, char** argv, char** azColName) {
-    double* monto = static_cast<double*>(data);
-    if (argc > 0 && argv[0]) {
-        *monto = std::stod(argv[0]);
+    if (argc > 1 && argv[0] && argv[1]) {
+        auto* resultado = static_cast<std::pair<double, std::string>*>(data);
+        resultado->first = std::stod(argv[0]); // Obtener cuota_mensual
+        resultado->second = argv[1]; // Obtener moneda
     }
     return 0;
 }
+
+//int PrestamoDB::obtenerMontoCallback(void* data, int argc, char** argv, char** azColName) {
+  //  double* monto = static_cast<double*>(data);
+  //  if (argc > 0 && argv[0]) {
+  //      *monto = std::stod(argv[0]);
+  //  }
+  //  return 0;
+//}
 
 int PrestamoDB::callback(void* NotUsed, int argc, char** argv, char** azColName) {
     for (int i = 0; i < argc; i++) {
