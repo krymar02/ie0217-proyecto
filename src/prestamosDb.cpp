@@ -1,6 +1,7 @@
 #include "prestamosDb.hpp"
 #include <iostream>
 //nuevo
+#include <filesystem> // para crear la inclusión del directorio reportes
 #include <fstream>
 #include <iomanip> // Librería para std::setw y std::left
 #include <stdexcept>
@@ -169,7 +170,14 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
         return;
     }
 
-    std::ofstream reportFile("reporte_prestamos_" + clientID + ".txt");
+    // Para especificar el directorio de los reportes .txt 
+    std::string directory = "../reportes"; 
+    // Crear el directorio si no existe
+    std::filesystem::create_directories(directory);
+
+    // Implementación reporte del archivo
+    std::string reportFilePath = directory + "/reporte_prestamos_" + clientID + ".txt";
+    std::ofstream reportFile(reportFilePath);
     if (!reportFile.is_open()) {
         std::cerr << "Error al abrir el archivo de reporte" << std::endl;
         return;
@@ -178,17 +186,18 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
     // Imprimir encabezado de la tabla préstamos
     //'setw' para ajustar ancho de columna del encabezado
     reportFile << "\nTabla de Préstamos:\n";
-    reportFile << std::string(109, '=') << std::endl;   
+    reportFile << std::string(125, '=') << std::endl;   
     reportFile << std::left << std::setw(6) << "ID"
                << std::left << std::setw(15) << "Cliente"
                << std::left << std::setw(15) << "Tipo"
-               << std::left << std::setw(16) << "Monto"
+               << std::left << std::setw(18) << "Monto"
                << std::left << std::setw(23) << "Fecha"
                << std::left << std::setw(10) << "Cuotas"
                << std::left << std::setw(10) << "Tasa (%)"
-               << std::left << "Cuota Mensual\n";
+               << std::left << std::setw(15) << "Cuota Mensual"
+               << std::left << "Moneda\n";
 
-    reportFile << std::string(109, '-') << std::endl;
+    reportFile << std::string(125, '-') << std::endl;
 
     // Recorrer la información de la bd, para mostrar la tabla
     while (sqlite3_step(stmt) == SQLITE_ROW) {
@@ -200,20 +209,22 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
         int cuotas = sqlite3_column_int(stmt, 5);
         double tasaInteres = sqlite3_column_double(stmt, 6);
         double cuotaMensual = sqlite3_column_double(stmt, 7);
+        std::string tipoMoneda = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
 
         // Imprimir fila de préstamo
         reportFile << std::left << std::setw(6) << id
                    << std::left << std::setw(15) << client
                    << std::left << std::setw(15) << tipoPrestamo
-                   << std::left << std::setw(16) << monto
+                   << std::left << std::setw(18) << monto
                    << std::left << std::setw(23) << fecha
                    << std::left << std::setw(10) << cuotas
                    << std::left << std::setw(10) << tasaInteres
-                   << std::left << cuotaMensual << std::endl;
+                   << std::left << std::setw(15) << cuotaMensual
+                   << std::left << tipoMoneda << std::endl;
     }
 
-    reportFile << std::string(109, '-') << std::endl;
-
+    reportFile << std::string(125, '-') << std::endl;
+    
     sqlite3_finalize(stmt);
     reportFile.close();
     
