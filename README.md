@@ -218,7 +218,64 @@ IE0217-PROYECTO/
 
 - Cada uno de los archivos agregados son una parte importante para el correcto funcionamiento del sistema de gestion bancaria y fueron agregados para cumplir con las peticiones y requerimientos del enunciado del proyecto final.
 
-- Acontinuación encontrará una descripcion de cada uno de los archivos y los puntos importantes.
+- Acontinuación encontrará una descripcion de cada uno de los archivos y los puntos importantes. 
+### Descripcion detallada de los archivos:
+
+- *Main.cpp*: 
+    - En este archivo se encuentra el punto de entrada del programa. Se encarga de inicializar las bases de datos y de ejecutar los diferentes menús del sistema bancario. A través de este archivo, se llaman a múltiples funciones y clases definidas en otros archivos importantes del proyecto.
+    - Contenido:
+        - Inclusión de librerías importantes: Se incluyen las librerías de C++ y las librerías específicas del proyecto como Funciones.hpp, clientDb.hpp, transactionDb.hpp y prestamosDb.hpp.
+        - Enumeraciones: Se definen varias enumeraciones entre ellas Opciones, OpcionesGnerales, Operaciones, que son necesarias para gestionar las opciones del menú.
+        - Declaraciones de funciones: En este caso se declaran las funciones necesarias para el funcionamiento del programa, como por ejemplo el menuOperaciones.
+        - Función main: Es la que contiene la lógica principal para el desarrollo del programa, incluyendo la inicialización de las instancias de las clases ClienteDB, TransactionDB, PrestamoDB, y CertificadoDepositoPlazo.
+        - Se realiza la creación de tablas en la base de datos.
+        - Por ultimo se implementan los menús de interacción y el manejo de excepciones para validar las entradas del usuario.
+    - Métodos y clases utilizadas:
+        - ClienteDB: Es el que maneja operaciones relacionadas con la base de datos de clientes.
+        - TransactionDB: Maneja las operaciones relacionadas con la base de datos de la parte de transacciones.
+        - PrestamoDB: Se encarga de manejar las operaciones relacionadas con la base de datos de préstamos bancarios.
+        - CertificadoDepositoPlazo: La ultima parte que se encargfa de las operaciones relacionadas con los certificados de depósito a plazo.
+
+- *CertificadoDepositoPlazo.cpp*:
+
+## 7. Prerrequisitos
+- En esta seccion se describen los prerrequisitos asi como la lista de software y herramientas necesarias para ejecutar el proyecto de manera correcta asi como las versiones específicas de compiladores y las librerías.
+
+- **Compilador:**
+  - Se requiere `g++` y que posea soporte para C++17 o versiones superiores.
+  - Se recomienda utilizar MinGW para compilar en entornos como Windows como es el caso, pero tambien este proyecto puede ser ejecutado en Linux sin ningun problema ya que hicimos pruebas en ambos sistemas.
+  
+- **Bibliotecas:**
+  - Se requiere SQLite3 ya que es utilizada en la base de datos del proyecto.
+
+## 8. Instalación y Configuración
+- En esta seccion puede encontrar las instrucciones necesarias y detalladas sobre cómo configurar el entorno de desarrollo y cualquier configuración específica que sea parte de los requerimientos del sistema.
+
+### Configuración del Entorno de Desarrollo e instalacion si es necesaria
+
+1. **Compilador:**
+   - Es neccesario poseer un entorno adecuado, para ello recuerde instalar MinGW siguiendo las instrucciones en [MinGW Installation Guide](https://mingw-w64.org/doku.php/download).
+   - Luego recuerde asegurarse de que `g++` esté disponible en la línea de comandos y configurado en las variables de entorno PATH, ya que es necesario.
+   - Ademas puede utilizar el makefile implementado para complicar los archivos y generar el ejecutable, asi como limpiar los archivos generados de ser necesario.
+2. **SQLite3:**
+   - Esta parte es importante, ya que es la parte con la que desarrollamos la base de datos, por lo cual sino la posee en su sitema, debe descargar SQLite3 desde [SQLite Download Page](https://sqlite.org/download.html) e instalarlo según las instrucciones que se encuentran disponibles en el sitio.
+
+
+## 9. Pruebas
+
+
+## 10. Aprendizaje
+
+
+## 11. Desafios y soluciones
+
+
+## 12. Mejoras
+
+
+## 13. Conclusiones
+
+## 14. Documentación Generada por Doxygen
 
 
 La documentación de este proyecto ha sido generada utilizando Doxygen. (AGREGAR MAS COSAS)
