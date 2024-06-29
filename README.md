@@ -237,6 +237,22 @@ IE0217-PROYECTO/
         - CertificadoDepositoPlazo: La ultima parte que se encargfa de las operaciones relacionadas con los certificados de depósito a plazo.
 
 - *CertificadoDepositoPlazo.cpp*:
+    - En este archivo se implementa la clase CertificadoDepositoPlazo, que gestiona la interacción con la base de datos de certificados de depósito a plazo (CDP).
+    - Contenido: 
+        - Se encuentra el constructor llamado `CertificadoDepositoPlazo(const std::string& dbPath)`, se encarga de iniciar la conexión a la base de datos y el destructor llamado `~CertificadoDepositoPlazo()`, que se encarga de cerrar la conexión con la base de datos.
+    - Métodos: 
+        - `createTable():` Crea la tabla cdp en la base de datos si no existe.
+        - `addCDP(int clientId, double monto, const std::string& tipoMoneda, double tasaInteres, int duracion, const std::string& fecha):` Agrega un nuevo CDP a la base de datos.
+        - `deleteCDP(int id):` Elimina un CDP de la base de datos.
+        - `viewCDPs():` Muestra todos los CDP en la base de datos.
+        - `idExiste(const std::string& id):` Verifica si un CDP existe en la base de datos.
+        - `cdpIdsCliente(const std::string& clientId):` Retorna una lista de IDs de CDP asociados a un cliente.
+        - `retornarInfo(const std::string& idCdp):` Retorna la información de un CDP específico.
+        - `executeQuery(const std::string& query):` Ejecuta una consulta SQL en la base de datos.
+        -  Callbacks: En este caso se basa en los métodos que procesan los resultados de las consultas SQL (callback, idExisteCallback, obtenerCdpsCallback, retornarInfoCallback).
+
+
+
 
 ## 7. Prerrequisitos
 - En esta seccion se describen los prerrequisitos asi como la lista de software y herramientas necesarias para ejecutar el proyecto de manera correcta asi como las versiones específicas de compiladores y las librerías.
@@ -261,16 +277,54 @@ IE0217-PROYECTO/
    - Esta parte es importante, ya que es la parte con la que desarrollamos la base de datos, por lo cual sino la posee en su sitema, debe descargar SQLite3 desde [SQLite Download Page](https://sqlite.org/download.html) e instalarlo según las instrucciones que se encuentran disponibles en el sitio.
 
 
-## 9. Pruebas
-
+## 9. Pruebas y demostracion de resultados
+    
 
 ## 10. Aprendizaje
 
+- En esta seccion nos gustaria destacar que durante el desarrollo de este proyecto enfocado en el desarrollo de una entidad que funciona como un sistema de gestión bancaria como si fuera una persona en ventanilla, se adquirieron y reforzaron diversas habilidades y conocimientos en diferentes áreas así como aprender acerca de los conceptos y el funcionamiento de los prestamos y diferentes transacciones como abonos, certificados de deposito a plazos y diversas transferencias entre cuentas de colones o dólares, se aprendieron cosas en las siguientes áreas:
+
+### Programación en C++ con el curso y los videos de las clases
+- **Clases y Objetos**: Ya que a lo largo del curso se aprendio acerca de la implementación de clases, en este caso nos airvio para manejar diferentes entidades del sistema bancario como `ClienteDB`, `TransactionDB`, `PrestamoDB`, y `CertificadoDepositoPlazo`.
+- **Herencia y Polimorfismo**: Se utilizo como apoyo programación orientada a objetos para facilitar la extensión y el mantenimiento del código a lo largo de la implementación del mismo.
+- **Manejo de Memoria**: En este caso, el manejo y la utilización de punteros fue un reto ya que debe usarse correctamente para manejar la memoria dinámica de manera segura.
+- **Estructuras de Datos**: En este caso se implementaron estructuras de datos personalizadas para gestionar la cantidad de información necesaria, se usan diferentes tablas para guardar la información.
+
+### Manejo de Bases de Datos
+- **SQLite**: En este caso es impotante, ya que el proyecto utiliza bases de datos, fue un reto aprender a utilizarlo correctamente y a su vez aprender el funcionamiento de cada parte y la manera en la que incluimos la informacion. Aca se logra integrar la base de datos y usamos SQLite para almacenar y recuperar datos de clientes, transacciones y préstamos.
+  - **Aprendizaje desde cero**: Mediante lo visto en clase logramos adquirir los conocimientos basicos para manipular SQLite, y en un proceso de prueba y error a lo largo del proyecto ya que no se tenía mucho conocimiento previo en esta parte.
+  - **Consultas SQL**: Se utilizo al igual que se aprendio para realizar una de las tareas la escritura de consultas SQL para realizar operaciones CRUD (Crear, Leer, Actualizar, Borrar) en la base de datos.
+  - **Conexión y Manejo**: En esta parte logramos aprender sobre cómo conectar C++ de visual studio code con la base de datos SQLite y manejar las conexiones y operaciones de manera eficiente para desarrollar la totalidad del proyecto.
+  - **DB Browser for SQLite**: En este caso utilizamos y aprendimos acerca de DB Browser para SQLite, nos permitio visualizar y gestionar los datos en las tablas, de esa manera se facilita el proceso de desarrollo y depuración de la información.
+
+
+### Herramientas de Desarrollo
+- **Visual Studio Code**: Se hizo uso del entorno de desarrollo integrado (IDE) para la edición y depuración de código como lo aqprendimos en el curso.
+- **GCC y MinGW**: Se utilizaron estas herramientas y se aprendio mas acerca de la configuración y el uso del compilador GCC en el entorno MinGW para compilar el proyecto de manera correcta.
+- **Makefile**: Como se aprendio a lo largo del curso se implemento la creación del Makefile para automatizar el proceso de compilación y la construcción del proyecto.
+
 
 ## 11. Desafios y soluciones
+Durante el desarrollo del proyecto, enfrentamos varios desafíos. Tuvimos que cambiar ya ajustar diferentes partes para concretar correctamente lo que se queria realizar.
+
+| Desafío | Descripción | Solución |
+| --- | --- | --- |
+| Ingresar correctamente Datos en las Tablas y las diferentes columnas. | Surgieron problemas al ingresar datos en las columnas de las tablas de la base de datos, por lo tanto se causaban errores y datos faltantes o inclusive datos que no se utilizaban en algunas partes del proyecto. | Se implementaron diferentes validaciones para asegurar que los datos ingresados fueran los correctos antes de ser insertados en la base de datos, asi como el dato y la columna a la que debia ir. |
+| Información de menús de navegación. | En uno de los menús pedía el ID del cliente repetidamente, lo que podia causar confusión en el flujo de la navegación del código. | Se hizo un ajuste en los menús para que el ID del cliente se pidiera una sola vez y se reutilizara el dato de manera correcta a lo largo del código. |
+| Manejar correctamente los caracteres especiales | El programa se caía al ingresar caracteres especiales, espacios o letras donde debían ir números y diferentes problemas relacionados con la interaccion del usuario. | Se añadieron validaciones de entrada para garantizar que solo se aceptaran datos válidos en cada campo y no se caiga el programa. |
+| Realizar transferencias bancarias | Habian problemas al realizar transferencias, a veces al realizar las transferencias los datos no se reflejaban en la tabla de transacciones. | Se depuró el código de las transferencias para asegurar que todas las operaciones fueran las correctas y se restara la cantidad donde debia ser y a su vez que se reflejara correctamente la informacion en la base de datos. |
+| La organización en el diseño del código | Al inicio fue complicado organizar las diferentes partes del programa, especialmente la entrada de datos y los menús, al realizar el diagrama de flujo no teniamos vision de como se iba ir acomodando todo. | Se reacomodaron algunas partes en el código dividiéndolo en funciones y clases más manejables, siguiendo en su mayoria la estructura del diagrama de flujo propuesto en el primer avance del proyecto. |
+
+### Manejo de Errores y Depuración
+- **Advertencias del Compilador**: Realizamos mensajes de advertencias y errores generados por el compilador, asi como el reordenamiento de inicializadores y variables no utilizadas para mejorar el uso de las buenas practicas de programación que hemos desarrollado a lo largo del curso.
+- **Depuración**: También se utilizaron herramientas y técnicas de depuración para identificar y corregir los diferentes errores descritos anteriormente en el código.
+
+### Gestión de Proyectos
+- **Estructuración del Proyecto**: Se procedio a organizar del código fuente y todo el contenido en una estructura de carpetas para mejorar su lógica y que fuera manejable.
+- **Documentación**: Se realizo la redacción de la documentación lo más claro posible y de forma detallada para facilitar la comprensión y el mantenimiento del proyecto y generar el doxyfile asi como aprendimos en el curso para alojarlo en netlify.
 
 
-## 12. Mejoras
+## 12. Mejoras futuras del funcionamiento 
 
 
 ## 13. Conclusiones
