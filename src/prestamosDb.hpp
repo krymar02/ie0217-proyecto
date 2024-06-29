@@ -7,6 +7,12 @@
 #include <string>
 #include <vector>
 
+struct PagoProgreso {
+    double totalPagado;
+    double totalAporteCapital;
+    double totalIntereses;
+};
+
 class PrestamoDB {
 public:
     //Constructor
@@ -30,6 +36,11 @@ public:
     std::pair<double, std::string> obtenerMonto(const std::string& prestamoId);
     //Metdo que reduce en 1 la cantidad de cuotas y determina si el prestamo ya se pago
     void abonarPrestamo(const std::string& prestamoId);
+    // Método para agregar cuota pagada
+    bool addCuotaPagada(int prestamoID, const std::string& fechaPago, double aporteCapital, double interesesAbonados);
+    // Método para calcular el progreso del préstamo
+    PagoProgreso calcularProgresoPrestamo(int prestamoID);
+
 
 private:
     //Puntero a base de datos
@@ -44,6 +55,8 @@ private:
     static int obtenerPrestamosCallback(void* data, int argc, char** argv, char** azColName);
     static int obtenerMontoCallback(void* data, int argc, char** argv, char** azColName);
     static int obtenerCuotasCallback(void* data, int argc, char** argv, char** azColName);
+    static int calcularProgresoCallback(void* data, int argc, char** argv, char** azColName);
+    std::string obtenerFechaActual();
 };
 
 // Función para calcular monto por mes
