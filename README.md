@@ -10,6 +10,15 @@ Este repositorio es creado con el propósito de utilizarse como repo para desarr
 3. [Notas](#notas)
 4. [Primera parte del proyecto](#primera)
 5. [Segunda parte del proyecto](#segunda)
+6. [Estructura del Proyecto](#estructura)
+7. [Prerrequisitos](#prerrequisitos)
+8. [Instalación y Configuración](#instalación)
+9. [Pruebas](#pruebas)
+10. [Lecciones Aprendidas](#lecciones)
+11. [Desafíos y Soluciones](#desafíos)
+12. [Futuras Mejoras](#futuras)
+13. [Conclusiones](#conclusiones)
+14. [Documentacion](#documentación)
 ## 1. Descripción general del proyecto
  El proyecto tiene como objetivo desarrollar un sistema de gestión bancaria utilizado por agentes en ventanillas para atender a clientes en una entidad bancarias.
 
@@ -184,7 +193,32 @@ Ejemplo de salida del menú:
 
 ![Cronograma del Proyecto](Cronograma1.PNG)
 
-## Documentación Generada por Doxygen
+## 6. Estructura del Proyecto
+- Este proyecto se encuentra segmentado de la siguiente manera:
+
+IE0217-PROYECTO/
+
+├── databases/  
+│  └── banco.db  
+├── src/   
+│   ├── main.cpp  
+│   ├── clientDb.cpp  
+│   ├── Funciones.cpp  
+│   ├── prestamosDb.cpp  
+│   ├── transactionDb.cpp  
+│   ├── CertificadoDepositoPlazo.cpp  
+│   ├── clientDb.hpp  
+│   ├── Funciones.hpp  
+│   ├── prestamosDb.hpp  
+│   ├── transactionDb.hpp  
+│   └── CertificadoDepositoPlazo.hpp  
+├── readme.md  
+├── Cronograma1.PNG  
+└── gestionBancaria.png
+
+- Cada uno de los archivos agregados son una parte importante para el correcto funcionamiento del sistema de gestion bancaria y fueron agregados para cumplir con las peticiones y requerimientos del enunciado del proyecto final.
+
+- Acontinuación encontrará una descripcion de cada uno de los archivos y los puntos importantes.
 
 
 La documentación de este proyecto ha sido generada utilizando Doxygen. (AGREGAR MAS COSAS)
