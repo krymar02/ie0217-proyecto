@@ -30,35 +30,40 @@ git clone <URL_del_repositorio_del_proyecto>
 ```
 - Reemplace <URL_del_repositorio_del_proyecto> por la url del repositorio de git.
 2. Abra una terminal.
-3. Navegue al directorio donde se encuentran los archivos, en este caso la estructura esta formada por una carpeta llamada ........
-Ejemplo de como se la navegación hasta la carpeta: (REEMPLAZAR)
+3. Navegue al directorio donde se encuentran los archivos, en este caso la estructura esta formada por una carpeta llamada src
+Ejemplo de como se la navegación hasta la carpeta:
 ```
-PS C:\Users\Dell\Desktop\ie0217> cd Tareas
-PS C:\Users\Dell\Desktop\ie0217\Tareas> cd Tarea5
-PS C:\Users\Dell\Desktop\ie0217\Tareas\Tarea5> cd src
-PS C:\Users\Dell\Desktop\ie0217\Tareas\Tarea5\src> mingw32-make
+PS C:\Users\Dell\Desktop\ie0217-proyecto> cd src
+PS C:\Users\Dell\Desktop\ie0217-proyecto\src>
+PS C:\Users\Dell\Desktop\ie0217-proyecto\src>  mingw32-make
 >>
 ```
 4. Ejecute el siguiente comando para compilar el programa y generar el ejecutable que a su vez inicia el programa con el menu de entrada del proyecto:
 ```bash
 mingw32-make
 ```
-De esa manera se genera un archivo ejecutable.
-Ejemplo de como se ve el uso del comando: (REEMPLAZAR)
-```
-PS C:\Users\Dell\Desktop\ie0217\Tareas\Tarea5\src> mingw32-make
->>
-```
-4. Una vez compilado correctamente, se ve de la siguiente forma: (REEMPLAZAR)
+- Una vez compilado correctamente, se ve de la siguiente forma: 
 ```bash
-g++ -std=c++11 -Wall -c main.cpp -o main.o
-g++ -std=c++11 -Wall -c ValidadorEmail.cpp -o ValidadorEmail.o
-g++ -std=c++11 -Wall -o tarea5.x main.o ValidadorEmail.o
-./tarea5.x
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -c main.cpp
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -c clientDb.cpp
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -c Funciones.cpp
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -c prestamosDb.cpp
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -c transactionDb.cpp
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -c CertificadoDepositoPlazo.cpp
+g++ -std=c++17 -Wall -Wno-reorder -Wno-unused-variable -IC:\sqlite -LC:\sqlite -o main.exe main.o clientDb.o Funciones.o prestamosDb.o transactionDb.o CertificadoDepositoPlazo.o -lsqlite3 -static-libgcc -static-libstdc++
+```
+- De esa manera se genera un archivo ejecutable, por favor escriba lo siguiente para ingresar al menu:
+Ejemplo de como se ve el uso del comando:
+```bash
+.\main.exe
 ```
 7. Siga las instrucciones en pantalla para interactuar con el programa.
 Ejemplo de salida del menú:
-```bash
+```Modalidad de operación
+1. Atención al cliente
+2. Información general sobre préstamos bancarios
+3. Salir
+Ingrese una opción:
 ```
 ## 3. Notas
 - Este proyecto lleva los comentarios necesarios para dar a entender lo que se realizó durante su desarrollo y al final se encuentra la documentación creada de manera adecuada.
@@ -250,9 +255,93 @@ IE0217-PROYECTO/
         - `retornarInfo(const std::string& idCdp):` Retorna la información de un CDP específico.
         - `executeQuery(const std::string& query):` Ejecuta una consulta SQL en la base de datos.
         -  Callbacks: En este caso se basa en los métodos que procesan los resultados de las consultas SQL (callback, idExisteCallback, obtenerCdpsCallback, retornarInfoCallback).
+- *clientDb.cpp:*
+    - Este archivo se encarga de implementar la funcionalidad de la clase ClienteDB, que gestiona una base de datos SQLite para almacenar información de clientes. Contiene métodos para la creación de tablas, insertar y eliminar datos de clientes, visualización de datos de clientes, actualización de cuentas y verificación de la existencia de clientes.
+    - Contenido: 
+       - Inclusión de Librerías: Incluye clientDb.hpp, <iostream> y <stdexcept> para la definición de la clase y manejo de excepciones.
 
+        - Constructor y Destructor: Define el constructor ClienteDB para abrir una conexión a la base de datos y el destructor para cerrarla adecuadamente.
+    - Métodos:
+        - `createTable`: Crea la tabla clientes en la base de datos si no existe.
+        - `addCliente`: Inserta un nuevo cliente en la tabla clientes.
+        - `deleteCliente`: Elimina un cliente de la tabla clientes basado en su ID.
+        - `viewClientes`: Muestra todos los clientes almacenados en la base de datos.
+        - `actualizarCuenta`: Actualiza el saldo de una cuenta de cliente (colones o dólares) según la operación especificada.
+        - `executeQuery`: Método privado utilizado para ejecutar consultas SQL en la base de datos.
+        - callback: Callback utilizado para procesar resultados de consultas SQL.
+- *clientDb.hpp:*
+    - Este archivo contiene la declaración de la clase ClienteDB, que gestiona operaciones en la base de datos SQLite para el almacenamiento de datos de clientes.
+- *Funciones.cpp:*
+    - Este archivo contiene la implementación de diversas funciones relacionadas con las operaciones bancarias, validaciones de entrada y gestión del tiempo.
+    - Contenido:
+        - Inclusión de librerías: 
+            - Se incluyen las librerías estándar de C++ y las librerías específicas del proyecto como clientDb.hpp, transactionDb.hpp, prestamosDb.hpp y CertificadoDepositoPlazo.hpp.
+        - Definición de funciones:
+            - `menuOperaciones`: Implementa las operaciones disponibles para diferentes tipos de cuentas, incluyendo depósitos, retiros, transferencias y abonos. Gestiona interacciones con el usuario para cada operación, valida entradas y actualiza registros correspondientes en las bases de datos.
+            - `userNotExist`: Maneja el caso en el que un usuario no está registrado, ofreciendo la opción de crear un nuevo usuario ingresando su número de identificación y nombre.
+        - Funciones de validación:
+            - `isPositiveDouble`: Verifica si un carácter es un dígito o un punto.
+            - `isValidMonto`: Valida que la entrada del usuario para monto sea un número positivo, sin espacios en blanco y con formato válido.
+            - `isValidPlazo`: Valida que la entrada del usuario para el plazo en años sea un número entero positivo.
+            - getCurrentDateTime: Retorna la fecha y hora actuales en formato "YYYY-MM-DD hh:mm".
+    - Métodos y clases:
+        - `ClienteDB`: Gestiona operaciones relacionadas con la base de datos de clientes.
+        - `TransactionDB`: Maneja operaciones relacionadas con la base de datos de transacciones.
+        - `PrestamoDB`: Maneja operaciones relacionadas con la base de datos de préstamos.
+        - `CertificadoDepositoPlazo`: Maneja operaciones relacionadas con los certificados de depósito a plazo.
+        - `removeWhiteSpaces`: Elimina los espacios en blanco de una cadena de texto.
+- *ClientDb.hpp:*
+    - contiene las declaraciones de funciones y las inclusiones necesarias para operaciones bancarias específicas implementadas en el proyecto. Define funciones relacionadas con la gestión de clientes, transacciones, préstamos y certificados de depósito a plazo. 
 
-
+- *prestamosDb.cpp:*
+    - Contenido:
+        - Bibliotecas:
+            - #include "prestamosDb.hpp": Incluye la declaración de la clase PrestamoDB.
+            - #include <iostream>: Para operaciones estándar de entrada/salida.
+            - #include <filesystem>: Para crear directorios de reportes.
+            - #include <fstream>: Para operaciones de archivos de salida.
+            - #include <iomanip>: Para formateo de salida.
+            - #include <stdexcept>: Para excepciones estándar.
+            - #include <cmath>: Para cálculos matemáticos, como el cálculo de la cuota mensual.
+        - Constructor y destructor:
+            - `PrestamoDB`::PrestamoDB(const std::string& dbPath): Abre la base de datos SQLite en la ruta especificada dbPath.
+            - `PrestamoDB`::~PrestamoDB(): Cierra la conexión con la base de datos SQLite al destruir el objeto.
+    - Métodos:
+        - `createTable()`: Crea la tabla prestamos en la base de datos si no existe.
+        - `calcularMensualidad(double monto, double tasaInteres, int cuotas)`: Calcula la cuota mensual de un préstamo basado en el monto, la tasa de interés y el número de cuotas.
+        - addPrestamo(...): Agrega un nuevo préstamo a la base de datos con detalles como el cliente, tipo de préstamo, monto, fecha, cuotas, tasa de interés y moneda.
+        - `deletePrestamo(int id)`: Elimina un préstamo de la base de datos dado su id.
+        - `viewPrestamo(const std::string& clientID)`: Genera un reporte en formato de tabla de los préstamos asociados a un cliente y lo guarda en un archivo .txt.
+        - `idExiste(const std::string& id)`: Verifica si existe algún préstamo asociado a un cliente específico.
+        - `prestamosIdsCliente(const std::string& clientId)`: Retorna un vector de strings con los IDs de los préstamos asociados a un cliente.
+        - `obtenerMonto(const std::string& prestamoId)`: Retorna la cuota mensual y la moneda de un préstamo dado su ID.
+        - `abonarPrestamo(const std::string& prestamoId)`: Reduce en 1 la cantidad de cuotas de un préstamo y verifica si el préstamo ha sido pagado completamente.
+        - `executeQuery(const std::string& query)`: Ejecuta una consulta SQL en la base de datos SQLite.
+        - callback, idExisteCallback, obtenerPrestamosCallback, obtenerMontoCallback, obtenerCuotasCallback: Funciones utilizadas como callbacks para procesar resultados de consultas SQL.
+- *prestamosDb.hpp:*
+    - contiene la declaración de la clase `PrestamoDB`, que gestiona operaciones relacionadas con los préstamos.
+- *transactionDb.cpp:*
+    - El archivo `TransactionDB.cpp` contiene la implementación de los métodos declarados en TransactionDB.hpp para la gestión de transacciones en una base de datos SQLite.
+    - Contenido: 
+        - Bibliotecas:
+            - #include "TransactionDB.hpp": Incluye el archivo de encabezado TransactionDB.hpp para acceder a la definición de la clase TransactionDB.
+            - #include <iostream>: Para la salida estándar y manejo de errores.
+            - #include <stdexcept>: Para el manejo de excepciones estándar.
+    - Métodos:
+        - bool TransactionDB::addTransaction(...): Método para agregar una nueva transacción a la base de datos.
+        - bool TransactionDB::deleteTransaction(int id): Método para eliminar una transacción de la base de datos dado su ID.
+        - bool TransactionDB::executeQuery(const std::string& query): Método privado para ejecutar consultas SQL en la base de datos SQLite y manejar errores de ejecución.
+        - void TransactionDB::viewTransaction(): Método para imprimir todas las transacciones almacenadas en la base de datos.
+        - bool TransactionDB::idExiste(const std::string& id): Método para verificar la existencia de una transacción específica en la base de datos dado su ID.
+- *transactionDb.hpp:*
+    - El archivo TransactionDB.hpp contiene la declaración de la clase TransactionDB, que gestiona operaciones relacionadas.
+    - Contenido: 
+        - Directivas:
+            - #ifndef TRANSACTIONDB_HPP y #define TRANSACTIONDB_HPP: Directivas para prevenir la inclusión múltiple del archivo de encabezado TransactionDB.hpp.
+            - #endif // TRANSACTIONDB_HPP: Cierra la directiva de preprocesador #ifndef para TransactionDB.hpp.
+        - Clase:
+            - Define la clase TransactionDB, que encapsula la funcionalidad para gestionar transacciones.
+ 
 
 ## 7. Prerrequisitos
 - En esta seccion se describen los prerrequisitos asi como la lista de software y herramientas necesarias para ejecutar el proyecto de manera correcta asi como las versiones específicas de compiladores y las librerías.
@@ -279,6 +368,51 @@ IE0217-PROYECTO/
 
 ## 9. Pruebas y demostracion de resultados
     
+- En esta parte hemos agregado una pequeña demostracion de algunas funciones.
+Acontinuacion se encuentra una muestra de la informacion de las tablas en la base de datos:
+- Tabla inicial CDP:
+![Tabla inicial CDP](./cdp1.PNG)
+
+- Tabla inicial clientes:
+![Tabla inicial clientes](./clientes2.PNG)
+
+- Tabla inicial de cuotas:
+![Tabla inicial de cuotas](./cuotasp.PNG)
+
+- Tabla inicial de prestamos:
+![Tabla inicial de prestamos](./prestamos.PNG)
+
+- Tabla inicial registro:
+
+![Tabla inicial registro](./conteo.PNG)
+
+- Tabla inicial de transferencias:
+![Tabla inicial de transferencias](./registro.PNG)
+
+- Si desea realizar una transaccion con un cliente que existe se ve de la siguiente manera:
+![Cliente existe](./clientee.PNG)
+
+- Tabla clienta Ana Maria:
+![Tabla de cliente](./clientes2.PNG)
+
+- Si desea realizar una transaccion con un cliente que no existe se ve de la siguiente manera, se agrega el cliente y se realiza un prestamo:
+![Tabla de cliente](./clienten.PNG)
+
+- Tabla actualizada cliente nueva Andrea:
+![Tabla de cliente](./clientn.PNG)
+
+- Tabla con el prestamo nuevo:
+![Tabla de prestamo](./prestamo1.PNG)
+
+- Registro de las transacciones:
+![Tabla de transaccion](./prueba.PNG)
+
+- Si desea agregar un cdp:
+![Tabla de cdp](./cdp.PNG)
+
+- Cuando se agrega, se ve de la siguiente manera:
+![Tabla de cdp](./cdpa.PNG)
+
 
 ## 10. Aprendizaje
 
@@ -326,8 +460,21 @@ Durante el desarrollo del proyecto, enfrentamos varios desafíos. Tuvimos que ca
 
 ## 12. Mejoras futuras del funcionamiento 
 
+- Sugerimos que en el futuro este código puede ser mejorado o manipulado por otras personas para ser de mayor utilidad.
+
+1. **Interfaz Gráfica de Usuario (GUI)**: Se podria implementar una interfaz gráfica para mejorar la experiencia del usuario en comparación con la interfaz desde la línea de comandos actual.
+2. **Autenticación y Seguridad**: Además podria agregarse mecanismos de autenticación más robustos y cifrado de datos para proteger la información de los clientes y las transacciones y otras funcionalidades que se nos puedan ocurrir.
+3. **Manejo de Errores Avanzado**: Se podria implementar un sistema de manejo de errores más elaborado.
+4. **Notificaciones y Alertas**: Se podria agregar un sistema de notificaciones por correo electrónico o SMS para alertar a los clientes sobre actividades importantes en sus cuentas o cosas similares.
+
+Estas son algunas de las mejoras que podriamos implementar en un fututo o con mas tiempo para realizar de una mejor manera este proyecto, de igual manera estamos satisfechos con los resulatados adquiridos hasta este punto. 
+
 
 ## 13. Conclusiones
+
+Este proyecto que simula un sitema de gestión bancaria ha sido una experiencia enriquecedora que ha permitido desarrollar una aplicación que resulta funcional para la gestión de clientes, transacciones, préstamos y certificados de depósito a plazo. A través de este proyecto, alcanzamos los objetivos planteados al inicio con el diseño del diagrama de flujo. Se realizaron pruebas importantes que nos permitieron llegar al resultado obtenido y completar todos los requirimientos planteados en el enunciado de este proyecto final.
+
+Se creo un sistema robusto que permite realizar operaciones bancarias básicas de manera eficiente y segura. El sistema maneja depósitos, retiros, transferencias y consultas de saldos de manera efectiva, utilizando la base de datos SQLite. Durante el desarrollo de este proyecto, adquirimos conocimiento en algunas areas y reforzamos lo aprendido a lo largo del curso.Se enfrentaron y resolvieron los problemas que tuvimos en algunas partes del código y se logro llegar a completar las funciones básicas que debia realizar el sistema. En conclusión al realizar este proyecto en su totalidad reafirmamos los conocimientos adquiridos a lo largo de las clases.
 
 ## 14. Documentación Generada por Doxygen
 
@@ -340,4 +487,3 @@ La documentación de este proyecto ha sido generada utilizando Doxygen. (AGREGAR
 
 Se puede acceder a la documentación en formato HTML siguiendo este enlace:
 [Documentación HTML](REEMPLAZAR)
-
