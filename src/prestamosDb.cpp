@@ -2,6 +2,8 @@
 #include "prestamosDb.hpp"
 #include <iostream>
 //nuevo
+#include <ctime>
+#include <sstream>
 #include <filesystem> // para crear la inclusión del directorio reportes
 #include <fstream>
 #include <iomanip> // Librería para std::setw y std::left
@@ -38,8 +40,18 @@ bool PrestamoDB::createTable() {
         "cuota_mensual DOUBLE, "
         "moneda TEXT, "
         "FOREIGN KEY (client) REFERENCES clientes (id) ON DELETE CASCADE );";
-    //Ejecutar comando en base de datos
-    return executeQuery(query);
+     // Crea tabla de cuotas pagadas
+    std::string queryCuotasPagadas = 
+        "CREATE TABLE IF NOT EXISTS cuotas_pagadas ("
+        "Cuota_ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "Prestamo_ID INTEGER NOT NULL, "
+        "fecha_pago TEXT, "
+        "aporte_capital REAL, "
+        "intereses_abonados REAL, "
+        "FOREIGN KEY (Prestamo_ID) REFERENCES prestamos (Prestamo_ID) ON DELETE CASCADE );";
+
+//Ejecutar comando en base de datos
+    return executeQuery(query) && executeQuery(queryCuotasPagadas);
 }
 
 // Implementación para calcular la mensualidad del préstamo
@@ -84,6 +96,48 @@ int PrestamoDB::addPrestamo(const std::string& clientId, const std::string& tipo
     return sqlite3_last_insert_rowid(db);
 }
 
+// Método para registrar cuotas pagadas
+bool PrestamoDB::addCuotaPagada(int prestamoID, const std::string& fechaPago, double aporteCapital, double interesesAbonados) {
+    std::string query = 
+        "INSERT INTO cuotas_pagadas (Prestamo_ID, fecha_pago, aporte_capital, intereses_abonados) VALUES ("
+        + std::to_string(prestamoID) + ", '"
+        + fechaPago + "', "
+        + std::to_string(aporteCapital) + ", "
+        + std::to_string(interesesAbonados) + ");";
+    
+    return executeQuery(query);
+}
+
+// Función para calcular el progreso del pago de prestamoID
+PagoProgreso PrestamoDB::calcularProgresoPrestamo(int prestamoID) {
+    // Obtener la suma de aportes al capital e intereses abonados
+    std::string query = 
+        "SELECT SUM(aporte_capital), SUM(intereses_abonados) FROM cuotas_pagadas WHERE Prestamo_ID = " 
+        + std::to_string(prestamoID) + ";";
+
+    // Inicializa la estructura para almacenar los resultados de la consulta
+    PagoProgreso progreso = {0.0, 0.0, 0.0};
+    // Ejecuta la consulta SQL
+    int result = sqlite3_exec(db, query.c_str(), calcularProgresoCallback, &progreso, nullptr);
+    if (result != SQLITE_OK) {
+        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+    }
+
+    // Calcula el total pagado
+    progreso.totalPagado = progreso.totalAporteCapital + progreso.totalIntereses;
+    return progreso;
+}
+
+// Callback para procesar los resultados de la consulta SQL que calcula el progreso del pago del préstamo
+int PrestamoDB::calcularProgresoCallback(void* data, int argc, char** argv, char** azColName) {
+    PagoProgreso* progreso = static_cast<PagoProgreso*>(data);
+    if (argc == 2 && argv[0] && argv[1]) {
+        progreso->totalAporteCapital = std::stod(argv[0]);
+        progreso->totalIntereses = std::stod(argv[1]);
+    }
+    return 0;
+}
+
 //Eliminar préstamo por id
 bool PrestamoDB::deletePrestamo(int id) {
     std::string query = "DELETE FROM prestamos WHERE Prestamo_ID = " + std::to_string(id) + ";";
@@ -109,17 +163,29 @@ int PrestamoDB::obtenerPrestamosCallback(void* data, int argc, char** argv, char
     return 0;
 }
 
-
-//este metodo reduce en 1 la cantidad de cuotas y determina si el prestamo ya ha sido pagado
+// Método reduce en 1 la cantidad de cuotas y determina si el prestamo ya ha sido pagado
 void PrestamoDB::abonarPrestamo(const std::string& prestamoId) {
     // Obtener el número de cuotas
-    std::string query = "SELECT cuotas FROM prestamos WHERE Prestamo_ID = '" + prestamoId + "';";
-    int cuotas = 0;
-    int result = sqlite3_exec(db, query.c_str(), obtenerCuotasCallback, &cuotas, nullptr);
-    if (result != SQLITE_OK) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
+    std::string query = "SELECT monto, tasa_interes, cuotas, cuota_mensual FROM prestamos WHERE Prestamo_ID = '" + prestamoId + "';";
+    sqlite3_stmt* stmt;
+
+    if (sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, NULL) != SQLITE_OK) {
+        std::cerr << "Error al preparar la declaración SQL" << std::endl;
         return;
     }
+
+    double monto = 0.0;
+    double tasaInteres = 0.0;
+    int cuotas = 0;
+    double cuotaMensual = 0.0;
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        monto = sqlite3_column_double(stmt, 0);
+        tasaInteres = sqlite3_column_double(stmt, 1);
+        cuotas = sqlite3_column_int(stmt, 2);
+        cuotaMensual = sqlite3_column_double(stmt, 3);
+    }
+    sqlite3_finalize(stmt);
 
     // Decrecer el número de cuotas
     cuotas--;
@@ -129,12 +195,31 @@ void PrestamoDB::abonarPrestamo(const std::string& prestamoId) {
         std::cout << "Préstamo pagado en su totalidad.\n";
         deletePrestamo(std::stoi(prestamoId));
     } else {
+        // Calcular la cuota mensual y los pagos
+        double intereses = monto * (tasaInteres / 12.0 / 100.0);
+        double amortizacionCapital = cuotaMensual - intereses;
+
+        // Verificar que la amortización del capital no supere el saldo del préstamo restante
+        if (amortizacionCapital > monto) {
+            amortizacionCapital = monto; // Ajustar la amortización al saldo restante
+        }
+        monto -= amortizacionCapital;// Actualizar el número de cuotas
+        
         // Actualizar el número de cuotas
         query = "UPDATE prestamos SET cuotas = " + std::to_string(cuotas) + " WHERE Prestamo_ID = '" + prestamoId + "';";
         if (!executeQuery(query)) {
             std::cerr << "Error al actualizar el número de cuotas.\n";
         }
+        std::string fechaPago = obtenerFechaActual();
+        addCuotaPagada(std::stoi(prestamoId), fechaPago, amortizacionCapital, intereses);
     }
+}
+std::string PrestamoDB::obtenerFechaActual() {
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%Y-%m-%d");
+    return oss.str();
 }
 
 int PrestamoDB::obtenerCuotasCallback(void* data, int argc, char** argv, char** azColName) {
@@ -197,9 +282,9 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
                << std::left << std::setw(10) << "Tasa (%)"
                << std::left << std::setw(15) << "Cuota Mensual"
                << std::left << "Moneda\n";
-
     reportFile << std::string(125, '-') << std::endl;
 
+    std::vector<int> prestamoIds;
     // Recorrer la información de la bd, para mostrar la tabla
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         int id = sqlite3_column_int(stmt, 0);
@@ -222,15 +307,71 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
                    << std::left << std::setw(10) << tasaInteres
                    << std::left << std::setw(15) << cuotaMensual
                    << std::left << tipoMoneda << std::endl;
+        prestamoIds.push_back(id);
     }
-
     reportFile << std::string(125, '-') << std::endl;
     
     sqlite3_finalize(stmt);
-    reportFile.close();
+
+    // Para cada préstamo, obtener y mostrar las cuotas pagadas y saldo del préstamo
+    for (int id : prestamoIds) {
+        // Obtener y mostrar cuotas pagadas para cada préstamo
+        reportFile << "\nCuotas Pagadas para el Préstamo " << id << ":\n";
+        reportFile << std::string(75, '-') << std::endl;
+        reportFile << std::left << std::setw(20) << "Fecha de Pago"
+                   << std::left << std::setw(20) << "Aporte a Capital"
+                   << std::left << "Intereses Abonados\n";
+        reportFile << std::string(75, '-') << std::endl;
+
+        std::string cuotasQuery = "SELECT fecha_pago, aporte_capital, intereses_abonados FROM cuotas_pagadas WHERE Prestamo_ID = " + std::to_string(id) + ";";
+        sqlite3_stmt* cuotasStmt;
+        if (sqlite3_prepare_v2(db, cuotasQuery.c_str(), -1, &cuotasStmt, NULL) != SQLITE_OK) {
+            std::cerr << "Error al preparar la declaración SQL para cuotas pagadas" << std::endl;
+            return;
+        }
+        while (sqlite3_step(cuotasStmt) == SQLITE_ROW) {
+            reportFile << std::left << std::setw(20) << sqlite3_column_text(cuotasStmt, 0)
+                       << std::left << std::setw(20) << sqlite3_column_double(cuotasStmt, 1)
+                       << std::left << sqlite3_column_double(cuotasStmt, 2) << std::endl;
+        }
+        sqlite3_finalize(cuotasStmt);
+
+        // Calcular y mostrar saldo del préstamo
+        std::string saldoQuery = "SELECT monto FROM prestamos WHERE Prestamo_ID = " + std::to_string(id) + ";";
+        sqlite3_stmt* saldoStmt;
+        if (sqlite3_prepare_v2(db, saldoQuery.c_str(), -1, &saldoStmt, NULL) != SQLITE_OK) {
+            std::cerr << "Error al preparar la declaración SQL para saldo" << std::endl;
+            return;
+        }
+
+        double montoPrestamo = 0.0;
+        if (sqlite3_step(saldoStmt) == SQLITE_ROW) {
+            montoPrestamo = sqlite3_column_double(saldoStmt, 0);
+        }
+
+        sqlite3_finalize(saldoStmt);
+
+        std::string totalAporteQuery = "SELECT SUM(aporte_capital) FROM cuotas_pagadas WHERE Prestamo_ID = " + std::to_string(id) + ";";
+        if (sqlite3_prepare_v2(db, totalAporteQuery.c_str(), -1, &saldoStmt, NULL) != SQLITE_OK) {
+            std::cerr << "Error al preparar la declaración SQL para saldo" << std::endl;
+            return;
+        }
+
+        double totalAporteCapital = 0.0;
+        if (sqlite3_step(saldoStmt) == SQLITE_ROW && sqlite3_column_text(saldoStmt, 0)) {
+            totalAporteCapital = sqlite3_column_double(saldoStmt, 0);
+        }
+
+        sqlite3_finalize(saldoStmt);
+
+        double saldoPrestamo = montoPrestamo - totalAporteCapital;
+        reportFile << "\nSaldo del Préstamo: " << saldoPrestamo << "\n";
+        reportFile << std::string(75, '-') << std::endl;
+    }
+
+    reportFile.close();    
     
     std::cout << "Reporte generado: reporte_prestamos_" << clientID << ".txt" << std::endl;
-
 }
 
 // Permite obtener la cuota mensual de un préstamo por su ID
@@ -288,5 +429,3 @@ int PrestamoDB::idExisteCallback(void* data, int argc, char** argv, char** azCol
     }
     return 0;
 }
-
-
