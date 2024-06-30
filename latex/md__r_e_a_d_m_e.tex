@@ -1,0 +1,566 @@
+\chapter{ie0217-\/proyecto}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{ie0217-\/proyecto@{ie0217-\/proyecto}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+Este repositorio es creado con el propósito de utilizarse como repo para desarrollar el proyecto final del curso de Estructuras Abstractas de Datos y Algoritmos para Ingeniería IE-\/0217. \hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Grupo 2 estudiantes\+:}{Grupo 2 estudiantes\+:}}\label{md__r_e_a_d_m_e_autotoc_md1}
+
+\begin{DoxyItemize}
+\item Kryssia Martinez, carnet B84636.
+\item Jose Pablo Laurent, carnet B63761
+\item Susan Morales Alfaro, carnet A94203 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{\texorpdfstring{Tabla de Contenidos}{Tabla de Contenidos}}\label{md__r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item Descripción general del proyecto
+\item Instrucciones de Ejecución
+\item Notas
+\item Primera parte del proyecto
+\item Segunda parte del proyecto
+\item Estructura del Proyecto
+\item Prerrequisitos
+\item Instalación y Configuración
+\item Pruebas
+\item Lecciones Aprendidas
+\item Desafíos y Soluciones
+\item Futuras Mejoras
+\item Conclusiones
+\item Documentacion 
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysection{\texorpdfstring{1. Descripción general del proyecto}{1. Descripción general del proyecto}}\label{md__r_e_a_d_m_e_autotoc_md3}
+El proyecto tiene como objetivo desarrollar un sistema de gestión bancaria utilizado por agentes en ventanillas para atender a clientes en una entidad bancarias.\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysection{\texorpdfstring{2. Instrucciones de Ejecución}{2. Instrucciones de Ejecución}}\label{md__r_e_a_d_m_e_autotoc_md4}
+Para compilar y ejecutar este proyecto, se deben seguir los siguientes pasos\+:
+\begin{DoxyEnumerate}
+\item Clone el repositorio desde Git\+Hub en su máquina local utilizando el siguiente comando\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ <URL\_del\_repositorio\_del\_proyecto>}
+
+\end{DoxyCode}
+
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item Reemplace $<$\+URL\+\_\+del\+\_\+repositorio\+\_\+del\+\_\+proyecto$>$ por la url del repositorio de git.
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item Abra una terminal.
+\item Navegue al directorio donde se encuentran los archivos, en este caso la estructura esta formada por una carpeta llamada src Ejemplo de como se la navegación hasta la carpeta\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{PS\ C:\(\backslash\)Users\(\backslash\)Dell\(\backslash\)Desktop\(\backslash\)ie0217-\/proyecto>\ cd\ src}
+\DoxyCodeLine{PS\ C:\(\backslash\)Users\(\backslash\)Dell\(\backslash\)Desktop\(\backslash\)ie0217-\/proyecto\(\backslash\)src>}
+\DoxyCodeLine{PS\ C:\(\backslash\)Users\(\backslash\)Dell\(\backslash\)Desktop\(\backslash\)ie0217-\/proyecto\(\backslash\)src>\ \ mingw32-\/make}
+\DoxyCodeLine{>>}
+
+\end{DoxyCode}
+
+\item Ejecute el siguiente comando para compilar el programa y generar el ejecutable que a su vez inicia el programa con el menu de entrada del proyecto\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mingw32-\/make}
+
+\end{DoxyCode}
+
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item Una vez compilado correctamente, se ve de la siguiente forma\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/c\ main.cpp}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/c\ clientDb.cpp}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/c\ Funciones.cpp}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/c\ prestamosDb.cpp}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/c\ transactionDb.cpp}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/c\ CertificadoDepositoPlazo.cpp}
+\DoxyCodeLine{g++\ -\/std=c++17\ -\/Wall\ -\/Wno-\/reorder\ -\/Wno-\/unused-\/variable\ -\/IC:\(\backslash\)sqlite\ -\/LC:\(\backslash\)sqlite\ -\/o\ main.exe\ main.o\ clientDb.o\ Funciones.o\ prestamosDb.o\ transactionDb.o\ CertificadoDepositoPlazo.o\ -\/lsqlite3\ -\/static-\/libgcc\ -\/static-\/libstdc++}
+
+\end{DoxyCode}
+
+\item De esa manera se genera un archivo ejecutable, por favor escriba lo siguiente para ingresar al menu\+: Ejemplo de como se ve el uso del comando\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{.\(\backslash\)main.exe}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item Siga las instrucciones en pantalla para interactuar con el programa. Ejemplo de salida del menú\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ de\ operación}
+\DoxyCodeLine{1.\ Atención\ al\ cliente}
+\DoxyCodeLine{2.\ Información\ general\ sobre\ préstamos\ bancarios}
+\DoxyCodeLine{3.\ Salir}
+\DoxyCodeLine{Ingrese\ una\ opción:}
+
+\end{DoxyCode}
+ 
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{\texorpdfstring{3. Notas}{3. Notas}}\label{md__r_e_a_d_m_e_autotoc_md5}
+
+\begin{DoxyItemize}
+\item Este proyecto lleva los comentarios necesarios para dar a entender lo que se realizó durante su desarrollo y al final se encuentra la documentación creada de manera adecuada.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysection{\texorpdfstring{4. Primera parte del proyecto}{4. Primera parte del proyecto}}\label{md__r_e_a_d_m_e_autotoc_md6}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysection{\texorpdfstring{Parte Teórica}{Parte Teórica}}\label{md__r_e_a_d_m_e_autotoc_md7}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md8}{}\doxysubsection{\texorpdfstring{Sistema de gestión bancaria}{Sistema de gestión bancaria}}\label{md__r_e_a_d_m_e_autotoc_md8}
+
+\begin{DoxyItemize}
+\item {\bfseries{Qué es un sistema de gestión bancaria\+:}}
+\begin{DoxyItemize}
+\item La gestión bancaria se encarga de controlar y rastrear el flujo de dinero de una entidad, de esa manera se pueden tomar las medidas necesarias para que una compañía sea más rentable y segura económicamente.
+\item En este caso, el sistema de gestión bancaria a realizar en este proyecto se trata de un sistema que va a utilizarse para gestionar ingresos, gastos y activos de las personas que lo utilicen, así como informar a las personas sobre los tipos de préstamos y todo lo necesario acerca de las cuentas bancarias. Esto mediante el menú de entrada interactivo, con las diferentes opciones para que una persona pueda obtener información y gestionar algún cambio en sus cuentas.
+\end{DoxyItemize}
+\item {\bfseries{Funcionalidades\+:}}
+\begin{DoxyItemize}
+\item Sobre gestión de cuentas\+: En este caso, para este sistema un cliente puede tener hasta 2 cuentas bancarias, una en colones y otra en dólares, en las cuales puede gestionar sus ahorros o los certificados de depósito a corto plazo.
+\item Transacciones\+: Referente a las transacciones, se puede acceder a la parte de registro, desde el menú, inicialmente una persona puede interactuar con las opciones disponibles para adquirir información o bien registrarse, ver los tipos de préstamo e incluso obtener la tabla de valores con las cuotas y tasas de interés.
+\item Préstamos\+: Referente a esta etapa, se trabajará con préstamos personales, prendarios e hipotecarios en los cuales una persona puede adquirir uno, abonarlo o incluso abonar el de otras personas.
+\end{DoxyItemize}
+\item {\bfseries{Normativa\+:}}
+\begin{DoxyItemize}
+\item Regulaciones bancarias aplicables\+: Esta parte es importante, en un banco normalmente se tiene un sistema que regula cuidadosamente las transacciones que realizan las personas, así como la confidencialidad la protección de datos, se previene el lavado de dinero y se intenta cumplir las normas del banco y otros organismos reguladores, para obtener un préstamo usualmente se hace un estudio, en el cual es necesario cumplir con ciertos requisitos y presentar documentos que respalden esos requisitos, después se revisan y se procede a hacer un estudio para rechazar o aprobar.
+\item Cumplimiento de la normativa y seguridad\+: Luego, por esta parte el banco asegura la seguridad a sus clientes, con un sistema robusto que mantiene la integridad y confidencialidad de los datos de los clientes. Aquí se incluye el uso de protocolos de seguridad para la transmisión de datos y el almacenamiento seguro de información sensible de cada persona.
+\item En este sistema\+: En el caso de este sistema, se intentará realizar un sistema seguro con manejo de excepciones, para el correcto funcionamiento y a los clientes se le asignará un numero de identificación único. 
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{Modalidad de operación\+:}{Modalidad de operación\+:}}\label{md__r_e_a_d_m_e_autotoc_md9}
+
+\begin{DoxyItemize}
+\item {\bfseries{Información general\+:}}
+\begin{DoxyItemize}
+\item Muestra opciones de préstamos personales, prendarios e hipotecarios, de manera adicional genera una tabla de pagos de acuerdo a la información elegida.
+\end{DoxyItemize}
+\item {\bfseries{Atención al cliente\+:}}
+\begin{DoxyItemize}
+\item Procesos y operaciones realizadas en la atención directa a clientes.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md10}{}\doxysubsection{\texorpdfstring{Tipos de préstamos\+:}{Tipos de préstamos\+:}}\label{md__r_e_a_d_m_e_autotoc_md10}
+
+\begin{DoxyItemize}
+\item {\bfseries{Préstamos personales\+:}} Este tipo de préstamo permite pedir dinero prestado a una institución financiera sin necesidad de tener como respaldo un bien en específico. Usualmente su tasa de interés suele ser más alta que las de otros tipos de préstamos debido a que no cuenta con el respaldo de un determinado bien. Según, el Banco de Costa Rica (BCR) las tasas de interés anual es alrededor de {\bfseries{15\% -\/ 20\%}}.
+\item {\bfseries{Préstamos prendarios\+:}} Este tipo de préstamo consiste en prestar dinero, donde el préstamo se encuentra respaldado por un bien tangible. En caso de no poder pagar el préstamo, la institución financiera se quedará con el bien tangible. En Costa Rica, la tasa de interés anual para préstamos prendarios (préstamos con garantía) puede variar dependiendo de la institución financiera y las condiciones del mercado. Actualmente, los préstamos con garantía tienen tasas de interés entre el {\bfseries{12\% y el 16\%}} anual​.
+\item {\bfseries{Préstamos hipotecarios\+:}} El préstamo hipotecario consiste en prestar una determinada cantidad de dinero para la compra de una propiedad, si el prestatario no cumple con el pago el prestamista tiene derecho a tomar la propiedad. Las tasas de interés para préstamos hipotecarios en el Banco de Costa Rica (BCR) pueden estar alrededor del {\bfseries{8\%}} a {\bfseries{9\%}} anual.
+\item {\bfseries{Calculo de tablas de pagos\+:}}
+\begin{DoxyItemize}
+\item Fórmulas y métodos para calcular cuotas mensuales y tablas de interés\+: En este caso se puede utilizar una fórmula de amortización, la fórmula de interés compuesto para calcular las cuotas mensuales de los préstamos, para imprimir la tabla de pagos esperados.
+\item {\bfseries{Tasa de interés mensual\+:}}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\begin{DoxyVerb}     ![Fórmula interés mensual](https://latex.codecogs.com/svg.image?&space;r=\frac{r_{a}}{12})
+
+     - r, es la tasa de interés mensual y r_a es la tasa de interés anual.
+
+- **Cuota mensual:** 
+
+
+     ![Fórmula cuota mensual](https://latex.codecogs.com/svg.image?&space;M=P\frac{r(1&plus;r)^{n}}{(1&plus;r)^{n}-1})
+
+
+     - P es el monto del préstamo, r es la tasa de interés mensual y n es el número total de cuotas.
+\end{DoxyVerb}
+
+\begin{DoxyItemize}
+\item {\bfseries{Valores personalizados\+:}}
+\begin{DoxyItemize}
+\item Cálculo de tablas con valores personalizados de monto, cuotas, y tasa de interés\+: En esta opción se hace uso de la misma fórmula, pero el usuario tiene la opción de obtener la tabla mediante valores personalizados puede ingresar el monto, la cantidad de cuotas y la tasa de interés, de esa manera se imprime la información esperada.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysubsection{\texorpdfstring{Cuentas bancarias\+:}{Cuentas bancarias\+:}}\label{md__r_e_a_d_m_e_autotoc_md11}
+
+\begin{DoxyItemize}
+\item {\bfseries{Tipos de cuentas\+:}}
+\begin{DoxyItemize}
+\item Cuenta en colones\+: El cliente tiene la opción de tener una cuenta bancaria para gestionar sus ahorros.
+\item Cuenta en dólares\+: De manera análoga, el cliente tiene la opción de tener una cuenta bancaria para gestionar sus ahorros.
+\item Certificados de depósito a plazo (CDP)\+: El cliente tiene la opción de depositar una cantidad de dinero, en un periodo de tiempo fijo, a cambio de una tasa de interés más alta que una cuenta de ahorros, donde el dinero depositado no se podrá retirar antes de periodo de tiempo establecido sin incurrir en penalizaciones. 
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysubsection{\texorpdfstring{Operaciones\+:}{Operaciones\+:}}\label{md__r_e_a_d_m_e_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{Depósitos\+:}} El cliente podrá depositar dinero dentro de sus cuentas bancarias, ya sea en colones o en dólares.
+\item {\bfseries{Retiros\+:}} El cliente podrá realizar retiros de su cuenta en colones o de sus cuentas en dólares, este retiro debe ser una fracción o la totalidad del dinero contenido en la cuenta bancaria seleccionada.
+\item {\bfseries{Transferencias\+:}} El cliente podrá realizar transferencias entre cuentas bancarias, donde los clientes receptores deben de existir y el monto no debe superar la totalidad del monto almacenado dentro de la cuenta del emisor.
+\item {\bfseries{Abonos a préstamos\+:}} El cliente podrá realizar abonos a sus préstamos, donde estos podrán ser una fracción del préstamos total aunado a la tasa de interés o se podrá pagar la totalidad del préstamos aunado a la tasa de interés. 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysubsection{\texorpdfstring{Registro de las transacciones}{Registro de las transacciones}}\label{md__r_e_a_d_m_e_autotoc_md13}
+
+\begin{DoxyItemize}
+\item {\bfseries{Métodos disponibles\+:}} Las transacciones serán almacenadas en una base de datos SQL, que almacenará un número de identificación del cliente, tipo de transacción efectuada, monto de la transacción efectuada y fecha a la que se efectuó la transacción. 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md14}{}\doxysubsection{\texorpdfstring{Seguridad}{Seguridad}}\label{md__r_e_a_d_m_e_autotoc_md14}
+
+\begin{DoxyItemize}
+\item {\bfseries{Método de identificación de los clientes\+:}} Los clientes serán almacenados dentro de una base de datos SQl, que contendrá las columnas de un número de identificación único para cada cliente entre 0 y 999999999, saldo de la cuenta en colones, saldo de la cuenta en dólares, tipo de préstamo, saldo del tipo de préstamo y fecha a la que se creó el usuario del cliente. 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md15}{}\doxysubsection{\texorpdfstring{Préstamos asociados y Reportes\+:}{Préstamos asociados y Reportes\+:}}\label{md__r_e_a_d_m_e_autotoc_md15}
+
+\begin{DoxyItemize}
+\item {\bfseries{Estructura de los Préstamos\+:}}
+\begin{DoxyItemize}
+\item Características específicas como tasa de interés, período y cuota mensual\+:
+\begin{DoxyItemize}
+\item Cada préstamo tendrá un registro que incluirá el monto principal, la tasa de interés, el plazo del préstamo (en meses), la cuota mensual, y la fecha de inicio.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\bfseries{Generación de reportes\+:}}
+\begin{DoxyItemize}
+\item Reportes detallados en formato tabular\+:
+\begin{DoxyItemize}
+\item El sistema va a generar un archivo de texto con un reporte que incluye las cuotas pagadas hasta la fecha, incluyendo un desglose del monto destinado a capital y los intereses abonados hasta el momento.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md16}{}\doxysection{\texorpdfstring{5. Segunda parte del proyecto}{5. Segunda parte del proyecto}}\label{md__r_e_a_d_m_e_autotoc_md16}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md17}{}\doxysection{\texorpdfstring{Etapa de diseño}{Etapa de diseño}}\label{md__r_e_a_d_m_e_autotoc_md17}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md18}{}\doxysubsection{\texorpdfstring{{\bfseries{Descripción del Diagrama}}}{{\bfseries{Descripción del Diagrama}}}}\label{md__r_e_a_d_m_e_autotoc_md18}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md19}{}\doxysubsubsection{\texorpdfstring{1. {\bfseries{Inicio\+:}}}{1. {\bfseries{Inicio\+:}}}}\label{md__r_e_a_d_m_e_autotoc_md19}
+El sistema se inicia y presenta dos opciones principales\+: "{}\+Atención a Clientes"{} e "{}\+Información General sobre Préstamos"{}.\hypertarget{md__r_e_a_d_m_e_autotoc_md20}{}\doxysubsubsection{\texorpdfstring{2. {\bfseries{Selección de Modalidad\+:}}}{2. {\bfseries{Selección de Modalidad\+:}}}}\label{md__r_e_a_d_m_e_autotoc_md20}
+
+\begin{DoxyItemize}
+\item Si se selecciona "{}\+Atención a Clientes"{}, el flujo pasa a la interacción con los clientes.
+\item Si se selecciona "{}\+Información General sobre Préstamos"{}, el flujo permite al usuario consultar información de préstamos y generar tablas de pagos.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md21}{}\doxysubsubsection{\texorpdfstring{3. {\bfseries{Interacción con Clientes\+:}}}{3. {\bfseries{Interacción con Clientes\+:}}}}\label{md__r_e_a_d_m_e_autotoc_md21}
+
+\begin{DoxyItemize}
+\item {\bfseries{Identificación del Cliente\+:}} El agente ingresa el número de identificación del cliente.
+\item {\bfseries{Verificación de la Identidad\+:}} El sistema verifica la identidad del cliente.
+\item {\bfseries{Operaciones Bancarias\+:}} El cliente puede realizar operaciones como depósitos, retiros, transferencias y abonos a préstamos.
+\item {\bfseries{Registro de Transacciones\+:}} Cada transacción se registra en la base de datos.
+\item {\bfseries{Generación de Reportes\+:}} El cliente puede solicitar un reporte de sus préstamos.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md22}{}\doxysubsubsection{\texorpdfstring{4. {\bfseries{Información General sobre Préstamos\+:}}}{4. {\bfseries{Información General sobre Préstamos\+:}}}}\label{md__r_e_a_d_m_e_autotoc_md22}
+
+\begin{DoxyItemize}
+\item {\bfseries{Consulta de Tipos de Préstamos\+:}} El usuario selecciona entre préstamos personales, prendarios e hipotecarios.
+\item {\bfseries{Generación de Tabla de Pagos\+:}} El sistema genera una tabla de pagos esperados según el monto ingresado.
+\item {\bfseries{Personalización de Valores\+:}} El usuario puede ingresar valores personalizados para monto, cuotas y tasa de interés.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md23}{}\doxysubsubsection{\texorpdfstring{5. {\bfseries{Fin\+:}}}{5. {\bfseries{Fin\+:}}}}\label{md__r_e_a_d_m_e_autotoc_md23}
+El flujo termina y el sistema puede cerrar la sesión o reiniciar para otra operación.\hypertarget{md__r_e_a_d_m_e_autotoc_md24}{}\doxysubsubsection{\texorpdfstring{{\bfseries{Diagrama}}}{{\bfseries{Diagrama}}}}\label{md__r_e_a_d_m_e_autotoc_md24}
+A continuación se muestra el diagrama que representa el sistema de gestión bancaria, que refleja los procesos clave desde la interacción inicial hasta la realización de las operaciones bancarias y la generación de informes.
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md25}{}\doxysubsection{\texorpdfstring{{\bfseries{Cronograma}}}{{\bfseries{Cronograma}}}}\label{md__r_e_a_d_m_e_autotoc_md25}
+Se planifica un cronograma detallado de actividades, asignando responsabilidades específicas a cada integrante del proyecto.
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md26}{}\doxysection{\texorpdfstring{6. Estructura del Proyecto}{6. Estructura del Proyecto}}\label{md__r_e_a_d_m_e_autotoc_md26}
+
+\begin{DoxyItemize}
+\item Este proyecto se encuentra segmentado de la siguiente manera\+:
+\end{DoxyItemize}
+
+IE0217-\/\+PROYECTO/
+
+├── databases/ ~\newline
+ │ └── banco.\+db ~\newline
+ ├── src/ ~\newline
+ │ ├── main.\+cpp ~\newline
+ │ ├── client\+Db.\+cpp ~\newline
+ │ ├── Funciones.\+cpp ~\newline
+ │ ├── prestamos\+Db.\+cpp ~\newline
+ │ ├── transaction\+Db.\+cpp ~\newline
+ │ ├── Certificado\+Deposito\+Plazo.\+cpp ~\newline
+ │ ├── client\+Db.\+hpp ~\newline
+ │ ├── Funciones.\+hpp ~\newline
+ │ ├── prestamos\+Db.\+hpp ~\newline
+ │ ├── transaction\+Db.\+hpp ~\newline
+ │ └── Certificado\+Deposito\+Plazo.\+hpp ~\newline
+ ├── readme.\+md ~\newline
+ ├── Cronograma1.\+PNG ~\newline
+ └── gestion\+Bancaria.\+png
+
+
+\begin{DoxyItemize}
+\item Cada uno de los archivos agregados son una parte importante para el correcto funcionamiento del sistema de gestion bancaria y fueron agregados para cumplir con las peticiones y requerimientos del enunciado del proyecto final.
+\item Acontinuación encontrará una descripcion de cada uno de los archivos y los puntos importantes. 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md27}{}\doxysubsection{\texorpdfstring{Descripcion detallada de los archivos\+:}{Descripcion detallada de los archivos\+:}}\label{md__r_e_a_d_m_e_autotoc_md27}
+
+\begin{DoxyItemize}
+\item {\itshape Main.\+cpp}\+:
+\begin{DoxyItemize}
+\item En este archivo se encuentra el punto de entrada del programa. Se encarga de inicializar las bases de datos y de ejecutar los diferentes menús del sistema bancario. A través de este archivo, se llaman a múltiples funciones y clases definidas en otros archivos importantes del proyecto.
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Inclusión de librerías importantes\+: Se incluyen las librerías de C++ y las librerías específicas del proyecto como Funciones.\+hpp, client\+Db.\+hpp, transaction\+Db.\+hpp y prestamos\+Db.\+hpp.
+\item Enumeraciones\+: Se definen varias enumeraciones entre ellas Opciones, Opciones\+Gnerales, Operaciones, que son necesarias para gestionar las opciones del menú.
+\item Declaraciones de funciones\+: En este caso se declaran las funciones necesarias para el funcionamiento del programa, como por ejemplo el menu\+Operaciones.
+\item Función main\+: Es la que contiene la lógica principal para el desarrollo del programa, incluyendo la inicialización de las instancias de las clases Cliente\+DB, Transaction\+DB, Prestamo\+DB, y Certificado\+Deposito\+Plazo.
+\item Se realiza la creación de tablas en la base de datos.
+\item Por ultimo se implementan los menús de interacción y el manejo de excepciones para validar las entradas del usuario.
+\end{DoxyItemize}
+\item Métodos y clases utilizadas\+:
+\begin{DoxyItemize}
+\item Cliente\+DB\+: Es el que maneja operaciones relacionadas con la base de datos de clientes.
+\item Transaction\+DB\+: Maneja las operaciones relacionadas con la base de datos de la parte de transacciones.
+\item Prestamo\+DB\+: Se encarga de manejar las operaciones relacionadas con la base de datos de préstamos bancarios.
+\item Certificado\+Deposito\+Plazo\+: La ultima parte que se encargfa de las operaciones relacionadas con los certificados de depósito a plazo.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\itshape Certificado\+Deposito\+Plazo.\+cpp}\+:
+\begin{DoxyItemize}
+\item En este archivo se implementa la clase Certificado\+Deposito\+Plazo, que gestiona la interacción con la base de datos de certificados de depósito a plazo (CDP).
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Se encuentra el constructor llamado {\ttfamily Certificado\+Deposito\+Plazo(const std\+::string\& db\+Path)}, se encarga de iniciar la conexión a la base de datos y el destructor llamado {\ttfamily \texorpdfstring{$\sim$}{\string~}\+Certificado\+Deposito\+Plazo()}, que se encarga de cerrar la conexión con la base de datos.
+\end{DoxyItemize}
+\item Métodos\+:
+\begin{DoxyItemize}
+\item {\ttfamily create\+Table()\+:} Crea la tabla cdp en la base de datos si no existe.
+\item {\ttfamily add\+CDP(int client\+Id, double monto, const std\+::string\& tipo\+Moneda, double tasa\+Interes, int duracion, const std\+::string\& fecha)\+:} Agrega un nuevo CDP a la base de datos.
+\item {\ttfamily delete\+CDP(int id)\+:} Elimina un CDP de la base de datos.
+\item {\ttfamily view\+CDPs()\+:} Muestra todos los CDP en la base de datos.
+\item {\ttfamily id\+Existe(const std\+::string\& id)\+:} Verifica si un CDP existe en la base de datos.
+\item {\ttfamily cdp\+Ids\+Cliente(const std\+::string\& client\+Id)\+:} Retorna una lista de IDs de CDP asociados a un cliente.
+\item {\ttfamily retornar\+Info(const std\+::string\& id\+Cdp)\+:} Retorna la información de un CDP específico.
+\item {\ttfamily execute\+Query(const std\+::string\& query)\+:} Ejecuta una consulta SQL en la base de datos.
+\item Callbacks\+: En este caso se basa en los métodos que procesan los resultados de las consultas SQL (callback, id\+Existe\+Callback, obtener\+Cdps\+Callback, retornar\+Info\+Callback).
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\itshape client\+Db.\+cpp\+:}
+\begin{DoxyItemize}
+\item Este archivo se encarga de implementar la funcionalidad de la clase Cliente\+DB, que gestiona una base de datos SQLite para almacenar información de clientes. Contiene métodos para la creación de tablas, insertar y eliminar datos de clientes, visualización de datos de clientes, actualización de cuentas y verificación de la existencia de clientes.
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Inclusión de Librerías\+: Incluye client\+Db.\+hpp, $<$iostream$>$ y $<$stdexcept$>$ para la definición de la clase y manejo de excepciones.
+\begin{DoxyItemize}
+\item Constructor y Destructor\+: Define el constructor Cliente\+DB para abrir una conexión a la base de datos y el destructor para cerrarla adecuadamente.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Métodos\+:
+\begin{DoxyItemize}
+\item {\ttfamily create\+Table}\+: Crea la tabla clientes en la base de datos si no existe.
+\item {\ttfamily add\+Cliente}\+: Inserta un nuevo cliente en la tabla clientes.
+\item {\ttfamily delete\+Cliente}\+: Elimina un cliente de la tabla clientes basado en su ID.
+\item {\ttfamily view\+Clientes}\+: Muestra todos los clientes almacenados en la base de datos.
+\item {\ttfamily actualizar\+Cuenta}\+: Actualiza el saldo de una cuenta de cliente (colones o dólares) según la operación especificada.
+\item {\ttfamily execute\+Query}\+: Método privado utilizado para ejecutar consultas SQL en la base de datos.
+\item callback\+: Callback utilizado para procesar resultados de consultas SQL.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\itshape client\+Db.\+hpp\+:}
+\begin{DoxyItemize}
+\item Este archivo contiene la declaración de la clase Cliente\+DB, que gestiona operaciones en la base de datos SQLite para el almacenamiento de datos de clientes.
+\end{DoxyItemize}
+\item {\itshape Funciones.\+cpp\+:}
+\begin{DoxyItemize}
+\item Este archivo contiene la implementación de diversas funciones relacionadas con las operaciones bancarias, validaciones de entrada y gestión del tiempo.
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Inclusión de librerías\+:
+\begin{DoxyItemize}
+\item Se incluyen las librerías estándar de C++ y las librerías específicas del proyecto como client\+Db.\+hpp, transaction\+Db.\+hpp, prestamos\+Db.\+hpp y Certificado\+Deposito\+Plazo.\+hpp.
+\end{DoxyItemize}
+\item Definición de funciones\+:
+\begin{DoxyItemize}
+\item {\ttfamily menu\+Operaciones}\+: Implementa las operaciones disponibles para diferentes tipos de cuentas, incluyendo depósitos, retiros, transferencias y abonos. Gestiona interacciones con el usuario para cada operación, valida entradas y actualiza registros correspondientes en las bases de datos.
+\item {\ttfamily user\+Not\+Exist}\+: Maneja el caso en el que un usuario no está registrado, ofreciendo la opción de crear un nuevo usuario ingresando su número de identificación y nombre.
+\end{DoxyItemize}
+\item Funciones de validación\+:
+\begin{DoxyItemize}
+\item {\ttfamily is\+Positive\+Double}\+: Verifica si un carácter es un dígito o un punto.
+\item {\ttfamily is\+Valid\+Monto}\+: Valida que la entrada del usuario para monto sea un número positivo, sin espacios en blanco y con formato válido.
+\item {\ttfamily is\+Valid\+Plazo}\+: Valida que la entrada del usuario para el plazo en años sea un número entero positivo.
+\item get\+Current\+Date\+Time\+: Retorna la fecha y hora actuales en formato "{}\+YYYY-\/\+MM-\/\+DD hh\+:mm"{}.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Métodos y clases\+:
+\begin{DoxyItemize}
+\item {\ttfamily Cliente\+DB}\+: Gestiona operaciones relacionadas con la base de datos de clientes.
+\item {\ttfamily Transaction\+DB}\+: Maneja operaciones relacionadas con la base de datos de transacciones.
+\item {\ttfamily Prestamo\+DB}\+: Maneja operaciones relacionadas con la base de datos de préstamos.
+\item {\ttfamily Certificado\+Deposito\+Plazo}\+: Maneja operaciones relacionadas con los certificados de depósito a plazo.
+\item {\ttfamily remove\+White\+Spaces}\+: Elimina los espacios en blanco de una cadena de texto.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\itshape Client\+Db.\+hpp\+:}
+\begin{DoxyItemize}
+\item contiene las declaraciones de funciones y las inclusiones necesarias para operaciones bancarias específicas implementadas en el proyecto. Define funciones relacionadas con la gestión de clientes, transacciones, préstamos y certificados de depósito a plazo.
+\end{DoxyItemize}
+\item {\itshape prestamos\+Db.\+cpp\+:}
+\begin{DoxyItemize}
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Bibliotecas\+:
+\begin{DoxyItemize}
+\item \#include "{}prestamos\+Db.\+hpp"{}\+: Incluye la declaración de la clase Prestamo\+DB.
+\item \#include $<$iostream$>$\+: Para operaciones estándar de entrada/salida.
+\item \#include $<$filesystem$>$\+: Para crear directorios de reportes.
+\item \#include $<$fstream$>$\+: Para operaciones de archivos de salida.
+\item \#include $<$iomanip$>$\+: Para formateo de salida.
+\item \#include $<$stdexcept$>$\+: Para excepciones estándar.
+\item \#include $<$cmath$>$\+: Para cálculos matemáticos, como el cálculo de la cuota mensual.
+\end{DoxyItemize}
+\item Constructor y destructor\+:
+\begin{DoxyItemize}
+\item {\ttfamily Prestamo\+DB}\+::\+Prestamo\+DB(const std\+::string\& db\+Path)\+: Abre la base de datos SQLite en la ruta especificada db\+Path.
+\item {\ttfamily Prestamo\+DB}\+::\texorpdfstring{$\sim$}{\string~}\+Prestamo\+DB()\+: Cierra la conexión con la base de datos SQLite al destruir el objeto.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Métodos\+:
+\begin{DoxyItemize}
+\item {\ttfamily create\+Table()}\+: Crea la tabla prestamos en la base de datos si no existe.
+\item {\ttfamily calcular\+Mensualidad(double monto, double tasa\+Interes, int cuotas)}\+: Calcula la cuota mensual de un préstamo basado en el monto, la tasa de interés y el número de cuotas.
+\item add\+Prestamo(...)\+: Agrega un nuevo préstamo a la base de datos con detalles como el cliente, tipo de préstamo, monto, fecha, cuotas, tasa de interés y moneda.
+\item {\ttfamily delete\+Prestamo(int id)}\+: Elimina un préstamo de la base de datos dado su id.
+\item {\ttfamily view\+Prestamo(const std\+::string\& client\+ID)}\+: Genera un reporte en formato de tabla de los préstamos asociados a un cliente y lo guarda en un archivo .txt.
+\item {\ttfamily id\+Existe(const std\+::string\& id)}\+: Verifica si existe algún préstamo asociado a un cliente específico.
+\item {\ttfamily prestamos\+Ids\+Cliente(const std\+::string\& client\+Id)}\+: Retorna un vector de strings con los IDs de los préstamos asociados a un cliente.
+\item {\ttfamily obtener\+Monto(const std\+::string\& prestamo\+Id)}\+: Retorna la cuota mensual y la moneda de un préstamo dado su ID.
+\item {\ttfamily abonar\+Prestamo(const std\+::string\& prestamo\+Id)}\+: Reduce en 1 la cantidad de cuotas de un préstamo y verifica si el préstamo ha sido pagado completamente.
+\item {\ttfamily execute\+Query(const std\+::string\& query)}\+: Ejecuta una consulta SQL en la base de datos SQLite.
+\item callback, id\+Existe\+Callback, obtener\+Prestamos\+Callback, obtener\+Monto\+Callback, obtener\+Cuotas\+Callback\+: Funciones utilizadas como callbacks para procesar resultados de consultas SQL.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\itshape prestamos\+Db.\+hpp\+:}
+\begin{DoxyItemize}
+\item contiene la declaración de la clase {\ttfamily Prestamo\+DB}, que gestiona operaciones relacionadas con los préstamos.
+\end{DoxyItemize}
+\item {\itshape transaction\+Db.\+cpp\+:}
+\begin{DoxyItemize}
+\item El archivo {\ttfamily Transaction\+DB.\+cpp} contiene la implementación de los métodos declarados en Transaction\+DB.\+hpp para la gestión de transacciones en una base de datos SQLite.
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Bibliotecas\+:
+\begin{DoxyItemize}
+\item \#include "{}\+Transaction\+DB.\+hpp"{}\+: Incluye el archivo de encabezado Transaction\+DB.\+hpp para acceder a la definición de la clase Transaction\+DB.
+\item \#include $<$iostream$>$\+: Para la salida estándar y manejo de errores.
+\item \#include $<$stdexcept$>$\+: Para el manejo de excepciones estándar.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Métodos\+:
+\begin{DoxyItemize}
+\item bool Transaction\+DB\+::add\+Transaction(...)\+: Método para agregar una nueva transacción a la base de datos.
+\item bool Transaction\+DB\+::delete\+Transaction(int id)\+: Método para eliminar una transacción de la base de datos dado su ID.
+\item bool Transaction\+DB\+::execute\+Query(const std\+::string\& query)\+: Método privado para ejecutar consultas SQL en la base de datos SQLite y manejar errores de ejecución.
+\item void Transaction\+DB\+::view\+Transaction()\+: Método para imprimir todas las transacciones almacenadas en la base de datos.
+\item bool Transaction\+DB\+::id\+Existe(const std\+::string\& id)\+: Método para verificar la existencia de una transacción específica en la base de datos dado su ID.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\itshape transaction\+Db.\+hpp\+:}
+\begin{DoxyItemize}
+\item El archivo Transaction\+DB.\+hpp contiene la declaración de la clase Transaction\+DB, que gestiona operaciones relacionadas.
+\item Contenido\+:
+\begin{DoxyItemize}
+\item Directivas\+:
+\begin{DoxyItemize}
+\item \#ifndef TRANSACTIONDB\+\_\+\+HPP y \#define TRANSACTIONDB\+\_\+\+HPP\+: Directivas para prevenir la inclusión múltiple del archivo de encabezado Transaction\+DB.\+hpp.
+\item \#endif // TRANSACTIONDB\+\_\+\+HPP\+: Cierra la directiva de preprocesador \#ifndef para Transaction\+DB.\+hpp.
+\end{DoxyItemize}
+\item Clase\+:
+\begin{DoxyItemize}
+\item Define la clase Transaction\+DB, que encapsula la funcionalidad para gestionar transacciones.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md28}{}\doxysection{\texorpdfstring{7. Prerrequisitos}{7. Prerrequisitos}}\label{md__r_e_a_d_m_e_autotoc_md28}
+
+\begin{DoxyItemize}
+\item En esta seccion se describen los prerrequisitos asi como la lista de software y herramientas necesarias para ejecutar el proyecto de manera correcta asi como las versiones específicas de compiladores y las librerías.
+\item {\bfseries{Compilador\+:}}
+\begin{DoxyItemize}
+\item Se requiere {\ttfamily g++} y que posea soporte para C++17 o versiones superiores.
+\item Se recomienda utilizar Min\+GW para compilar en entornos como Windows como es el caso, pero tambien este proyecto puede ser ejecutado en Linux sin ningun problema ya que hicimos pruebas en ambos sistemas.
+\end{DoxyItemize}
+\item {\bfseries{Bibliotecas\+:}}
+\begin{DoxyItemize}
+\item Se requiere SQLite3 ya que es utilizada en la base de datos del proyecto.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md29}{}\doxysection{\texorpdfstring{8. Instalación y Configuración}{8. Instalación y Configuración}}\label{md__r_e_a_d_m_e_autotoc_md29}
+
+\begin{DoxyItemize}
+\item En esta seccion puede encontrar las instrucciones necesarias y detalladas sobre cómo configurar el entorno de desarrollo y cualquier configuración específica que sea parte de los requerimientos del sistema.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md30}{}\doxysubsection{\texorpdfstring{Configuración del Entorno de Desarrollo e instalacion si es necesaria}{Configuración del Entorno de Desarrollo e instalacion si es necesaria}}\label{md__r_e_a_d_m_e_autotoc_md30}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Compilador\+:}}
+\begin{DoxyItemize}
+\item Es neccesario poseer un entorno adecuado, para ello recuerde instalar Min\+GW siguiendo las instrucciones en \href{https://mingw-w64.org/doku.php/download}{\texttt{ Min\+GW Installation Guide}}.
+\item Luego recuerde asegurarse de que {\ttfamily g++} esté disponible en la línea de comandos y configurado en las variables de entorno PATH, ya que es necesario.
+\item Ademas puede utilizar el makefile implementado para complicar los archivos y generar el ejecutable, asi como limpiar los archivos generados de ser necesario.
+\end{DoxyItemize}
+\item {\bfseries{SQLite3\+:}}
+\begin{DoxyItemize}
+\item Esta parte es importante, ya que es la parte con la que desarrollamos la base de datos, por lo cual sino la posee en su sitema, debe descargar SQLite3 desde \href{https://sqlite.org/download.html}{\texttt{ SQLite Download Page}} e instalarlo según las instrucciones que se encuentran disponibles en el sitio.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md31}{}\doxysection{\texorpdfstring{9. Pruebas y demostracion de resultados}{9. Pruebas y demostracion de resultados}}\label{md__r_e_a_d_m_e_autotoc_md31}
+
+\begin{DoxyItemize}
+\item En esta parte hemos agregado una pequeña demostracion de algunas funciones. Acontinuacion se encuentra una muestra de la informacion de las tablas en la base de datos\+:
+\item Tabla inicial CDP\+: 
+\item Tabla inicial clientes\+: 
+\item Tabla inicial de cuotas\+: 
+\item Tabla inicial de prestamos\+: 
+\item Tabla inicial registro\+:
+\end{DoxyItemize}
+
+
+
+
+\begin{DoxyItemize}
+\item Tabla inicial de transferencias\+: 
+\item Si desea realizar una transaccion con un cliente que existe se ve de la siguiente manera\+: 
+\item Tabla clienta Ana Maria\+: 
+\item Si desea realizar una transaccion con un cliente que no existe se ve de la siguiente manera, se agrega el cliente y se realiza un prestamo\+: 
+\item Tabla actualizada cliente nueva Andrea\+: 
+\item Tabla con el prestamo nuevo\+: 
+\item Registro de las transacciones\+: 
+\item Si desea agregar un cdp\+: 
+\item Cuando se agrega, se ve de la siguiente manera\+: 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md32}{}\doxysection{\texorpdfstring{10. Aprendizaje}{10. Aprendizaje}}\label{md__r_e_a_d_m_e_autotoc_md32}
+
+\begin{DoxyItemize}
+\item En esta seccion nos gustaria destacar que durante el desarrollo de este proyecto enfocado en el desarrollo de una entidad que funciona como un sistema de gestión bancaria como si fuera una persona en ventanilla, se adquirieron y reforzaron diversas habilidades y conocimientos en diferentes áreas así como aprender acerca de los conceptos y el funcionamiento de los prestamos y diferentes transacciones como abonos, certificados de deposito a plazos y diversas transferencias entre cuentas de colones o dólares, se aprendieron cosas en las siguientes áreas\+:
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md33}{}\doxysubsection{\texorpdfstring{Programación en C++ con el curso y los videos de las clases}{Programación en C++ con el curso y los videos de las clases}}\label{md__r_e_a_d_m_e_autotoc_md33}
+
+\begin{DoxyItemize}
+\item {\bfseries{Clases y Objetos}}\+: Ya que a lo largo del curso se aprendio acerca de la implementación de clases, en este caso nos airvio para manejar diferentes entidades del sistema bancario como {\ttfamily Cliente\+DB}, {\ttfamily Transaction\+DB}, {\ttfamily Prestamo\+DB}, y {\ttfamily Certificado\+Deposito\+Plazo}.
+\item {\bfseries{Herencia y Polimorfismo}}\+: Se utilizo como apoyo programación orientada a objetos para facilitar la extensión y el mantenimiento del código a lo largo de la implementación del mismo.
+\item {\bfseries{Manejo de Memoria}}\+: En este caso, el manejo y la utilización de punteros fue un reto ya que debe usarse correctamente para manejar la memoria dinámica de manera segura.
+\item {\bfseries{Estructuras de Datos}}\+: En este caso se implementaron estructuras de datos personalizadas para gestionar la cantidad de información necesaria, se usan diferentes tablas para guardar la información.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md34}{}\doxysubsection{\texorpdfstring{Manejo de Bases de Datos}{Manejo de Bases de Datos}}\label{md__r_e_a_d_m_e_autotoc_md34}
+
+\begin{DoxyItemize}
+\item {\bfseries{SQLite}}\+: En este caso es impotante, ya que el proyecto utiliza bases de datos, fue un reto aprender a utilizarlo correctamente y a su vez aprender el funcionamiento de cada parte y la manera en la que incluimos la informacion. Aca se logra integrar la base de datos y usamos SQLite para almacenar y recuperar datos de clientes, transacciones y préstamos.
+\begin{DoxyItemize}
+\item {\bfseries{Aprendizaje desde cero}}\+: Mediante lo visto en clase logramos adquirir los conocimientos basicos para manipular SQLite, y en un proceso de prueba y error a lo largo del proyecto ya que no se tenía mucho conocimiento previo en esta parte.
+\item {\bfseries{Consultas SQL}}\+: Se utilizo al igual que se aprendio para realizar una de las tareas la escritura de consultas SQL para realizar operaciones CRUD (Crear, Leer, Actualizar, Borrar) en la base de datos.
+\item {\bfseries{Conexión y Manejo}}\+: En esta parte logramos aprender sobre cómo conectar C++ de visual studio code con la base de datos SQLite y manejar las conexiones y operaciones de manera eficiente para desarrollar la totalidad del proyecto.
+\item {\bfseries{DB Browser for SQLite}}\+: En este caso utilizamos y aprendimos acerca de DB Browser para SQLite, nos permitio visualizar y gestionar los datos en las tablas, de esa manera se facilita el proceso de desarrollo y depuración de la información.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md35}{}\doxysubsection{\texorpdfstring{Herramientas de Desarrollo}{Herramientas de Desarrollo}}\label{md__r_e_a_d_m_e_autotoc_md35}
+
+\begin{DoxyItemize}
+\item {\bfseries{Visual Studio Code}}\+: Se hizo uso del entorno de desarrollo integrado (IDE) para la edición y depuración de código como lo aqprendimos en el curso.
+\item {\bfseries{GCC y Min\+GW}}\+: Se utilizaron estas herramientas y se aprendio mas acerca de la configuración y el uso del compilador GCC en el entorno Min\+GW para compilar el proyecto de manera correcta.
+\item {\bfseries{Makefile}}\+: Como se aprendio a lo largo del curso se implemento la creación del Makefile para automatizar el proceso de compilación y la construcción del proyecto.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md36}{}\doxysection{\texorpdfstring{11. Desafios y soluciones}{11. Desafios y soluciones}}\label{md__r_e_a_d_m_e_autotoc_md36}
+Durante el desarrollo del proyecto, enfrentamos varios desafíos. Tuvimos que cambiar ya ajustar diferentes partes para concretar correctamente lo que se queria realizar.
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Desafío   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descripción   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Solución    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Desafío   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descripción   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Solución    }\\\cline{1-3}
+\endhead
+Ingresar correctamente Datos en las Tablas y las diferentes columnas.   &Surgieron problemas al ingresar datos en las columnas de las tablas de la base de datos, por lo tanto se causaban errores y datos faltantes o inclusive datos que no se utilizaban en algunas partes del proyecto.   &Se implementaron diferentes validaciones para asegurar que los datos ingresados fueran los correctos antes de ser insertados en la base de datos, asi como el dato y la columna a la que debia ir.    \\\cline{1-3}
+Información de menús de navegación.   &En uno de los menús pedía el ID del cliente repetidamente, lo que podia causar confusión en el flujo de la navegación del código.   &Se hizo un ajuste en los menús para que el ID del cliente se pidiera una sola vez y se reutilizara el dato de manera correcta a lo largo del código.    \\\cline{1-3}
+Manejar correctamente los caracteres especiales   &El programa se caía al ingresar caracteres especiales, espacios o letras donde debían ir números y diferentes problemas relacionados con la interaccion del usuario.   &Se añadieron validaciones de entrada para garantizar que solo se aceptaran datos válidos en cada campo y no se caiga el programa.    \\\cline{1-3}
+Realizar transferencias bancarias   &Habian problemas al realizar transferencias, a veces al realizar las transferencias los datos no se reflejaban en la tabla de transacciones.   &Se depuró el código de las transferencias para asegurar que todas las operaciones fueran las correctas y se restara la cantidad donde debia ser y a su vez que se reflejara correctamente la informacion en la base de datos.    \\\cline{1-3}
+La organización en el diseño del código   &Al inicio fue complicado organizar las diferentes partes del programa, especialmente la entrada de datos y los menús, al realizar el diagrama de flujo no teniamos vision de como se iba ir acomodando todo.   &Se reacomodaron algunas partes en el código dividiéndolo en funciones y clases más manejables, siguiendo en su mayoria la estructura del diagrama de flujo propuesto en el primer avance del proyecto.   \\\cline{1-3}
+\end{longtabu}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md37}{}\doxysubsection{\texorpdfstring{Manejo de Errores y Depuración}{Manejo de Errores y Depuración}}\label{md__r_e_a_d_m_e_autotoc_md37}
+
+\begin{DoxyItemize}
+\item {\bfseries{Advertencias del Compilador}}\+: Realizamos mensajes de advertencias y errores generados por el compilador, asi como el reordenamiento de inicializadores y variables no utilizadas para mejorar el uso de las buenas practicas de programación que hemos desarrollado a lo largo del curso.
+\item {\bfseries{Depuración}}\+: También se utilizaron herramientas y técnicas de depuración para identificar y corregir los diferentes errores descritos anteriormente en el código.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md38}{}\doxysubsection{\texorpdfstring{Gestión de Proyectos}{Gestión de Proyectos}}\label{md__r_e_a_d_m_e_autotoc_md38}
+
+\begin{DoxyItemize}
+\item {\bfseries{Estructuración del Proyecto}}\+: Se procedio a organizar del código fuente y todo el contenido en una estructura de carpetas para mejorar su lógica y que fuera manejable.
+\item {\bfseries{Documentación}}\+: Se realizo la redacción de la documentación lo más claro posible y de forma detallada para facilitar la comprensión y el mantenimiento del proyecto y generar el doxyfile asi como aprendimos en el curso para alojarlo en netlify.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md39}{}\doxysection{\texorpdfstring{12. Mejoras futuras del funcionamiento}{12. Mejoras futuras del funcionamiento}}\label{md__r_e_a_d_m_e_autotoc_md39}
+
+\begin{DoxyItemize}
+\item Sugerimos que en el futuro este código puede ser mejorado o manipulado por otras personas para ser de mayor utilidad.
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item {\bfseries{Interfaz Gráfica de Usuario (GUI)}}\+: Se podria implementar una interfaz gráfica para mejorar la experiencia del usuario en comparación con la interfaz desde la línea de comandos actual.
+\item {\bfseries{Autenticación y Seguridad}}\+: Además podria agregarse mecanismos de autenticación más robustos y cifrado de datos para proteger la información de los clientes y las transacciones y otras funcionalidades que se nos puedan ocurrir.
+\item {\bfseries{Manejo de Errores Avanzado}}\+: Se podria implementar un sistema de manejo de errores más elaborado.
+\item {\bfseries{Notificaciones y Alertas}}\+: Se podria agregar un sistema de notificaciones por correo electrónico o SMS para alertar a los clientes sobre actividades importantes en sus cuentas o cosas similares.
+\end{DoxyEnumerate}
+
+Estas son algunas de las mejoras que podriamos implementar en un fututo o con mas tiempo para realizar de una mejor manera este proyecto, de igual manera estamos satisfechos con los resulatados adquiridos hasta este punto.\hypertarget{md__r_e_a_d_m_e_autotoc_md40}{}\doxysection{\texorpdfstring{13. Conclusiones}{13. Conclusiones}}\label{md__r_e_a_d_m_e_autotoc_md40}
+Este proyecto que simula un sitema de gestión bancaria ha sido una experiencia enriquecedora que ha permitido desarrollar una aplicación que resulta funcional para la gestión de clientes, transacciones, préstamos y certificados de depósito a plazo. A través de este proyecto, alcanzamos los objetivos planteados al inicio con el diseño del diagrama de flujo. Se realizaron pruebas importantes que nos permitieron llegar al resultado obtenido y completar todos los requirimientos planteados en el enunciado de este proyecto final.
+
+Se creo un sistema robusto que permite realizar operaciones bancarias básicas de manera eficiente y segura. El sistema maneja depósitos, retiros, transferencias y consultas de saldos de manera efectiva, utilizando la base de datos SQLite. Durante el desarrollo de este proyecto, adquirimos conocimiento en algunas areas y reforzamos lo aprendido a lo largo del curso.\+Se enfrentaron y resolvieron los problemas que tuvimos en algunas partes del código y se logro llegar a completar las funciones básicas que debia realizar el sistema. En conclusión al realizar este proyecto en su totalidad reafirmamos los conocimientos adquiridos a lo largo de las clases.\hypertarget{md__r_e_a_d_m_e_autotoc_md41}{}\doxysection{\texorpdfstring{14. Documentación Generada por Doxygen}{14. Documentación Generada por Doxygen}}\label{md__r_e_a_d_m_e_autotoc_md41}
+La documentación de este proyecto ha sido generada utilizando Doxygen. (AGREGAR MAS COSAS)\hypertarget{md__r_e_a_d_m_e_autotoc_md42}{}\doxysubsection{\texorpdfstring{Acceder a la Documentación en Formato HTML}{Acceder a la Documentación en Formato HTML}}\label{md__r_e_a_d_m_e_autotoc_md42}
+Se puede acceder a la documentación en formato HTML siguiendo este enlace\+: \mbox{[}Documentación HTML\mbox{]}(REEMPLAZAR) 

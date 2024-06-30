@@ -479,11 +479,14 @@ Se creo un sistema robusto que permite realizar operaciones bancarias básicas d
 ## 14. Documentación Generada por Doxygen
 
 
-La documentación de este proyecto ha sido generada utilizando Doxygen. (AGREGAR MAS COSAS)
+La documentación de este proyecto ha sido generada utilizando Doxygen.
 
 
 ### Acceder a la Documentación en Formato HTML
 
 
 Se puede acceder a la documentación en formato HTML siguiendo este enlace:
-[Documentación HTML](REEMPLAZAR)
+[Documentación HTML](https://6681ea25ca7a2bb3ff96244d--teal-gecko-b02ed0.netlify.app/)
+
+- Ejemplo visual:
+![Tabla de cdp](./sitio.PNG)
