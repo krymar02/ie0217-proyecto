@@ -167,7 +167,7 @@ int main() {
                                 cout << "1. Préstamos personales\n";
                                 cout << "2. Préstamos prendarios\n";
                                 cout << "3. Préstamos hipotecarios\n";
-                                cout << "4. Ver tabla de préstamos\n";
+                                cout << "4. Ver reporte de préstamos\n";
                                 cout << "5. Salir\n";
                                 cout << "Ingrese una opción: ";
                                 //cin >> strOpcionTwo;
@@ -197,11 +197,11 @@ int main() {
                                                 tipoPrestamo = "Hipotecario";
                                             }
                                             std::string tipoMoneda;
-                                            std::cout << "Selecione el tipo de moneda para el prestam (colones o dolares)" << std::endl;
+                                            std::cout << "Seleccione el tipo de moneda para el préstamo (colones o dólares)" << std::endl;
                                             std::getline(std::cin, tipoMoneda);
                                             removeWhiteSpaces(tipoMoneda);
 
-                                            if (tipoMoneda == "colones" || tipoMoneda == "dolares"){
+                                            if (tipoMoneda == "colones" || tipoMoneda == "dólares"){
                                                 double monto;
                                                 while (true) {
                                                     try {
@@ -231,7 +231,7 @@ int main() {
                                                         std::getline(std::cin, plazoAniosStr);
 
                                                         if (!isValidPlazo(plazoAniosStr)) {
-                                                            throw std::invalid_argument("\nPlazo inválido, Debe se un número entero positivo, vuelva a digitar.");
+                                                            throw std::invalid_argument("\nPlazo inválido, debe se un número entero positivo, vuelva a digitar.");
                                                         }
 
                                                         plazoAnios = std::stoi(plazoAniosStr);
@@ -283,7 +283,7 @@ int main() {
                                                         if (tipoMoneda == "colones"){
                                                             transferenciaDB.addTransaction(id, "Préstamo colones", monto, idPrestamo,fecha);
                                                         } else{
-                                                            transferenciaDB.addTransaction(id, "Préstamo dolares", monto, idPrestamo,fecha);
+                                                            transferenciaDB.addTransaction(id, "Préstamo dólares", monto, idPrestamo,fecha);
                                                         }
                                                         std::cout << "Préstamo añadido con éxito. \n";
                                                     } else {
@@ -293,7 +293,7 @@ int main() {
                                                     std::cout << "Préstamo no agregado. \n";
                                                 }
                                             }else{
-                                                std::cout << "Préstamo no agregado, debe selecionar colones o dolares. \n";
+                                                std::cout << "Préstamo no agregado, debe selecionar colones o dólares. \n";
                                             }
                                             
                                             break;                                        
