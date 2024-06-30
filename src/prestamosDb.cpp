@@ -329,10 +329,18 @@ void PrestamoDB::viewPrestamo(const std::string& clientID) {
             std::cerr << "Error al preparar la declaración SQL para cuotas pagadas" << std::endl;
             return;
         }
+
+        // Verifcar si hay pagos registrados (hasPayments)
+        bool hasPayments = false;
         while (sqlite3_step(cuotasStmt) == SQLITE_ROW) {
             reportFile << std::left << std::setw(20) << sqlite3_column_text(cuotasStmt, 0)
                        << std::left << std::setw(20) << sqlite3_column_double(cuotasStmt, 1)
                        << std::left << sqlite3_column_double(cuotasStmt, 2) << std::endl;
+            hasPayments = true;
+        }
+
+        if (!hasPayments) {
+            reportFile << "< No se han registrado pagos >\n";
         }
         sqlite3_finalize(cuotasStmt);
 
